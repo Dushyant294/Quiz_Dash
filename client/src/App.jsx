@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
         </Route>
       </Routes>
     </HashRouter>
