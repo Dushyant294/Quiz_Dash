@@ -6,6 +6,7 @@ import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Leaderboard from "./pages/Leaderboard";
+import News from "./pages/News";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/news" element={<News />} />
         </Route>
       </Routes>
     </HashRouter>
