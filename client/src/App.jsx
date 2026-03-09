@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Leaderboard from "./pages/Leaderboard";
 import News from "./pages/News";
+import CreateQuiz from "./pages/CreateQuiz";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/explore" element={<Explore />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/news" element={<News />} />
+          <Route path="/create" element={<CreateQuiz />} />
         </Route>
       </Routes>
     </HashRouter>
