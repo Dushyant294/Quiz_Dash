@@ -2,17 +2,15 @@ import { NavLink } from "react-router-dom";
 
 const getMenuItems = (role) => {
   // Base items for all users
-  const items = [
-    { name: "Home", path: "/" },
-  ];
+  const items = [{ name: "Home", path: "/" }];
 
-  if (role === 'admin') {
+  if (role === "admin") {
     items.push(
       { name: "Manage Users", path: "/admin/users" },
       { name: "Manage Questions", path: "/admin/content" },
       { name: "Manage Tournament", path: "/admin/tournaments" },
       { name: "Create Tournament", path: "/admin/create-tournament" },
-      { name: "Create Quiz", path: "/create" }
+      { name: "Create Quiz", path: "/create" },
     );
   }
 
@@ -23,12 +21,12 @@ const getMenuItems = (role) => {
     { name: "Quiz Tournament", path: "/tournaments" },
     { name: "Quiz Battle", path: "/battle" },
     { name: "News & Update", path: "/news" },
-    { name: "Leaderboard", path: "/leaderboard" }
+    { name: "Leaderboard", path: "/leaderboard" },
   );
 
   // admin reports
-  if (role === 'admin') {
-    items.push({ name: "Reports", path: "/admin/reports" })
+  if (role === "admin") {
+    items.push({ name: "Reports", path: "/admin/reports" });
   }
 
   return items;
@@ -36,7 +34,7 @@ const getMenuItems = (role) => {
 
 function Sidebar() {
   // Mock role for now. Change this to test ('user', 'instructor', 'admin')
-  const userRole = 'admin';
+  const userRole = "admin";
   const menuItems = getMenuItems(userRole);
 
   return (
@@ -50,19 +48,32 @@ function Sidebar() {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `block px-4 py-2.5 rounded-lg transition-colors text-center ${isActive
-                    ? "bg-[#5b5bff] text-white shadow-md shadow-[#5b5bff]/20"
-                    : "hover:bg-gray-300 dark:hover:bg-white/10 text-gray-700 dark:text-[#a1a1aa]"
+                  `block px-4 py-2.5 rounded-lg transition-colors text-center ${
+                    isActive
+                      ? "bg-[#5b5bff] text-white shadow-md shadow-[#5b5bff]/20"
+                      : "hover:bg-gray-300 dark:hover:bg-white/10 text-gray-700 dark:text-[#a1a1aa]"
                   }`
                 }
               >
                 {/* Add standard line break for long names matching design */}
                 {item.name === "Manage Questions" ? (
-                  <>Manage<br />Questions</>
+                  <>
+                    Manage
+                    <br />
+                    Questions
+                  </>
                 ) : item.name === "Manage Tournament" ? (
-                  <>Manage<br />Tournament</>
+                  <>
+                    Manage
+                    <br />
+                    Tournament
+                  </>
                 ) : item.name === "Create Tournament" ? (
-                  <>Create<br />Tournament</>
+                  <>
+                    Create
+                    <br />
+                    Tournament
+                  </>
                 ) : (
                   item.name
                 )}

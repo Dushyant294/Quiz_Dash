@@ -4,7 +4,7 @@ const examCategories = [
   { name: "JEE", gradient: "from-[#0F172A] to-[#2563EB]" },
   { name: "NDA-NA", gradient: "from-[#422006] to-[#A16207]" },
   { name: "GATE", gradient: "from-[#450A0A] to-[#7F1D1D]" },
-  { name: "SSC CGL", gradient: "from-[#7F1D1D] to-[#EF4444]" }
+  { name: "SSC CGL", gradient: "from-[#7F1D1D] to-[#EF4444]" },
 ];
 
 function Home() {
@@ -15,13 +15,11 @@ function Home() {
         <h1 className="text-5xl font-bold mb-3">
           Your Quiz Adventure Starts Here:
         </h1>
-        <h1 className="text-5xl font-bold mb-6">
-          Play, Share, Earn!
-        </h1>
+        <h1 className="text-5xl font-bold mb-6">Play, Share, Earn!</h1>
 
         <p className="text-gray-200 text-lg max-w-2xl mb-8">
-          Build engaging quizzes, challenge others, and earn rewards
-          for your knowledge.
+          Build engaging quizzes, challenge others, and earn rewards for your
+          knowledge.
         </p>
 
         <div className="flex gap-5">
@@ -39,7 +37,10 @@ function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
         {quizzes.map((item) => (
-          <div key={item} className="bg-white dark:bg-[#1b2230] rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-800">
+          <div
+            key={item}
+            className="bg-white dark:bg-[#1b2230] rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-800"
+          >
             <div className="h-48 bg-gray-300 dark:bg-gray-700 w-full object-cover"></div>
 
             <div className="p-5">

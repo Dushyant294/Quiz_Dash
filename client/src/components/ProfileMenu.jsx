@@ -19,7 +19,6 @@ function ProfileMenu() {
       {/* Dropdown */}
       {open && (
         <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-[#0b1220] rounded-xl shadow-xl z-50 overflow-hidden">
-
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
             <img
@@ -29,14 +28,17 @@ function ProfileMenu() {
             />
             <div>
               <h3 className="font-semibold text-base">Jonathan Doe</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">@johndoe</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">info@quizhub.com</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                @johndoe
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                info@quizhub.com
+              </p>
             </div>
           </div>
 
           {/* Menu */}
           <ul className="p-2 space-y-0.5 text-sm">
-
             <li>
               <Link
                 to="/profile"
@@ -47,8 +49,12 @@ function ProfileMenu() {
                   👤
                 </div>
                 <div>
-                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Profile</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Account settings</p>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
+                    My Profile
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Account settings
+                  </p>
                 </div>
               </Link>
             </li>
@@ -59,7 +65,9 @@ function ProfileMenu() {
               </div>
               <div>
                 <p className="font-medium leading-tight">Dashboard</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Your activity and stats</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Your activity and stats
+                </p>
               </div>
             </li>
 
@@ -73,8 +81,12 @@ function ProfileMenu() {
                   📝
                 </div>
                 <div>
-                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Quizzes</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Your created quizzes</p>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
+                    My Quizzes
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Your created quizzes
+                  </p>
                 </div>
               </Link>
             </li>

@@ -5,7 +5,6 @@ import NotificationsPanel from "./NotificationsPanel";
 import ProfileMenu from "./ProfileMenu";
 import { useTheme } from "../context/ThemeContext";
 
-
 function Topbar() {
   const [showMessages, setShowMessages] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -13,7 +12,6 @@ function Topbar() {
 
   return (
     <div className="fixed top-0 left-64 right-0 h-20 bg-white dark:bg-[#0b1220] border-b border-gray-300 dark:border-white/10 px-8 flex items-center justify-between z-40">
-
       {/* Search */}
       <input
         placeholder="Search quizzes, categories, creators..."
@@ -22,7 +20,6 @@ function Topbar() {
 
       {/* Icons */}
       <div className="flex items-center gap-4">
-
         {/* Report Bug Button */}
         <Link
           to="/report-bug"
