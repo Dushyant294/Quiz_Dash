@@ -12,6 +12,7 @@ import MyQuizzes from "./pages/MyQuizzes";
 import Profile from "./pages/Profile";
 import QuizBattle from "./pages/QuizBattle";
 import QuizPlayView from "./pages/QuizPlayView";
+import Tournaments from "./pages/Tournaments";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/my-quizzes" element={<MyQuizzes />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/battle" element={<QuizBattle />} />
+          <Route path="/tournaments" element={<Tournaments />} />
         </Route>
         <Route path="/play" element={<QuizPlayView />} />
       </Routes>
