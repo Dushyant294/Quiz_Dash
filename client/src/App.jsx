@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import QuizBattle from "./pages/QuizBattle";
 import QuizPlayView from "./pages/QuizPlayView";
 import Tournaments from "./pages/Tournaments";
+import ReportBug from "./pages/ReportBug";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/battle" element={<QuizBattle />} />
           <Route path="/tournaments" element={<Tournaments />} />
+          <Route path="/report-bug" element={<ReportBug />} />
         </Route>
         <Route path="/play" element={<QuizPlayView />} />
       </Routes>
