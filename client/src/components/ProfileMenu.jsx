@@ -59,18 +59,26 @@ function ProfileMenu() {
               </Link>
             </li>
 
-            <li className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer">
-              <div className="w-8 h-8 flex items-center justify-center bg-purple-500/20 rounded-md">
-                📊
-              </div>
-              <div>
-                <p className="font-medium leading-tight">Dashboard</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Your activity and stats
-                </p>
-              </div>
+            <li>
+              <Link
+                to="/admin/dashboard"
+                onClick={() => setOpen(false)}
+                className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <div className="w-8 h-8 flex items-center justify-center bg-purple-500/20 rounded-md">
+                  📊
+                </div>
+                <div>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
+                    Dashboard
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Your activity and stats
+                  </p>
+                </div>
+              </Link>
             </li>
-
+            
             <li>
               <Link
                 to="/my-quizzes"
