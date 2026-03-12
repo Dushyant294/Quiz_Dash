@@ -19,6 +19,7 @@ import ManageUsers from "./pages/admin/ManageUsers";
 import ManageContent from "./pages/admin/ManageContent";
 import CreateTournament from "./pages/admin/CreateTournament";
 import ManageTournaments from "./pages/admin/ManageTournaments";
+import BugReports from "./pages/admin/BugReports";
 
 function App() {
   return (
@@ -45,8 +46,10 @@ function App() {
           <Route path="/admin/content" element={<ManageContent />} />
           <Route path="/admin/create-tournament" element={<CreateTournament />} />
           <Route path="/admin/tournaments" element={<ManageTournaments />} />
+          <Route path="/admin/reports" element={<BugReports />} />
         </Route>
         <Route path="/play" element={<QuizPlayView />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>
   );
