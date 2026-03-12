@@ -17,6 +17,7 @@ import ReportBug from "./pages/ReportBug";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageContent from "./pages/admin/ManageContent";
+import CreateTournament from "./pages/admin/CreateTournament";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<ManageUsers />} />
           <Route path="/admin/content" element={<ManageContent />} />
+          <Route path="/admin/create-tournament" element={<CreateTournament />} />
         </Route>
         <Route path="/play" element={<QuizPlayView />} />
       </Routes>
