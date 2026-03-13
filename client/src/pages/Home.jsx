@@ -75,7 +75,6 @@ function Home() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
         {quizzes.map((item) => (
-<<<<<<< HEAD
           <QuizCard
             key={item.id}
             title={item.title}
@@ -83,31 +82,6 @@ function Home() {
             image={item.image}
             difficulty="Medium"
           />
-=======
-          <div key={item.id} className="bg-[#1a1d24] rounded-2xl overflow-hidden border border-white/5 hover:border-white/10 transition-colors group">
-            <div className="h-40 w-full overflow-hidden">
-              <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-            </div>
-
-            <div className="p-5">
-              <span className="text-[10px] bg-[#FACC15] text-black px-2 py-0.5 rounded text-xs font-bold uppercase">
-                Medium
-              </span>
-
-              <h3 className="text-lg font-bold mt-3 text-white">
-                {item.title}
-              </h3>
-              <div className="text-gray-400 text-sm mt-1">{item.category}</div>
-
-              <div className="flex justify-between items-center mt-5">
-                <span></span>
-                <button className="bg-[#5B4DFF] hover:bg-[#4338CA] text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
-                  Play Now
-                </button>
-              </div>
-            </div>
-          </div>
->>>>>>> cc8b3b0367f4e47251276eed8f14c3e8a00098f0
         ))}
       </div>
 
