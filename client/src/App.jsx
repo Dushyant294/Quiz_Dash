@@ -1,9 +1,13 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import AuthLayout from "./layouts/AuthLayout";
+import MainLayout from "./layouts/MainLayout";
+
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import MainLayout from "./layouts/MainLayout";
+
 import Home from "./pages/Home";
+import Categories from "./pages/Categories";
 import Explore from "./pages/Explore";
 import Leaderboard from "./pages/Leaderboard";
 import News from "./pages/News";
@@ -14,6 +18,7 @@ import QuizBattle from "./pages/QuizBattle";
 import QuizPlayView from "./pages/QuizPlayView";
 import Tournaments from "./pages/Tournaments";
 import ReportBug from "./pages/ReportBug";
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ManageContent from "./pages/admin/ManageContent";
@@ -25,13 +30,19 @@ function App() {
   return (
     <HashRouter>
       <Routes>
+
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
+
         <Route element={<MainLayout />}>
+
           <Route path="/" element={<Home />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="/explore" element={<Explore />} />
+          <Route path="/explore/:category" element={<Explore />} />
+
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/news" element={<News />} />
           <Route path="/create" element={<CreateQuiz />} />
@@ -47,9 +58,12 @@ function App() {
           <Route path="/admin/create-tournament" element={<CreateTournament />} />
           <Route path="/admin/tournaments" element={<ManageTournaments />} />
           <Route path="/admin/reports" element={<BugReports />} />
+
         </Route>
+
         <Route path="/play" element={<QuizPlayView />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </HashRouter>
   );
