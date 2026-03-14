@@ -61,7 +61,7 @@ function ProfileMenu() {
 
             <li>
               <Link
-                to="/admin/dashboard"
+                to="/dashboard"
                 onClick={() => setOpen(false)}
                 className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
               >
@@ -69,12 +69,8 @@ function ProfileMenu() {
                   📊
                 </div>
                 <div>
-                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
-                    Dashboard
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Your activity and stats
-                  </p>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">Dashboard</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Your activity and stats</p>
                 </div>
               </Link>
             </li>

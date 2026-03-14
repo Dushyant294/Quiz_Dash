@@ -25,6 +25,7 @@ import ManageContent from "./pages/admin/ManageContent";
 import CreateTournament from "./pages/admin/CreateTournament";
 import ManageTournaments from "./pages/admin/ManageTournaments";
 import BugReports from "./pages/admin/BugReports";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/battle" element={<QuizBattle />} />
           <Route path="/tournaments" element={<Tournaments />} />
           <Route path="/report-bug" element={<ReportBug />} />
+          <Route path="/dashboard" element={<Dashboard />} />
 
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/users" element={<ManageUsers />} />
