@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "0bcLU1gcsN8=",
+  "success": true,
+  "projectFilePath": "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ABC\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "C:\\Users\\ABC\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
