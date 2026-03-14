@@ -1,90 +1,188 @@
-function QuizBattle() {
-    return (
-        <div className="max-w-[1100px] text-white pt-6 pb-20">
+import { useState } from 'react';
 
-            {/* Top Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#2f277a] to-[#040914] rounded-[20px] p-10 mb-10 shadow-y-xl relative overflow-hidden flex flex-col justify-center min-h-[160px]">
-                <h1 className="font-bold text-3xl md:text-[32px] text-white mb-3 tracking-wide drop-shadow-md">
-                    Step into the Arena: Outsmart Your Rivals and Climb the Global Ranks
-                </h1>
-                <p className="text-[#818cf8] text-sm font-medium tracking-wide">
-                    Match with students across the country and test your speed in a high-stakes knowledge showdown
+function QuizBattle() {
+    const [activeTab, setActiveTab] = useState('1v1');
+
+    // Shared dropdown style helper
+    const selectStyle = {
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'right 12px center',
+    };
+
+    return (
+        <div className="max-w-[1100px] mx-auto text-white pt-6 pb-20">
+
+            {/* Title Section */}
+            <div className="text-center mb-8">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-wide mb-2">Quiz Battle</h1>
+                <p className="text-gray-400 text-sm font-medium">
+                    Challenge friends or random players to real-time quiz battles
                 </p>
             </div>
 
-            <div className="px-1">
-                <h2 className="text-xl font-bold mb-6 tracking-wide text-white drop-shadow-sm">
-                    Join / Create battle
-                </h2>
+            {/* Tab Toggle */}
+            <div className="flex justify-center mb-8">
+                <div className="bg-[#1a1d2e] border border-gray-600/50 rounded-full p-1 flex w-fit">
+                    <button
+                        onClick={() => setActiveTab('1v1')}
+                        className={`px-8 py-2 rounded-full text-sm font-semibold transition-all ${
+                            activeTab === '1v1'
+                                ? 'bg-[#475569] text-white shadow-md'
+                                : 'text-gray-400 hover:text-white'
+                        }`}
+                    >
+                        1v1 Battle
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('solo')}
+                        className={`px-8 py-2 rounded-full text-sm font-semibold transition-all ${
+                            activeTab === 'solo'
+                                ? 'bg-[#475569] text-white shadow-md'
+                                : 'text-gray-400 hover:text-white'
+                        }`}
+                    >
+                        Solo (practice on your own)
+                    </button>
+                </div>
+            </div>
 
-                {/* Form Container */}
-                <div className="border-[1.5px] border-gray-600/80 rounded-2xl p-8 md:p-12 w-full max-w-[900px] bg-[#0b1220]/50 shadow-lg backdrop-blur-sm">
+            {/* Form Card */}
+            <div className="border border-gray-600/60 rounded-2xl p-8 md:p-12 bg-[#0b1220]/30 max-w-[800px] mx-auto">
 
-                    <div className="w-full max-w-[400px] space-y-7 ml-4">
+                {/* Card Title */}
+                <div className="text-center mb-8">
+                    <h2 className="text-xl font-bold mb-2">
+                        {activeTab === '1v1' ? '1v1 Battle' : 'Play SOLO'}
+                    </h2>
+                    <p className="text-gray-400 text-sm">
+                        {activeTab === '1v1'
+                            ? 'get matched with a random player for a head-to-head quiz battle.'
+                            : 'Sharpen your axe alone in your own battle ground .'}
+                    </p>
+                </div>
 
-                        {/* Field: Choose Subject */}
-                        <div className="flex items-center gap-6">
-                            <div className="border-[1.5px] border-gray-300 rounded-md px-4 py-1.5 font-bold text-[13px] tracking-wide w-[160px]">
-                                Choose Subject :
-                            </div>
-                            <div className="flex-1 text-center border-b-[2px] border-gray-500 pb-1 text-white font-bold text-[15px] cursor-pointer hover:border-gray-300 transition-colors">
-                                Select
-                            </div>
+                {/* Two-Column Form */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+
+                    {/* Left Column */}
+                    <div className="flex flex-col gap-6">
+                        {/* Exam */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Exam</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="NEET"
+                            >
+                                <option value="NEET">NEET</option>
+                                <option value="JEE">JEE</option>
+                                <option value="NDA">NDA</option>
+                                <option value="GATE">GATE</option>
+                                <option value="SSC-CGL">SSC CGL</option>
+                            </select>
                         </div>
 
-                        {/* Field: Choose Topic */}
-                        <div className="flex items-center gap-6">
-                            <div className="border-[1.5px] border-gray-300 rounded-md px-4 py-1.5 font-bold text-[13px] tracking-wide w-[160px]">
-                                Choose Topic <span className="float-right">:</span>
-                            </div>
-                            <div className="flex-1 text-center border-b-[2px] border-gray-500 pb-1 text-white font-bold text-[15px] cursor-pointer hover:border-gray-300 transition-colors">
-                                Select
-                            </div>
+                        {/* Subject */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Subject</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="Botany"
+                            >
+                                <option value="Botany">Botany</option>
+                                <option value="Zoology">Zoology</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                            </select>
                         </div>
 
-                        {/* Field: No of Questions */}
-                        <div className="flex items-center gap-6">
-                            <div className="border-[1.5px] border-gray-300 rounded-md px-4 py-1.5 font-bold text-[13px] tracking-wide w-[160px]">
-                                No of Questions :
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="ex 20"
-                                className="w-[120px] bg-transparent border-[1.5px] border-gray-500 rounded-full px-4 py-1 text-center text-[13px] text-gray-300 placeholder-gray-500 focus:outline-none focus:border-gray-300 transition-colors"
-                            />
+                        {/* Topic */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Topic</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="Plant Physiology"
+                            >
+                                <option value="Plant Physiology">Plant Physiology</option>
+                                <option value="Ecology">Ecology</option>
+                                <option value="Genetics">Genetics</option>
+                                <option value="Cell Biology">Cell Biology</option>
+                            </select>
                         </div>
 
-                        {/* Field: Choose Time */}
-                        <div className="flex items-center gap-6">
-                            <div className="border-[1.5px] border-gray-300 rounded-md px-4 py-1.5 font-bold text-[13px] tracking-wide w-[160px]">
-                                Choose Time <span className="float-right">:</span>
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="ex. 20 mins"
-                                className="w-[140px] bg-transparent border-[1.5px] border-gray-500 rounded-full px-4 py-1 text-center text-[13px] text-gray-300 placeholder-gray-500 focus:outline-none focus:border-gray-300 transition-colors"
-                            />
+                        {/* Micro-topic (Optional) */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Micro-topic (Optional)</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="Micronutrient Homeostasis"
+                            >
+                                <option value="Micronutrient Homeostasis">Micronutrient Homeostasis</option>
+                                <option value="Photosynthesis">Photosynthesis</option>
+                                <option value="Transpiration">Transpiration</option>
+                            </select>
                         </div>
-
                     </div>
 
-                    {/* Mode Selection Buttons */}
-                    <div className="mt-12 flex flex-col sm:flex-row gap-6 items-center">
-                        <button className="w-full sm:w-[220px] bg-[#3730a3] hover:bg-[#4338ca] text-[#818cf8] border-[1.5px] border-[#6366f1] rounded-full py-2 text-[14px] font-bold shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all tracking-wide">
-                            Solo
-                        </button>
-                        <button className="w-full sm:w-[220px] bg-transparent hover:bg-white/5 text-gray-300 border-[1.5px] border-gray-500 rounded-full py-2 text-[14px] font-bold transition-all tracking-wide">
-                            1 v 1
-                        </button>
-                    </div>
+                    {/* Right Column */}
+                    <div className="flex flex-col gap-6">
+                        {/* Number of Questions */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Number of Questions</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="10"
+                            >
+                                <option value="5">5 questions</option>
+                                <option value="10">10 questions</option>
+                                <option value="15">15 questions</option>
+                                <option value="20">20 questions</option>
+                                <option value="25">25 questions</option>
+                            </select>
+                        </div>
 
-                    {/* Play Now Button */}
-                    <div className="mt-8 flex justify-center sm:justify-start sm:ml-[110px]">
-                        <button className="bg-[#4c1d95] hover:bg-[#5b21b6] border-2 border-white rounded-full px-12 py-1.5 text-white font-bold text-[15px] shadow-lg transition-all tracking-wide">
-                            Play Now
-                        </button>
-                    </div>
+                        {/* Time Per Question */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Time Per Question (seconds)</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="10"
+                            >
+                                <option value="5">5 seconds</option>
+                                <option value="10">10 seconds</option>
+                                <option value="15">15 seconds</option>
+                                <option value="20">20 seconds</option>
+                                <option value="30">30 seconds</option>
+                            </select>
+                        </div>
 
+                        {/* Difficulty */}
+                        <div>
+                            <label className="text-white text-sm font-bold mb-2 block">Difficulty</label>
+                            <select
+                                className="w-full bg-[#475569]/60 text-gray-200 border border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                style={selectStyle}
+                                defaultValue="Easy"
+                            >
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Start Button */}
+                <div className="mt-10">
+                    <button className="w-full bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] hover:from-[#4338ca] hover:to-[#6d28d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4f46e5]/30 transition-all text-[15px] tracking-wide">
+                        {activeTab === '1v1' ? 'Start 1v1 Battle' : 'Start SOLO'}
+                    </button>
                 </div>
             </div>
         </div>
