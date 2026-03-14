@@ -90,7 +90,7 @@ function CreateQuiz() {
             className="w-full h-[220px] bg-[#1e2333]/30 dark:bg-[#4b5563]/30 border-2 border-dashed border-gray-400 dark:border-gray-500 rounded-2xl flex items-center justify-center p-8 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#4b5563]/50 transition-colors mb-8 shadow-sm group"
           >
             <p className="text-xl md:text-2xl font-semibold text-gray-600 dark:text-gray-200 text-center leading-relaxed">
-              Upload .csv file of for
+              Upload .csv file for
               <br />
               larger amount of questions
             </p>
