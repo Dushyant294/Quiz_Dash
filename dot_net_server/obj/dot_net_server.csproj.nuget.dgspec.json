@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj": {}
+    "P:\\medhashree\\dot_net_server\\dot_net_server.csproj": {}
   },
   "projects": {
-    "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj": {
+    "P:\\medhashree\\dot_net_server\\dot_net_server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
+        "projectUniqueName": "P:\\medhashree\\dot_net_server\\dot_net_server.csproj",
         "projectName": "dot_net_server",
-        "projectPath": "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
-        "packagesPath": "C:\\Users\\ABC\\.nuget\\packages\\",
-        "outputPath": "D:\\Quiz_Dash\\dot_net_server\\obj\\",
+        "projectPath": "P:\\medhashree\\dot_net_server\\dot_net_server.csproj",
+        "packagesPath": "C:\\Users\\soham\\.nuget\\packages\\",
+        "outputPath": "P:\\medhashree\\dot_net_server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ABC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\soham\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,12 +44,16 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "DotNetEnv": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.3, )"
@@ -74,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
