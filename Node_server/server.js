@@ -1,63 +1,51 @@
 const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
 const http = require('http');
+const cors = require('cors');
 const { Server } = require('socket.io');
-const morgan = require('morgan');
 
-// Load environment variables
-dotenv.config();
+const env = require('./config/env');
+const db = require('./config/db'); // Will log connection status
 
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io configuration for real-time features (1v1 battles)
+// Initialize Socket.io
 const io = new Server(server, {
   cors: {
-    origin: '*', // Allows all origins; restrict to frontend URL in production
-    methods: ['GET', 'POST']
+    origin: '*', // Can be restricted later to frontend url
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
   }
 });
 
-// Make io accessible globally if needed (e.g. in controllers)
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+// Apply Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+
+app.get('/api/health', (req, res) => {
+  res.json({ success: true, message: 'API and Database are connected!' });
+});
+
+// Socket.io connection placeholder
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+// Create global io instance to use in controllers if needed
 app.set('io', io);
 
-// Middleware configuration
-app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use(express.json()); // Parse incoming JSON payloads
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded payloads
-
-// Logging middleware for development
-if (process.env.NODE_ENV !== 'production') {
-  app.use(morgan('dev'));
-}
-
-// Basic Health Check Route
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    success: true, 
-    message: 'QuizHub API is running perfectly!' 
-  });
-});
-
-
-// Global 404 Route handler
-app.use((req, res, next) => {
-  res.status(404).json({ success: false, message: 'API endpoint not found' });
-});
-
-// Global Error Handler Middleware
-app.use((err, req, res, next) => {
-  console.error('[SERVER ERROR]:', err.stack);
-  res.status(500).json({ 
-    success: false, 
-    message: 'Internal Server Error' 
-  });
-});
-
-const PORT = process.env.PORT || 5000;
-
-// Start the HTTP Server (which handles Express and Socket.io)
-server.listen(PORT, () => {
-  console.log(`[SERVER] Node.js server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+// Start server
+server.listen(env.PORT, () => {
+  console.log(`Server running on port ${env.PORT}`);
 });

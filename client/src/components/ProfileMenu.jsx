@@ -1,10 +1,22 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const { dark, setDark } = useTheme();
+  const navigate = useNavigate();
+
+  // Read logged-in user from localStorage
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setOpen(false);
+    navigate('/login');
+  };
 
   return (
     <div className="relative">
@@ -19,6 +31,7 @@ function ProfileMenu() {
       {/* Dropdown */}
       {open && (
         <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-[#0b1220] rounded-xl shadow-xl z-50 overflow-hidden">
+
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
             <img
@@ -27,18 +40,15 @@ function ProfileMenu() {
               className="w-12 h-12 rounded-full"
             />
             <div>
-              <h3 className="font-semibold text-base">Jonathan Doe</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                @johndoe
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                info@quizhub.com
-              </p>
+              <h3 className="font-semibold text-base">{user?.full_name || 'Guest'}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">@{user?.username || 'unknown'}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email || ''}</p>
             </div>
           </div>
 
           {/* Menu */}
           <ul className="p-2 space-y-0.5 text-sm">
+
             <li>
               <Link
                 to="/profile"
@@ -49,12 +59,8 @@ function ProfileMenu() {
                   👤
                 </div>
                 <div>
-                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
-                    My Profile
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Account settings
-                  </p>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Profile</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Account settings</p>
                 </div>
               </Link>
             </li>
@@ -74,7 +80,9 @@ function ProfileMenu() {
                 </div>
               </Link>
             </li>
-            
+
+            {/* My Quizzes - only for instructors and admins */}
+            {(user?.role === 'instructor' || user?.role === 'admin') && (
             <li>
               <Link
                 to="/my-quizzes"
@@ -85,15 +93,31 @@ function ProfileMenu() {
                   📝
                 </div>
                 <div>
-                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">
-                    My Quizzes
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Your created quizzes
-                  </p>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">My Quizzes</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Your created quizzes</p>
                 </div>
               </Link>
             </li>
+            )}
+
+            {/* Admin Panel - only for admins */}
+            {user?.role === 'admin' && (
+            <li>
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="flex gap-3 p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 cursor-pointer"
+              >
+                <div className="w-8 h-8 flex items-center justify-center bg-red-500/20 rounded-md">
+                  ⚙️
+                </div>
+                <div>
+                  <p className="font-medium leading-tight text-gray-800 dark:text-gray-200">Admin Panel</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Manage platform</p>
+                </div>
+              </Link>
+            </li>
+            )}
 
             {/* Dark Mode */}
             <li className="flex items-center justify-between p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10">
@@ -122,7 +146,10 @@ function ProfileMenu() {
 
           {/* Logout */}
           <div className="p-3 border-t border-gray-300 dark:border-white/10">
-            <button className="w-full bg-red-800 hover:bg-red-700 py-2.5 rounded-lg font-medium">
+            <button 
+              onClick={handleLogout}
+              className="w-full bg-red-800 hover:bg-red-700 py-2.5 rounded-lg font-medium text-white"
+            >
               ⎋ Log out
             </button>
           </div>

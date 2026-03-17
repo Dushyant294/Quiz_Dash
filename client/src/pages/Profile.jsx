@@ -1,14 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Profile() {
     const [activeTab, setActiveTab] = useState('Activity');
+    
+    // Pre-fill from localStorage immediately (avoids flash of login prompt)
+    const storedUser = localStorage.getItem('user');
+    const localUser = storedUser ? JSON.parse(storedUser) : null;
 
-    const activityData = [
-        { id: 1, title: 'Completed "World History Trivia"', score: '95%', date: 'May 01, 08:00 PM' },
-        { id: 2, title: 'Completed "World History Trivia"', score: '95%', date: 'May 01, 08:00 PM' },
-        { id: 3, title: 'Completed "World History Trivia"', score: '95%', date: 'May 01, 08:00 PM' },
-        { id: 4, title: 'Completed "World History Trivia"', score: '95%', date: 'May 01, 08:00 PM' },
-    ];
+    const [user, setUser] = useState(localUser);
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(!!localUser); // only show loading if user exists
+
+    useEffect(() => {
+        if (!localUser) return; // not logged in
+
+        const userId = localUser.user_id;
+
+        const fetchUserData = async () => {
+            try {
+                // Fetch profile & activity feed
+                const profileRes = await fetch(`http://localhost:5000/api/users/${userId}`);
+                const profileData = await profileRes.json();
+                
+                // Fetch stats (win rate, battles)
+                const statsRes = await fetch(`http://localhost:5000/api/users/stats/${userId}`);
+                const statsData = await statsRes.json();
+
+                if (profileData.success) setUser({ ...localUser, ...profileData.data });
+                if (statsData.success) setStats(statsData.data);
+            } catch (err) {
+                console.error("Failed to fetch profile data:", err);
+                // Fall back to localStorage data silently
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    if (loading) {
+        return <div className="text-white text-center mt-20">Loading profile...</div>;
+    }
+
+    if (!user) {
+        return <div className="text-white text-center mt-20">Please log in to view your profile.</div>;
+    }
 
     return (
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-16 pt-4 px-4 lg:px-0">
@@ -28,14 +66,14 @@ function Profile() {
                 {/* User Info */}
                 <div className="flex-1 relative z-10 text-center md:text-left">
                     <div className="flex items-center justify-center md:justify-start gap-4 mb-2">
-                        <h1 className="text-2xl font-bold text-white tracking-wide">Soham Thummar</h1>
-                        <span className="border border-gray-500 text-gray-300 px-3 py-0.5 rounded-full text-xs font-medium tracking-wider bg-white/5">
-                            Learner
+                        <h1 className="text-2xl font-bold text-white tracking-wide">{user.full_name}</h1>
+                        <span className="border border-gray-500 text-gray-300 px-3 py-0.5 rounded-full text-xs font-medium tracking-wider bg-white/5 uppercase">
+                            {user.role}
                         </span>
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-400 font-medium mb-4">
-                        <span>@COCO_9105</span>
+                        <span>@{user.username}</span>
                         <div className="flex items-center gap-1.5">
                             <span className="w-4 h-3 bg-orange-500 flex flex-col justify-between">
                                 <span className="bg-white h-1 w-full flex items-center justify-center"><span className="w-1 h-1 rounded-full bg-blue-700"></span></span>
@@ -44,12 +82,12 @@ function Profile() {
                             <span>INDIA</span>
                         </div>
                         <span className="hidden sm:inline text-gray-600">•</span>
-                        <span>Joined March 01 , 2026</span>
+                        <span>Joined {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                     </div>
 
                     <div className="inline-block border border-gray-600 rounded-full px-4 py-1 bg-[#1a1c29]/50 shadow-inner">
-                        <span className="font-bold text-white text-sm">190</span>
-                        <span className="text-gray-400 text-xs ml-1 font-medium">Quizzes Taken</span>
+                        <span className="font-bold text-white text-sm">{user.total_points || 0}</span>
+                        <span className="text-gray-400 text-xs ml-1 font-medium">Total Points</span>
                     </div>
                 </div>
             </div>
@@ -78,24 +116,32 @@ function Profile() {
 
                     {/* Activity List Container */}
                     <div className="border border-[#2a3042] rounded-xl overflow-hidden shadow-lg bg-[#0b0f19]/30">
-                        {activityData.map((item, index) => (
-                            <div
-                                key={item.id}
-                                className={`flex items-start gap-5 p-5 ${index !== activityData.length - 1 ? 'border-b border-[#2a3042]' : ''} hover:bg-white/5 transition-colors`}
-                            >
-                                <div className="mt-1">
-                                    <span className="text-2xl drop-shadow-md">🏆</span>
-                                </div>
-                                <div>
-                                    <div className="text-gray-200 font-semibold mb-1 tracking-wide text-[15px]">
-                                        {item.title} with a score of {item.score}
+                        {user.activity_feed && user.activity_feed.length > 0 ? (
+                            user.activity_feed.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex items-start gap-5 p-5 ${index !== user.activity_feed.length - 1 ? 'border-b border-[#2a3042]' : ''} hover:bg-white/5 transition-colors`}
+                                >
+                                    <div className="mt-1">
+                                        <span className="text-2xl drop-shadow-md">
+                                            {item.activity_type === 'quiz_completed' ? '🏆' : '🔥'}
+                                        </span>
                                     </div>
-                                    <div className="text-gray-500 text-xs font-medium">
-                                        {item.date}
+                                    <div>
+                                        <div className="text-gray-200 font-semibold mb-1 tracking-wide text-[15px]">
+                                            {item.description}
+                                        </div>
+                                        <div className="text-gray-500 text-xs font-medium">
+                                            {new Date(item.created_at).toLocaleString()}
+                                        </div>
                                     </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-gray-400 text-sm">
+                                No activity recorded yet. Take a quiz to get started!
                             </div>
-                        ))}
+                        )}
                     </div>
 
                 </div>
@@ -124,9 +170,9 @@ function Profile() {
                                     <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                                     </svg>
-                                    <span className="text-gray-300 text-xs font-medium">Win Rate</span>
+                                    <span className="text-gray-300 text-xs font-medium">Win Rate (Battles)</span>
                                 </div>
-                                <div className="text-white font-bold text-[15px]">78 %</div>
+                                <div className="text-white font-bold text-[15px]">{stats?.win_rate || 0} %</div>
                             </div>
 
                             {/* Stat 3 */}
