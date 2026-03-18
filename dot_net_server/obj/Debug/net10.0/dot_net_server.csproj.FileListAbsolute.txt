@@ -32,3 +32,16 @@ D:\Quiz_Dash\dot_net_server\obj\Debug\net10.0\refint\dot_net_server.dll
 D:\Quiz_Dash\dot_net_server\obj\Debug\net10.0\dot_net_server.pdb
 D:\Quiz_Dash\dot_net_server\obj\Debug\net10.0\dot_net_server.genruntimeconfig.cache
 D:\Quiz_Dash\dot_net_server\obj\Debug\net10.0\ref\dot_net_server.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\BCrypt.Net-Next.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Dapper.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\DotNetEnv.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Npgsql.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\Sprache.dll
+D:\Quiz_Dash\dot_net_server\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll

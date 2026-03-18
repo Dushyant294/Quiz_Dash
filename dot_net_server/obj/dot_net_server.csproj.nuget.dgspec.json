@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "P:\\medhashree\\dot_net_server\\dot_net_server.csproj": {}
+    "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj": {}
   },
   "projects": {
-    "P:\\medhashree\\dot_net_server\\dot_net_server.csproj": {
+    "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\medhashree\\dot_net_server\\dot_net_server.csproj",
+        "projectUniqueName": "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
         "projectName": "dot_net_server",
-        "projectPath": "P:\\medhashree\\dot_net_server\\dot_net_server.csproj",
-        "packagesPath": "C:\\Users\\soham\\.nuget\\packages\\",
-        "outputPath": "P:\\medhashree\\dot_net_server\\obj\\",
+        "projectPath": "D:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
+        "packagesPath": "C:\\Users\\ABC\\.nuget\\packages\\",
+        "outputPath": "D:\\Quiz_Dash\\dot_net_server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\soham\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ABC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,19 +44,39 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.35, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.3, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.16.0, )"
             }
           },
           "imports": [
@@ -78,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
