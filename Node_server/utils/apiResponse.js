@@ -1,16 +1,18 @@
-const success = (res, data = {}, message = "Success", status = 200) => {
-  return res.status(status).json({
+/**
+ * Standardized API Response Helpers
+ */
+
+exports.success = (res, data = null, message = 'Success', statusCode = 200) => {
+  return res.status(statusCode).json({
     success: true,
     message,
-    data,
+    data
   });
 };
 
-const error = (res, message = "Error", status = 500) => {
-  return res.status(status).json({
+exports.error = (res, message = 'Server Error', statusCode = 500) => {
+  return res.status(statusCode).json({
     success: false,
-    message,
+    error: message
   });
 };
-
-module.exports = { success, error };
