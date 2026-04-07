@@ -7,6 +7,9 @@ function ProfileMenu() {
   const { dark, setDark } = useTheme();
   const navigate = useNavigate();
 
+  // Get first letter for avatar
+  const getInitial = (name) => name ? name.charAt(0).toUpperCase() : '?';
+
   // Read logged-in user from localStorage
   const storedUser = localStorage.getItem('user');
   const user = storedUser ? JSON.parse(storedUser) : null;
@@ -20,13 +23,13 @@ function ProfileMenu() {
 
   return (
     <div className="relative">
-      {/* Profile Avatar */}
-      <img
-        src="https://i.pravatar.cc/40"
-        alt="profile"
-        className="w-10 h-10 rounded-full cursor-pointer"
+      {/* Profile Avatar — Initial Letter */}
+      <div
+        className="w-10 h-10 rounded-full cursor-pointer bg-gradient-to-br from-[#5b5bff] to-[#4338ca] flex items-center justify-center border border-white/20 shadow-md"
         onClick={() => setOpen(!open)}
-      />
+      >
+        <span className="text-white text-lg font-bold select-none">{getInitial(user?.full_name)}</span>
+      </div>
 
       {/* Dropdown */}
       {open && (
@@ -34,11 +37,9 @@ function ProfileMenu() {
 
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
-            <img
-              src="https://i.pravatar.cc/56"
-              alt="user"
-              className="w-12 h-12 rounded-full"
-            />
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#5b5bff] to-[#4338ca] flex items-center justify-center border border-white/20 shadow-md shrink-0">
+              <span className="text-white text-xl font-bold select-none">{getInitial(user?.full_name)}</span>
+            </div>
             <div>
               <h3 className="font-semibold text-base">{user?.full_name || 'Guest'}</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">@{user?.username || 'unknown'}</p>

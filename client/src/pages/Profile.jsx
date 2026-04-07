@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE } from '../config/api';
 
 function Profile() {
     const [activeTab, setActiveTab] = useState('Activity');
@@ -9,28 +10,25 @@ function Profile() {
 
     const [user, setUser] = useState(localUser);
     const [stats, setStats] = useState(null);
-    const [loading, setLoading] = useState(!!localUser); // only show loading if user exists
+    const [loading, setLoading] = useState(!!localUser);
 
     useEffect(() => {
-        if (!localUser) return; // not logged in
+        if (!localUser) return;
 
         const userId = localUser.user_id;
 
         const fetchUserData = async () => {
             try {
-                // Fetch profile & activity feed
-                const profileRes = await fetch(`http://localhost:5000/api/users/${userId}`);
+                const profileRes = await fetch(`${API_BASE}/users/${userId}`);
                 const profileData = await profileRes.json();
                 
-                // Fetch stats (win rate, battles)
-                const statsRes = await fetch(`http://localhost:5000/api/users/stats/${userId}`);
+                const statsRes = await fetch(`${API_BASE}/users/stats/${userId}`);
                 const statsData = await statsRes.json();
 
                 if (profileData.success) setUser({ ...localUser, ...profileData.data });
                 if (statsData.success) setStats(statsData.data);
             } catch (err) {
                 console.error("Failed to fetch profile data:", err);
-                // Fall back to localStorage data silently
             } finally {
                 setLoading(false);
             }
@@ -39,6 +37,12 @@ function Profile() {
         fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // Get the first letter of the user's name for the avatar
+    const getInitial = (name) => {
+        if (!name) return '?';
+        return name.charAt(0).toUpperCase();
+    };
 
     if (loading) {
         return <div className="text-white text-center mt-20">Loading profile...</div>;
@@ -56,11 +60,11 @@ function Profile() {
                 {/* Decorative glows */}
                 <div className="absolute top-0 right-0 w-[60%] h-full bg-[#4F46E5]/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-                {/* Avatar */}
-                <div className="w-24 h-24 bg-gray-200 dark:bg-gray-300 rounded-full flex flex-col items-center justify-end overflow-hidden shrink-0 border-2 border-white/10 shadow-lg relative z-10">
-                    <svg className="w-20 h-20 text-gray-400 translate-y-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                    </svg>
+                {/* Avatar — First Letter of Name */}
+                <div className="w-24 h-24 bg-gradient-to-br from-[#5b5bff] to-[#4338ca] rounded-full flex items-center justify-center shrink-0 border-2 border-white/20 shadow-lg relative z-10">
+                    <span className="text-white text-4xl font-bold select-none">
+                        {getInitial(user.full_name)}
+                    </span>
                 </div>
 
                 {/* User Info */}
@@ -74,20 +78,22 @@ function Profile() {
 
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-400 font-medium mb-4">
                         <span>@{user.username}</span>
-                        <div className="flex items-center gap-1.5">
-                            <span className="w-4 h-3 bg-orange-500 flex flex-col justify-between">
-                                <span className="bg-white h-1 w-full flex items-center justify-center"><span className="w-1 h-1 rounded-full bg-blue-700"></span></span>
-                                <span className="bg-green-600 h-1 w-full"></span>
-                            </span>
-                            <span>INDIA</span>
-                        </div>
+                        <span className="hidden sm:inline text-gray-600">•</span>
+                        <span>{user.email}</span>
                         <span className="hidden sm:inline text-gray-600">•</span>
                         <span>Joined {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                     </div>
 
-                    <div className="inline-block border border-gray-600 rounded-full px-4 py-1 bg-[#1a1c29]/50 shadow-inner">
-                        <span className="font-bold text-white text-sm">{user.total_points || 0}</span>
-                        <span className="text-gray-400 text-xs ml-1 font-medium">Total Points</span>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                        <div className="inline-block border border-gray-600 rounded-full px-4 py-1 bg-[#1a1c29]/50 shadow-inner">
+                            <span className="font-bold text-white text-sm">{user.total_points || 0}</span>
+                            <span className="text-gray-400 text-xs ml-1 font-medium">Total Points</span>
+                        </div>
+                        {user.global_rank && (
+                            <div className="inline-block border border-[#5b5bff]/40 rounded-full px-4 py-1 bg-[#5b5bff]/10">
+                                <span className="font-bold text-[#818cf8] text-sm">Rank #{user.global_rank}</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -124,7 +130,7 @@ function Profile() {
                                 >
                                     <div className="mt-1">
                                         <span className="text-2xl drop-shadow-md">
-                                            {item.activity_type === 'quiz_completed' ? '🏆' : '🔥'}
+                                            {item.activity_type === 'quiz_completed' ? '🏆' : item.activity_type === 'battle_won' ? '⚔️' : '🔥'}
                                         </span>
                                     </div>
                                     <div>
@@ -153,18 +159,7 @@ function Profile() {
 
                         {/* Top Stats Grid */}
                         <div className="grid grid-cols-2 gap-y-8 gap-x-4 mb-10">
-                            {/* Stat 1 */}
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                    <span className="text-gray-300 text-xs font-medium">Average Score</span>
-                                </div>
-                                <div className="text-white font-bold text-[15px]">87.5 %</div>
-                            </div>
-
-                            {/* Stat 2 */}
+                            {/* Win Rate */}
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,92 +170,66 @@ function Profile() {
                                 <div className="text-white font-bold text-[15px]">{stats?.win_rate || 0} %</div>
                             </div>
 
-                            {/* Stat 3 */}
+                            {/* Total Battles */}
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-gray-500 text-xs">🔥</span>
-                                    <span className="text-gray-300 text-xs font-medium">Current Streak</span>
+                                    <span className="text-gray-500 text-xs">⚔️</span>
+                                    <span className="text-gray-300 text-xs font-medium">Total Battles</span>
                                 </div>
-                                <div className="text-white font-bold text-[15px]">5 Quizzes</div>
+                                <div className="text-white font-bold text-[15px]">{stats?.total_battles || 0}</div>
                             </div>
 
-                            {/* Stat 4 */}
+                            {/* Wins */}
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-gray-500 text-xs">🏆</span>
+                                    <span className="text-gray-300 text-xs font-medium">Wins</span>
+                                </div>
+                                <div className="text-white font-bold text-[15px]">{stats?.wins || 0}</div>
+                            </div>
+
+                            {/* Total Points */}
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                     </svg>
-                                    <span className="text-gray-300 text-xs font-medium">Highest Streak</span>
+                                    <span className="text-gray-300 text-xs font-medium">Total Points</span>
                                 </div>
-                                <div className="text-white font-bold text-[15px]">12 Quizzes</div>
+                                <div className="text-white font-bold text-[15px]">{user.total_points || 0}</div>
                             </div>
 
-                            {/* Stat 5 */}
+                            {/* Role */}
+                            <div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="text-gray-500 text-xs font-bold">👤</span>
+                                    <span className="text-gray-300 text-xs font-medium">Role</span>
+                                </div>
+                                <div className="text-white font-bold text-[15px] capitalize">{user.role}</div>
+                            </div>
+
+                            {/* Member Since */}
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span className="text-gray-300 text-xs font-medium">Time Played</span>
+                                    <span className="text-gray-300 text-xs font-medium">Member Since</span>
                                 </div>
-                                <div className="text-white font-bold text-[15px]">11h 50min</div>
-                            </div>
-
-                            {/* Stat 6 */}
-                            <div>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-gray-500 text-xs font-bold">%</span>
-                                    <span className="text-gray-300 text-xs font-medium">Completion Rate</span>
+                                <div className="text-white font-bold text-[15px]">
+                                    {new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                                 </div>
-                                <div className="text-white font-bold text-[15px]">94 %</div>
                             </div>
                         </div>
 
-                        {/* Bottom Bars */}
-                        <div className="space-y-6">
-                            {/* Best Category */}
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <div className="flex items-center gap-2">
-                                        <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                        </svg>
-                                        <span className="text-gray-300 text-xs font-semibold">Best Category</span>
-                                    </div>
-                                    <span className="text-gray-400 text-[10px] font-medium tracking-wide">History</span>
-                                </div>
-                                <div className="w-full bg-[#1b2133] rounded-full h-1.5 overflow-hidden">
-                                    <div className="bg-gray-300 h-1.5 rounded-full w-[95%]"></div>
-                                </div>
-                            </div>
-
-                            {/* Favorite Category */}
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-xs">🥇</span>
-                                        <span className="text-gray-300 text-xs font-semibold">Favorite Category</span>
-                                    </div>
-                                    <span className="text-gray-400 text-[10px] font-medium tracking-wide">Science</span>
-                                </div>
-                                <div className="w-full bg-[#1b2133] rounded-full h-1.5 overflow-hidden">
-                                    <div className="bg-gray-400 h-1.5 rounded-full w-[80%]"></div>
-                                </div>
-                            </div>
-
-                            {/* Weakest Category */}
-                            <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <div className="flex items-center gap-[0.6rem]">
-                                        <span className="w-4 h-[1px] bg-transparent"></span>
-                                        <span className="text-gray-300 text-xs font-semibold">Weakest Category</span>
-                                    </div>
-                                    <span className="text-gray-400 text-[10px] font-medium tracking-wide">Sports</span>
-                                </div>
-                                <div className="w-full bg-[#1b2133] rounded-full h-1.5 overflow-hidden">
-                                    <div className="bg-gray-500 h-1.5 rounded-full w-[45%]"></div>
-                                </div>
-                            </div>
+                        {/* Bio Section */}
+                        <div className="mb-6">
+                            <h3 className="text-gray-300 text-xs font-semibold mb-2 flex items-center gap-2">
+                                <span>📝</span> Bio
+                            </h3>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                {user.bio || 'No bio added yet.'}
+                            </p>
                         </div>
 
                     </div>
