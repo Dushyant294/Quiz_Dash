@@ -1,31 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { API_BASE, authFetch, authHeaders } from '../config/api';
 
 function ReportBug() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        specificIssue: '',
+        specific_issue: '',
         type: '',
         priority: '',
     });
+    const [submitting, setSubmitting] = useState(false);
+    const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Bug report submitted:', formData);
+        setSubmitting(true);
+        setMessage('');
+
+        try {
+            const response = await authFetch(`${API_BASE}/bug-reports`, {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                setMessage('Bug report submitted successfully!');
+                setFormData({ title: '', description: '', specific_issue: '', type: '', priority: '' });
+            } else {
+                setMessage(data.error || 'Failed to submit report');
+            }
+        } catch (err) {
+            setMessage('Cannot connect to server. Please try again later.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleCancel = () => {
-        setFormData({
-            title: '',
-            description: '',
-            specificIssue: '',
-            type: '',
-            priority: '',
-        });
+        setFormData({ title: '', description: '', specific_issue: '', type: '', priority: '' });
+        setMessage('');
     };
 
     return (
@@ -39,6 +57,12 @@ function ReportBug() {
                     In case of any bugs in this platform , report them here and we will get back to you
                 </p>
             </div>
+
+            {message && (
+                <div className={`text-center p-3 rounded-lg mb-6 text-sm font-semibold ${message.includes('success') ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                    {message}
+                </div>
+            )}
 
             {/* Form Card */}
             <div className="flex justify-center">
@@ -87,8 +111,8 @@ function ReportBug() {
                                     Specific Issue (Optional) :
                                 </label>
                                 <select
-                                    name="specificIssue"
-                                    value={formData.specificIssue}
+                                    name="specific_issue"
+                                    value={formData.specific_issue}
                                     onChange={handleChange}
                                     className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
                                     style={{
@@ -167,9 +191,10 @@ function ReportBug() {
                         </button>
                         <button
                             type="submit"
-                            className="bg-[#5b5bff] hover:bg-[#4f4fe5] text-white font-semibold py-2.5 px-10 rounded-lg transition-colors shadow-lg shadow-[#5b5bff]/20 text-sm tracking-wide"
+                            disabled={submitting}
+                            className="bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:bg-[#5b5bff]/50 text-white font-semibold py-2.5 px-10 rounded-lg transition-colors shadow-lg shadow-[#5b5bff]/20 text-sm tracking-wide"
                         >
-                            Submit report
+                            {submitting ? 'Submitting...' : 'Submit report'}
                         </button>
                     </div>
                 </form>
