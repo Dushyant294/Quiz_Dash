@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { API_BASE, authFetch } from '../config/api';
 
 function Tournaments() {
     const [activeFilter, setActiveFilter] = useState('All Categories');
 
     const filters = ['All Categories', 'NEET', 'JEE', 'NDA', 'SSC-CGL'];
 
-    const tournaments = [
+    const [tournaments, setTournaments] = useState([
         {
             title: 'JEE Mains: Physics Simulation',
             description: 'Test your mastery of mechanics, electricity, and magnetism with difficulty-level questions.',
@@ -20,7 +21,7 @@ function Tournaments() {
             title: 'JEE Advanced: Mathematics Challenge',
             description: 'Focus on advanced calc, coordinate geometry, and complex algebra. For 100+ of applicants.',
             dateRange: 'March 11 - Apr 01, 2026',
-            participants: '2,347 Pr Mcrem',
+            participants: '2,347 Participants',
             image: 'https://placehold.co/400x200/1e1b4b/a78bfa?text=JEE+Maths',
             category: 'JEE',
             badge: 'Registration open',
@@ -30,7 +31,7 @@ function Tournaments() {
             title: 'NEET 2026: All India Mega Mock',
             description: 'Compete nationwide with this full-syllabus simulation designed to match faculty-focused entrance exam format.',
             dateRange: 'March 11 - Apr 01, 2026',
-            participants: '2,347 Pr Mcrem',
+            participants: '2,347 Participants',
             image: 'https://placehold.co/400x200/4c1d95/c084fc?text=NEET+Mock',
             category: 'NEET',
             badge: 'Registration open',
@@ -46,7 +47,46 @@ function Tournaments() {
             badge: 'Registrations open',
             badgeColor: 'bg-green-500',
         },
-    ];
+    ]);
+
+    useEffect(() => {
+        const fetchTournaments = async () => {
+            try {
+                const res = await fetch(`${API_BASE}/tournaments`);
+                const data = await res.json();
+                if (data.success && data.data.length > 0) {
+                    setTournaments(data.data.map(t => ({
+                        id: t.tournament_id,
+                        title: t.name,
+                        description: t.description,
+                        dateRange: `${new Date(t.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(t.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+                        participants: `${(t.participant_count || 0).toLocaleString()} Participants`,
+                        image: t.thumbnail_url || `https://placehold.co/400x200/1a1a2e/818cf8?text=${encodeURIComponent(t.name)}`,
+                        category: t.category_name || t.subject || 'General',
+                        badge: t.status === 'upcoming' ? 'Registration open' : t.status,
+                        badgeColor: t.status === 'upcoming' ? 'bg-green-500' : t.status === 'active' ? 'bg-blue-500' : 'bg-gray-500',
+                    })));
+                }
+            } catch (err) {
+                console.error('Failed to fetch tournaments:', err);
+            }
+        };
+        fetchTournaments();
+    }, []);
+
+    const handleJoin = async (tournamentId) => {
+        try {
+            const res = await authFetch(`${API_BASE}/tournaments/${tournamentId}/join`, { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                alert('Joined tournament successfully!');
+            } else {
+                alert(data.error || 'Failed to join');
+            }
+        } catch (err) {
+            alert('Cannot connect to server');
+        }
+    };
 
     const filteredTournaments = activeFilter === 'All Categories'
         ? tournaments
@@ -90,18 +130,13 @@ function Tournaments() {
 
             {/* Countdown / Stats Section */}
             <div className="bg-[#15172a] border border-white/10 rounded-2xl p-6 md:p-8 mb-10">
-                {/* Countdown Header */}
                 <div className="flex items-center justify-between mb-3">
                     <h3 className="text-white font-bold text-lg">Registrations closes in</h3>
                     <span className="text-purple-400 font-bold text-sm">3 days</span>
                 </div>
-
-                {/* Progress Bar */}
                 <div className="w-full bg-[#2a2d3e] rounded-full h-2 mb-8 overflow-hidden">
                     <div className="bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] h-2 rounded-full" style={{ width: '70%' }}></div>
                 </div>
-
-                {/* Stats */}
                 <div className="grid grid-cols-3 gap-4">
                     <div className="bg-[#1a1d30] border border-[#4f46e5]/30 rounded-xl p-5 text-center">
                         <div className="text-3xl md:text-4xl font-bold text-white mb-1">3</div>
@@ -145,25 +180,15 @@ function Tournaments() {
                         key={idx}
                         className="bg-[#12152a] border border-white/10 rounded-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 shadow-lg flex flex-col"
                     >
-                        {/* Card Image */}
                         <div className="relative h-[140px] overflow-hidden">
-                            <img
-                                src={t.image}
-                                alt={t.title}
-                                className="w-full h-full object-cover"
-                            />
-                            {/* Badge */}
+                            <img src={t.image} alt={t.title} className="w-full h-full object-cover" />
                             <span className={`absolute top-3 right-3 ${t.badgeColor} text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full`}>
                                 {t.badge}
                             </span>
                         </div>
-
-                        {/* Card Content */}
                         <div className="p-4 flex flex-col flex-1">
                             <h3 className="text-white font-bold text-sm mb-2 leading-tight">{t.title}</h3>
                             <p className="text-gray-400 text-[11px] leading-relaxed mb-4 flex-1">{t.description}</p>
-
-                            {/* Date & Participants */}
                             <div className="flex items-center justify-between text-[10px] text-gray-500 mb-4">
                                 <span>{t.dateRange}</span>
                                 <span className="flex items-center gap-1">
@@ -173,13 +198,14 @@ function Tournaments() {
                                     {t.participants}
                                 </span>
                             </div>
-
-                            {/* Buttons */}
                             <div className="flex gap-2">
                                 <button className="flex-1 border border-gray-500/60 text-gray-300 text-[11px] font-semibold py-1.5 rounded-md hover:bg-white/5 transition-colors">
                                     View Details
                                 </button>
-                                <button className="flex-1 bg-[#4f46e5] text-white text-[11px] font-semibold py-1.5 rounded-md hover:bg-[#4338ca] transition-colors shadow-sm">
+                                <button
+                                    onClick={() => t.id && handleJoin(t.id)}
+                                    className="flex-1 bg-[#4f46e5] text-white text-[11px] font-semibold py-1.5 rounded-md hover:bg-[#4338ca] transition-colors shadow-sm"
+                                >
                                     Join Now
                                 </button>
                             </div>
