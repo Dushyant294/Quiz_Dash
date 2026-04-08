@@ -1,41 +1,50 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const getMenuItems = (role) => {
-  // Base items for all users
-  const items = [{ name: "Home", path: "/" }];
-
-  if (role === "admin") {
-    items.push(
-      { name: "Manage Users", path: "/admin/users" },
-      { name: "Manage Questions", path: "/admin/content" },
-      { name: "Manage Tournament", path: "/admin/tournaments" },
-      { name: "Create Tournament", path: "/admin/create-tournament" },
-      { name: "Create Quiz", path: "/create" },
-    );
-  }
-
-  // Common items for everyone
-  items.push(
+  // Base items for all users (students, instructors, admins)
+  const items = [
+    { name: "Home", path: "/" },
     { name: "Categories", path: "/categories" },
     { name: "Explore Q's", path: "/explore" },
     { name: "Quiz Tournament", path: "/tournaments" },
     { name: "Quiz Battle", path: "/battle" },
     { name: "News & Update", path: "/news" },
     { name: "Leaderboard", path: "/leaderboard" },
-  );
+  ];
 
-  // admin reports
-  if (role === "admin") {
-    items.push({ name: "Reports", path: "/admin/reports" });
+  // Instructor gets Create Quiz
+  if (role === 'instructor' || role === 'admin') {
+    items.push({ name: "Create Quiz", path: "/create" });
+  }
+
+  // Admin gets full management panel
+  if (role === 'admin') {
+    items.push(
+      { name: "Manage Users", path: "/admin/users" },
+      { name: "Manage Questions", path: "/admin/content" },
+      { name: "Manage Tournament", path: "/admin/tournaments" },
+      { name: "Create Tournament", path: "/admin/create-tournament" },
+      { name: "Reports", path: "/admin/reports" }
+    );
   }
 
   return items;
 };
 
 function Sidebar() {
-  // Mock role for now. Change this to test ('user', 'instructor', 'admin')
-  const userRole = "admin";
+  const navigate = useNavigate();
+
+  // Read real user role from localStorage
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  const userRole = user?.role || 'student';
   const menuItems = getMenuItems(userRole);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   return (
     <aside className="w-64 bg-gray-200 dark:bg-[#0e1628] p-5 text-black dark:text-white fixed left-0 top-0 h-screen overflow-y-auto">
@@ -48,32 +57,19 @@ function Sidebar() {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `block px-4 py-2.5 rounded-lg transition-colors text-center ${
-                    isActive
-                      ? "bg-[#5b5bff] text-white shadow-md shadow-[#5b5bff]/20"
-                      : "hover:bg-gray-300 dark:hover:bg-white/10 text-gray-700 dark:text-[#a1a1aa]"
+                  `block px-4 py-2.5 rounded-lg transition-colors text-center ${isActive
+                    ? "bg-[#5b5bff] text-white shadow-md shadow-[#5b5bff]/20"
+                    : "hover:bg-gray-300 dark:hover:bg-white/10 text-gray-700 dark:text-[#a1a1aa]"
                   }`
                 }
               >
                 {/* Add standard line break for long names matching design */}
                 {item.name === "Manage Questions" ? (
-                  <>
-                    Manage
-                    <br />
-                    Questions
-                  </>
+                  <>Manage<br />Questions</>
                 ) : item.name === "Manage Tournament" ? (
-                  <>
-                    Manage
-                    <br />
-                    Tournament
-                  </>
+                  <>Manage<br />Tournament</>
                 ) : item.name === "Create Tournament" ? (
-                  <>
-                    Create
-                    <br />
-                    Tournament
-                  </>
+                  <>Create<br />Tournament</>
                 ) : (
                   item.name
                 )}
@@ -83,12 +79,12 @@ function Sidebar() {
         </ul>
 
         <div className="pt-4 mt-auto">
-          <NavLink
-            to="/login"
-            className="block px-4 py-2.5 rounded-lg text-gray-700 dark:text-[#a1a1aa] hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 transition-colors text-[13px] font-medium text-center"
+          <button
+            onClick={handleLogout}
+            className="block w-full px-4 py-2.5 rounded-lg text-gray-700 dark:text-[#a1a1aa] hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-500/10 dark:hover:text-red-400 transition-colors text-[13px] font-medium text-center"
           >
             Logout
-          </NavLink>
+          </button>
         </div>
       </nav>
     </aside>
