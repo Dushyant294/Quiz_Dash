@@ -36,12 +36,15 @@ function Login() {
             if (data.success) {
                 // Save token to localStorage
                 localStorage.setItem("token", data.data.token);
-                // Save user info (optional, helps with UI)
+                // Save user info (used by Sidebar & ProfileMenu for role-based access)
                 localStorage.setItem("user", JSON.stringify(data.data.user));
                 
-                // Redirect user based on role or just to home page
-                if (data.data.user.role === 'admin') {
+                // Redirect based on role
+                const role = data.data.user.role;
+                if (role === 'admin') {
                     navigate("/admin");
+                } else if (role === 'instructor') {
+                    navigate("/");
                 } else {
                     navigate("/");
                 }
@@ -98,10 +101,6 @@ function Login() {
                     className="w-full bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:bg-[#5b5bff]/50 text-white py-3 rounded-lg font-semibold transition-colors mt-6"
                 >
                     {loading ? "Logging in..." : "Log In"}
-                </button>
-
-                <button type="button" className="w-full bg-transparent border border-[#5b5bff] text-[#5b5bff] hover:bg-[#5b5bff]/10 py-3 rounded-lg font-semibold transition-colors mt-4">
-                    Admin Login
                 </button>
             </form>
 

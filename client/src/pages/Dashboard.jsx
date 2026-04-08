@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE } from '../config/api';
 
 function Dashboard() {
     const [stats, setStats] = useState({
@@ -18,7 +19,7 @@ function Dashboard() {
 
             const fetchDashboardData = async () => {
                 try {
-                    const response = await fetch(`http://localhost:5000/api/users/dashboard/${parsedUser.user_id}`);
+                    const response = await fetch(`${API_BASE}/users/dashboard/${parsedUser.user_id}`);
                     const data = await response.json();
                     if (data.success) {
                         setStats(data.data);
@@ -87,7 +88,7 @@ function Dashboard() {
                         Total Quizzes : {stats.total_quizzes_taken}
                     </span>
                     <span className="border border-white/40 bg-white/5 rounded-lg px-4 py-1.5 text-sm font-semibold backdrop-blur-sm">
-                        Global Rank : #14
+                        Global Rank : #{stats.global_rank || 'N/A'}
                     </span>
                     <span className="border border-white/40 bg-white/5 rounded-lg px-4 py-1.5 text-sm font-semibold backdrop-blur-sm">
                         Current Points : {stats.total_score_earned}
