@@ -106,6 +106,58 @@ class TournamentModel {
     );
     return result.rows[0];
   }
+
+  // Record an attempt
+  static async addAttempt(tournamentId, userId, score, correctAnswers, totalQuestions, timeTaken) {
+    const result = await db.query(
+      `INSERT INTO tournament_attempts (tournament_id, user_id, score, correct_answers, total_questions, time_taken)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [tournamentId, userId, score || 0, correctAnswers || 0, totalQuestions || 0, timeTaken || 0]
+    );
+    
+    // Auto update best score in participants table maybe?
+    // User already joined if they are taking attempt, just update their score if it's highest.
+    await db.query(
+      `UPDATE tournament_participants 
+       SET score = GREATEST(score, $1)
+       WHERE tournament_id = $2 AND user_id = $3`,
+      [score || 0, tournamentId, userId]
+    );
+
+    return result.rows[0];
+  }
+
+  // Get attempt count
+  static async getAttemptCount(tournamentId, userId) {
+    const result = await db.query(
+      'SELECT COUNT(*) FROM tournament_attempts WHERE tournament_id = $1 AND user_id = $2',
+      [tournamentId, userId]
+    );
+    return parseInt(result.rows[0].count);
+  }
+
+  // Get best score
+  static async getBestScore(tournamentId, userId) {
+    const result = await db.query(
+      'SELECT MAX(score) as best_score FROM tournament_attempts WHERE tournament_id = $1 AND user_id = $2',
+      [tournamentId, userId]
+    );
+    return parseInt(result.rows[0].best_score) || 0;
+  }
+
+  // Get Leaderboard
+  static async getLeaderboard(tournamentId) {
+    const result = await db.query(
+      `SELECT u.user_id, u.username, u.full_name, MAX(t.score) AS best_score, MIN(t.time_taken) AS time_taken
+       FROM tournament_attempts t
+       JOIN users u ON t.user_id = u.user_id
+       WHERE t.tournament_id = $1
+       GROUP BY u.user_id, u.username, u.full_name
+       ORDER BY best_score DESC, time_taken ASC`,
+      [tournamentId]
+    );
+    return result.rows;
+  }
 }
 
 module.exports = TournamentModel;
