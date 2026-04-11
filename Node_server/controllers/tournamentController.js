@@ -94,3 +94,60 @@ exports.endTournament = async (req, res) => {
     return error(res, 'Failed to end tournament', 500);
   }
 };
+
+// @desc    Get tournament leaderboard
+// @route   GET /api/tournaments/:id/leaderboard
+// @access  Public
+exports.getLeaderboard = async (req, res) => {
+  try {
+    const leaderboard = await TournamentModel.getLeaderboard(req.params.id);
+    return success(res, leaderboard, 'Leaderboard fetched successfully');
+  } catch (err) {
+    console.error('Get Leaderboard Error:', err);
+    return error(res, 'Failed to fetch leaderboard', 500);
+  }
+};
+
+// @desc    Get my attempts count and best score
+// @route   GET /api/tournaments/:id/my-attempts
+// @access  Protected
+exports.getMyAttempts = async (req, res) => {
+  try {
+    const attempts = await TournamentModel.getAttemptCount(req.params.id, req.user.userId);
+    const bestScore = await TournamentModel.getBestScore(req.params.id, req.user.userId);
+    return success(res, { attemptsLeft: Math.max(0, 3 - attempts), bestScore }, 'Attempts fetched successfully');
+  } catch (err) {
+    console.error('Get My Attempts Error:', err);
+    return error(res, 'Failed to fetch your attempts', 500);
+  }
+};
+
+// @desc    Record attempt
+// @route   POST /api/tournaments/:id/attempt
+// @access  Protected
+exports.recordAttempt = async (req, res) => {
+  try {
+    // Check if tournament is active (could do this here or DB, assuming frontend handles it partially)
+    const count = await TournamentModel.getAttemptCount(req.params.id, req.user.userId);
+    if (count >= 3) {
+      return error(res, 'Maximum 3 attempts reached', 403);
+    }
+    const { score, correctAnswers, totalQuestions, timeTaken } = req.body;
+    
+    // Auto-join if not joined
+    await TournamentModel.addParticipant(req.params.id, req.user.userId);
+    
+    const attempt = await TournamentModel.addAttempt(
+      req.params.id, 
+      req.user.userId, 
+      score, 
+      correctAnswers, 
+      totalQuestions, 
+      timeTaken
+    );
+    return success(res, attempt, 'Attempt recorded successfully', 201);
+  } catch (err) {
+    console.error('Record Attempt Error:', err);
+    return error(res, 'Failed to record attempt', 500);
+  }
+};
