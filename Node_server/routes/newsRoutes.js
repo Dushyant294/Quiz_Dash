@@ -9,6 +9,9 @@ router.post('/', protect, adminOnly, newsController.createNews);
 // Get all news (public)
 router.get('/', newsController.getAllNews);
 
+// Get latest news (public)
+router.get('/latest', newsController.getLatestNews);
+
 // Delete news (admin)
 router.delete('/:id', protect, adminOnly, newsController.deleteNews);
 

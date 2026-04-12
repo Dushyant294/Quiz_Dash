@@ -67,7 +67,7 @@ function normalizeAndMatch(inputStr, dbArray, nameKey, idKey) {
  * Handle parsed CSV data — bulk insert questions and create file record
  * Includes dynamic hierarchy resolution natively creating categories, subjects, etc.
  */
-async function handleCSVUpload({ questions, fileName, fileUrl, subject, topic, microTopic, userId }) {
+async function handleCSVUpload({ questions, fileName, fileUrl, categoryId, subject, topic, microTopic, userId }) {
   
   // Cache to avoid hitting DB thousands of times
   const cache = {
@@ -81,7 +81,13 @@ async function handleCSVUpload({ questions, fileName, fileUrl, subject, topic, m
   for (const q of questions) {
     // CATEGORY (from CSV category/exam field OR fallback to form 'subject' if not found)
     const qCatInfo = q.category || subject;
-    let catId = normalizeAndMatch(qCatInfo, cache.categories, 'name', 'category_id');
+    let catId = null;
+
+    if (categoryId) {
+        catId = parseInt(categoryId);
+    } else {
+        catId = normalizeAndMatch(qCatInfo, cache.categories, 'name', 'category_id');
+    }
     
     // Title case formatter for new creation
     const titleCase = (str) => str.replace(/\b\w/g, c => c.toUpperCase());
