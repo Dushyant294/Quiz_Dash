@@ -150,3 +150,34 @@ exports.deleteQuestion = async (req, res) => {
     return error(res, 'Failed to delete question', 500);
   }
 };
+
+// @desc    Update a question
+// @route   PUT /api/admin/questions/:questionId
+// @access  Admin
+exports.updateQuestion = async (req, res) => {
+  try {
+    const { full_question_text, option_a, option_b, option_c, option_d, correct_answer, hint, explanation } = req.body;
+
+    if (!full_question_text || !option_a || !option_b || !correct_answer) {
+      return error(res, 'Question text, at least options A & B, and correct answer are required', 400);
+    }
+
+    const updateData = {};
+    if (full_question_text) updateData.full_question_text = full_question_text;
+    if (option_a) updateData.option_a = option_a;
+    if (option_b) updateData.option_b = option_b;
+    if (option_c !== undefined) updateData.option_c = option_c;
+    if (option_d !== undefined) updateData.option_d = option_d;
+    if (correct_answer) updateData.correct_answer = correct_answer;
+    if (hint !== undefined) updateData.hint = hint;
+    if (explanation !== undefined) updateData.explanation = explanation;
+
+    const updated = await QuestionModel.update(req.params.questionId, updateData);
+    if (!updated) return error(res, 'Question not found', 404);
+
+    return success(res, updated, 'Question updated successfully');
+  } catch (err) {
+    console.error('Update Question Error:', err);
+    return error(res, 'Failed to update question', 500);
+  }
+};

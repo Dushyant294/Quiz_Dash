@@ -21,4 +21,13 @@ router.put('/:id', protect, adminOnly, tournamentController.updateTournament);
 // End tournament (admin)
 router.post('/:id/end', protect, adminOnly, tournamentController.endTournament);
 
+// Get leaderboard (public)
+router.get('/:id/leaderboard', tournamentController.getLeaderboard);
+
+// Get my attempts (protected)
+router.get('/:id/my-attempts', protect, tournamentController.getMyAttempts);
+
+// Record attempt (protected)
+router.post('/:id/attempt', protect, tournamentController.recordAttempt);
+
 module.exports = router;
