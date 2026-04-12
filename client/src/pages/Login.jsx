@@ -51,7 +51,7 @@ function Login() {
             } else {
                 setError(data.error || "Login failed");
             }
-        } catch {
+        } catch (err) {
             setError("Cannot connect to server. Please try again later.");
         } finally {
             setLoading(false);
