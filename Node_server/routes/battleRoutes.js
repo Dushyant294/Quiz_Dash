@@ -3,7 +3,13 @@ const router = express.Router();
 const battleController = require('../controllers/battleController');
 const { protect } = require('../middleware/authMiddleware');
 
-// Create quiz session (1v1 or solo)
+// Find match (1v1 matchmaking)
+router.post('/find-match', protect, battleController.findMatch);
+
+// Check match status (polling for 1v1)
+router.get('/:sessionId/status', protect, battleController.checkMatchStatus);
+
+// Create quiz session (solo mode)
 router.post('/create', protect, battleController.createSession);
 
 // Get questions for a session
