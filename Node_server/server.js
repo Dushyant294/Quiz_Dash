@@ -61,14 +61,9 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'API and Database are connected!' });
 });
 
-// Socket.io connection placeholder
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
-  });
-});
+// Initialize Socket.io battle matchmaking
+const initBattleSocket = require('./sockets/battleSocket');
+initBattleSocket(io);
 
 // Create global io instance to use in controllers if needed
 app.set('io', io);
