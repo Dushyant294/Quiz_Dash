@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { authFetch } from '../config/api';
 
@@ -12,102 +12,149 @@ function QuizPlayView() {
     const [loading, setLoading] = useState(true);
     const [completed, setCompleted] = useState(false);
     const [result, setResult] = useState(null);
+    
+    // Session meta
+    const [quizType, setQuizType] = useState('solo');
+    const [opponentName, setOpponentName] = useState(null);
+
+    // Waiting for opponent state (1v1 sync)
+    const [waitingForOpponent, setWaitingForOpponent] = useState(false);
+    const pollRef = useRef(null);
+
+    // Timer state
+    const [timePerQuestion, setTimePerQuestion] = useState(60);
+    const [timeLeft, setTimeLeft] = useState(60);
+    const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+    const timerRef = useRef(null);
 
     useEffect(() => {
         const fetchSession = async () => {
             try {
                 const res = await authFetch(`/battle/${sessionId}/questions`);
                 const data = await res.json();
-                if (data.success && data.data.length > 0) {
-                    setQuestions(data.data);
+                if (data.success && data.data.questions && data.data.questions.length > 0) {
+                    setQuestions(data.data.questions);
+                    const tpq = data.data.timePerQuestion || 60;
+                    setTimePerQuestion(tpq);
+                    setTimeLeft(tpq);
+                    setQuestionStartTime(Date.now());
+                    setQuizType(data.data.quizType || 'solo');
+                    setOpponentName(data.data.opponentName || null);
                 } else {
                     alert('Could not load quiz questions.');
-                    navigate('/home');
+                    navigate('/');
                 }
             } catch (err) {
                 console.error(err);
                 alert('Error loading quiz session');
+                navigate('/');
             } finally {
                 setLoading(false);
             }
         };
         fetchSession();
+
+        // Cleanup polling on unmount
+        return () => {
+            if (pollRef.current) clearInterval(pollRef.current);
+        };
     }, [sessionId, navigate]);
 
-    if (loading) {
-        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">Loading quiz...</div>;
-    }
+    // Poll for opponent completion
+    const startPolling = useCallback(() => {
+        if (pollRef.current) clearInterval(pollRef.current);
+        pollRef.current = setInterval(async () => {
+            try {
+                const res = await authFetch(`/battle/${sessionId}/complete`, { method: 'POST' });
+                const data = await res.json();
+                if (data.success && !data.data.waitingForOpponent) {
+                    // Both done! Show results
+                    clearInterval(pollRef.current);
+                    pollRef.current = null;
+                    setWaitingForOpponent(false);
+                    setResult(data.data);
+                    setCompleted(true);
+                }
+            } catch (err) {
+                console.error('Poll error:', err);
+            }
+        }, 3000);
+    }, [sessionId]);
 
-    if (questions.length === 0) {
-        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">No questions found.</div>;
-    }
-
-    if (completed && result) {
-        return (
-            <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-center">
-               <div className="bg-[#111827] border border-[#5b5bff]/50 rounded-2xl p-10 max-w-lg w-full text-center shadow-2xl shadow-[#5b5bff]/20">
-                   <h2 className="text-3xl font-bold mb-4">Quiz Completed!</h2>
-                   <p className="text-gray-400 mb-8">Your final score is ready.</p>
-                   
-                   <div className="text-[#5b5bff] text-6xl font-black mb-10 drop-shadow-md">
-                       {result.user1Score} <span className="text-3xl text-gray-500">/ {result.totalQuestions}</span>
-                   </div>
-                   
-                   <div className="flex flex-col gap-4">
-                       <button onClick={() => navigate('/dashboard')} className="w-full bg-[#5b5bff] hover:bg-[#4338ca] text-white font-bold py-3 px-6 rounded-xl transition-colors">
-                           Go to Dashboard
-                       </button>
-                       <button onClick={() => navigate('/explore')} className="w-full bg-[#1a1d2e] border border-gray-600 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-colors">
-                           Explore More Quizzes
-                       </button>
-                   </div>
-               </div>
-            </div>
-        );
-    }
-
-    const current = questions[currentQuestionIdx];
-    const totalQuestions = questions.length;
-    const progress = ((currentQuestionIdx + 1) / totalQuestions) * 100;
-    const optionLetters = ['A', 'B', 'C', 'D'];
-    
-    // The options are mapped from the API response
-    const currentOptions = [
-       current.option_a, 
-       current.option_b, 
-       current.option_c, 
-       current.option_d
-    ].filter(Boolean); // Filter out empty options
-
-    const handleNext = async () => {
-        if (selectedOption === null) return;
+    // Submit answer and advance (memoized for timer callback)
+    const handleSubmitAndAdvance = useCallback(async () => {
+        if (questions.length === 0) return;
         
+        const current = questions[currentQuestionIdx];
+        const currentOptions = [
+            current.option_a, 
+            current.option_b, 
+            current.option_c, 
+            current.option_d
+        ].filter(Boolean);
+
+        const timeTaken = Math.round((Date.now() - questionStartTime) / 1000);
+
         // Save the answer to backend
         try {
-           const answerValue = currentOptions[selectedOption];
-           await authFetch(`/battle/${sessionId}/answer`, {
-               method: 'POST',
-               headers: {
-                 'Content-Type': 'application/json'
-               },
-               body: JSON.stringify({ questionId: current.question_id, answer: answerValue })
-           });
+            const answerValue = selectedOption !== null ? currentOptions[selectedOption] : '';
+            await authFetch(`/battle/${sessionId}/answer`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    questionId: current.id,
+                    answer: answerValue,
+                    timeTaken
+                })
+            });
         } catch (err) {
-           console.error('Submit answer error', err);
+            console.error('Submit answer error', err);
         }
         
-        if (currentQuestionIdx < totalQuestions - 1) {
-            setCurrentQuestionIdx(currentQuestionIdx + 1);
+        if (currentQuestionIdx < questions.length - 1) {
+            setCurrentQuestionIdx(prev => prev + 1);
             setSelectedOption(null);
+            setTimeLeft(timePerQuestion);
+            setQuestionStartTime(Date.now());
         } else {
-            // Finish quiz
+            // Finish quiz — call complete
             setLoading(true);
+            if (timerRef.current) clearInterval(timerRef.current);
             try {
                 const res = await authFetch(`/battle/${sessionId}/complete`, { method: 'POST' });
                 const completeData = await res.json();
                 if (completeData.success) {
-                    setResult(completeData.data);
-                    setCompleted(true);
+                    if (completeData.data.waitingForOpponent) {
+                        // Opponent not done yet — show waiting screen & start polling
+                        setLoading(false);
+                        setWaitingForOpponent(true);
+                        startPolling();
+                    } else {
+                        // Both done or solo — show results
+                        setResult(completeData.data);
+                        setCompleted(true);
+
+                        // If it's a tournament attempt, record it
+                        const searchParams = new URLSearchParams(window.location.search || window.location.hash.split('?')[1]);
+                        const tId = searchParams.get('tournament');
+                        if (tId) {
+                            const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+                            const isUser1 = currentUser.user_id === completeData.data.user1_id;
+                            const tScore = isUser1 ? completeData.data.user1Score : completeData.data.user2Score;
+                            const tTime = isUser1 ? completeData.data.user1TotalTime : completeData.data.user2TotalTime;
+
+                            authFetch(`/tournaments/${tId}/attempt`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    score: tScore,
+                                    correctAnswers: tScore,
+                                    totalQuestions: completeData.data.totalQuestions,
+                                    timeTaken: tTime
+                                })
+                            }).catch(e => console.error('Failed to submit tournament attempt', e));
+                        }
+                    }
                 } else {
                     alert('Failed to complete quiz');
                 }
@@ -117,19 +164,270 @@ function QuizPlayView() {
                 setLoading(false);
             }
         }
+    }, [currentQuestionIdx, questions, selectedOption, sessionId, timePerQuestion, questionStartTime, startPolling]);
+
+    // Timer countdown effect
+    useEffect(() => {
+        if (loading || completed || waitingForOpponent || questions.length === 0) return;
+
+        if (timerRef.current) clearInterval(timerRef.current);
+
+        timerRef.current = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    // Time's up — auto-submit and advance
+                    handleSubmitAndAdvance(true);
+                    return timePerQuestion;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, [loading, completed, waitingForOpponent, questions.length, currentQuestionIdx, handleSubmitAndAdvance, timePerQuestion]);
+
+    if (loading) {
+        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">Loading quiz...</div>;
+    }
+
+    if (questions.length === 0) {
+        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">No questions found.</div>;
+    }
+
+    // ─── WAITING FOR OPPONENT ────────────────────────────────────
+    if (waitingForOpponent) {
+        return (
+            <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-center">
+                <div className="max-w-md w-full text-center">
+                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-2xl p-10 shadow-2xl shadow-[#5b5bff]/10">
+                        {/* Animated hourglass */}
+                        <div className="text-6xl mb-6 animate-bounce">⏳</div>
+                        
+                        <h2 className="text-2xl font-bold mb-3 text-white">Waiting for Opponent...</h2>
+                        <p className="text-gray-400 mb-6 text-sm leading-relaxed">
+                            You've finished the quiz! Waiting for <span className="text-[#818cf8] font-semibold">{opponentName || 'your opponent'}</span> to complete their questions.
+                        </p>
+
+                        {/* Pulsing dots animation */}
+                        <div className="flex justify-center gap-2 mb-6">
+                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
+                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
+                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '600ms' }}></div>
+                        </div>
+                        
+                        <p className="text-gray-500 text-xs">Results will appear automatically once both players finish.</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ─── RESULTS SCREEN ──────────────────────────────────────────
+    if (completed && result) {
+        const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const myUserId = currentUser.user_id;
+        const is1v1 = result.quizType === '1v1' && result.user2_id;
+        const isUser1 = myUserId === result.user1_id;
+        const myScore = isUser1 ? result.user1Score : result.user2Score;
+        const oppScore = isUser1 ? result.user2Score : result.user1Score;
+        const myTime = isUser1 ? result.user1TotalTime : result.user2TotalTime;
+        const oppTime = isUser1 ? result.user2TotalTime : result.user1TotalTime;
+        const oppName = isUser1 ? (result.user2Name || 'Opponent') : (result.user1Name || 'Opponent');
+        
+        let resultStatus = 'completed'; // solo
+        if (is1v1) {
+            if (result.winnerId === myUserId) resultStatus = 'won';
+            else if (result.winnerId && result.winnerId !== myUserId) resultStatus = 'lost';
+            else resultStatus = 'tie';
+        }
+
+        const scorePercent = result.totalQuestions > 0 ? Math.round((myScore / result.totalQuestions) * 100) : 0;
+
+        return (
+            <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-start pt-12">
+                <div className="max-w-xl w-full">
+                    {/* Result Header */}
+                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-2xl p-8 md:p-10 text-center shadow-2xl shadow-[#5b5bff]/10 mb-6">
+                        {/* Status Icon & Text */}
+                        {is1v1 ? (
+                            <>
+                                {resultStatus === 'won' && (
+                                    <div className="mb-6">
+                                        <div className="text-6xl mb-3 animate-bounce">🏆</div>
+                                        <h2 className="text-3xl font-black text-green-400">Victory!</h2>
+                                        <p className="text-gray-400 text-sm mt-1">You defeated {oppName}</p>
+                                    </div>
+                                )}
+                                {resultStatus === 'lost' && (
+                                    <div className="mb-6">
+                                        <div className="text-6xl mb-3">😞</div>
+                                        <h2 className="text-3xl font-black text-red-400">Defeat</h2>
+                                        <p className="text-gray-400 text-sm mt-1">{oppName} won this round</p>
+                                    </div>
+                                )}
+                                {resultStatus === 'tie' && (
+                                    <div className="mb-6">
+                                        <div className="text-6xl mb-3">🤝</div>
+                                        <h2 className="text-3xl font-black text-yellow-400">It's a Tie!</h2>
+                                        <p className="text-gray-400 text-sm mt-1">Equally matched with {oppName}</p>
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <div className="mb-6">
+                                <div className="text-6xl mb-3">✅</div>
+                                <h2 className="text-3xl font-black text-[#5b5bff]">Quiz Completed!</h2>
+                                <p className="text-gray-400 text-sm mt-1">Your results are ready</p>
+                            </div>
+                        )}
+
+                        {/* Score Display */}
+                        {is1v1 ? (
+                            /* 1v1 Side-by-side scores */
+                            <div className="flex items-center justify-center gap-6 mb-6">
+                                {/* Your score */}
+                                <div className={`flex-1 rounded-xl p-5 border ${
+                                    resultStatus === 'won' ? 'bg-green-500/10 border-green-500/30' : 
+                                    resultStatus === 'lost' ? 'bg-red-500/10 border-red-500/30' : 
+                                    'bg-yellow-500/10 border-yellow-500/30'
+                                }`}>
+                                    <p className="text-gray-400 text-xs font-semibold mb-1 uppercase tracking-wider">You</p>
+                                    <p className="text-4xl font-black text-white">{myScore}</p>
+                                    <p className="text-gray-500 text-xs mt-1">/ {result.totalQuestions}</p>
+                                    {myTime > 0 && (
+                                        <p className="text-gray-500 text-xs mt-2">
+                                            ⏱ {Math.floor(myTime / 60)}m {myTime % 60}s
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* VS */}
+                                <div className="text-gray-600 text-lg font-black">VS</div>
+
+                                {/* Opponent score */}
+                                <div className={`flex-1 rounded-xl p-5 border ${
+                                    resultStatus === 'lost' ? 'bg-green-500/10 border-green-500/30' : 
+                                    resultStatus === 'won' ? 'bg-red-500/10 border-red-500/30' : 
+                                    'bg-yellow-500/10 border-yellow-500/30'
+                                }`}>
+                                    <p className="text-gray-400 text-xs font-semibold mb-1 uppercase tracking-wider">{oppName}</p>
+                                    <p className="text-4xl font-black text-white">{oppScore}</p>
+                                    <p className="text-gray-500 text-xs mt-1">/ {result.totalQuestions}</p>
+                                    {oppTime > 0 && (
+                                        <p className="text-gray-500 text-xs mt-2">
+                                            ⏱ {Math.floor(oppTime / 60)}m {oppTime % 60}s
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            /* Solo score */
+                            <div className="mb-6">
+                                <div className="text-[#5b5bff] text-6xl font-black mb-2 drop-shadow-md">
+                                    {myScore} <span className="text-3xl text-gray-500">/ {result.totalQuestions}</span>
+                                </div>
+                                <div className="text-gray-400 text-sm">
+                                    Accuracy: {scorePercent}%
+                                </div>
+                                {myTime > 0 && (
+                                    <p className="text-gray-500 text-sm mt-2">
+                                        Total time: {Math.floor(myTime / 60)}m {myTime % 60}s
+                                    </p>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Score bar */}
+                        <div className="w-full bg-[#1a1d2e] rounded-full h-3 mb-6 overflow-hidden">
+                            <div
+                                className={`h-3 rounded-full transition-all duration-1000 ${
+                                    scorePercent >= 70 ? 'bg-gradient-to-r from-green-500 to-emerald-400' :
+                                    scorePercent >= 40 ? 'bg-gradient-to-r from-yellow-500 to-amber-400' :
+                                    'bg-gradient-to-r from-red-500 to-rose-400'
+                                }`}
+                                style={{ width: `${scorePercent}%` }}
+                            ></div>
+                        </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col gap-3">
+                        <button
+                            onClick={() => navigate('/battle')}
+                            className="w-full bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] hover:from-[#4338ca] hover:to-[#6d28d9] text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-[#4f46e5]/30"
+                        >
+                            {is1v1 ? 'Play Another Battle ⚔️' : 'Play Again'}
+                        </button>
+                        <button
+                            onClick={() => navigate('/dashboard')}
+                            className="w-full bg-[#1a1d2e] border border-gray-600 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-colors"
+                        >
+                            Go to Dashboard
+                        </button>
+                        <button
+                            onClick={() => navigate('/explore')}
+                            className="w-full bg-[#1a1d2e] border border-gray-600 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-colors"
+                        >
+                            Explore More Quizzes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ─── QUIZ QUESTION VIEW ──────────────────────────────────────
+    const current = questions[currentQuestionIdx];
+    const totalQuestions = questions.length;
+    const progress = ((currentQuestionIdx + 1) / totalQuestions) * 100;
+    const optionLetters = ['A', 'B', 'C', 'D'];
+    
+    const currentOptions = [
+       current.option_a, 
+       current.option_b, 
+       current.option_c, 
+       current.option_d
+    ].filter(Boolean);
+
+    // Timer color based on urgency
+    const timerColor = timeLeft <= 10 ? 'text-red-500' : timeLeft <= 20 ? 'text-yellow-400' : 'text-white';
+    const timerBgColor = timeLeft <= 10 ? 'bg-red-500/20 border-red-500/50' : timeLeft <= 20 ? 'bg-yellow-500/20 border-yellow-500/50' : 'bg-[#1a1d2e] border-gray-600';
+
+    const handleNext = () => {
+        if (selectedOption === null) return;
+        handleSubmitAndAdvance(false);
     };
 
     return (
         <div className="bg-[#0b1220] text-white min-h-screen p-4 md:p-8">
             <div className="max-w-[1000px] w-full mx-auto">
-                {/* Badges */}
-                <div className="flex items-center gap-3 mb-5">
-                    <span className="border border-gray-500 text-white text-xs font-semibold px-3 py-1 rounded">
-                        {current.exam || 'General'}
-                    </span>
-                    <span className="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded">
-                        {current.difficulty_label || 'Medium'}
-                    </span>
+                {/* Top bar: badges + opponent + timer */}
+                <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                        <span className="border border-gray-500 text-white text-xs font-semibold px-3 py-1 rounded">
+                            {current.exam || 'General'}
+                        </span>
+                        <span className="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded">
+                            {current.difficulty_label || 'Medium'}
+                        </span>
+                        {quizType === '1v1' && opponentName && (
+                            <span className="bg-[#5b5bff]/20 text-[#818cf8] text-xs font-semibold px-3 py-1 rounded border border-[#5b5bff]/30">
+                                ⚔️ vs {opponentName}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Timer */}
+                    <div className={`${timerBgColor} border rounded-lg px-4 py-2 flex items-center gap-2 transition-colors`}>
+                        <svg className={`w-5 h-5 ${timerColor}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className={`${timerColor} text-lg font-bold font-mono min-w-[40px] text-center ${timeLeft <= 10 ? 'animate-pulse' : ''}`}>
+                            {timeLeft}s
+                        </span>
+                    </div>
                 </div>
 
                 {/* Progress */}
