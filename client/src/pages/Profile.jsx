@@ -222,16 +222,6 @@ function Profile() {
                             </div>
                         </div>
 
-                        {/* Bio Section */}
-                        <div className="mb-6">
-                            <h3 className="text-gray-300 text-xs font-semibold mb-2 flex items-center gap-2">
-                                <span>📝</span> Bio
-                            </h3>
-                            <p className="text-gray-400 text-sm leading-relaxed">
-                                {user.bio || 'No bio added yet.'}
-                            </p>
-                        </div>
-
                     </div>
                 </div>
 
