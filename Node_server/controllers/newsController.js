@@ -40,6 +40,19 @@ exports.getAllNews = async (req, res) => {
   }
 };
 
+// @desc    Get latest news
+// @route   GET /api/news/latest
+// @access  Public
+exports.getLatestNews = async (req, res) => {
+  try {
+    const news = await NewsModel.getLatest();
+    return success(res, news, 'Latest news fetched successfully');
+  } catch (err) {
+    console.error('Get Latest News Error:', err);
+    return error(res, 'Failed to fetch latest news', 500);
+  }
+};
+
 // @desc    Delete news
 // @route   DELETE /api/news/:id
 // @access  Admin
@@ -54,4 +67,4 @@ exports.deleteNews = async (req, res) => {
     console.error('Delete News Error:', err);
     return error(res, 'Failed to delete news', 500);
   }
-}
+};

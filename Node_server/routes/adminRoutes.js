@@ -20,5 +20,6 @@ router.get('/content', adminController.getAllContent);
 router.get('/content/:fileId/questions', adminController.getContentQuestions);
 router.delete('/content/:fileId', adminController.deleteContent);
 router.delete('/questions/:questionId', adminController.deleteQuestion);
+router.put('/questions/:questionId', adminController.updateQuestion);
 
 module.exports = router;
