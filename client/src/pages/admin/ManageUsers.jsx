@@ -1,12 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE, authFetch } from '../../config/api';
+import { useSearch } from '../../context/SearchContext';
 
 function ManageUsers() {
     const navigate = useNavigate();
     const [openDropdownId, setOpenDropdownId] = useState(null);
     const dropdownRef = useRef(null);
     const [users, setUsers] = useState([]);
+    const { debouncedQuery } = useSearch();
+
+    const filteredUsers = debouncedQuery
+        ? users.filter(u => u.username.toLowerCase().includes(debouncedQuery) || u.email.toLowerCase().includes(debouncedQuery))
+        : users;
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -24,7 +30,7 @@ function ManageUsers() {
                 const res = await authFetch(`${API_BASE}/admin/users`);
                 const data = await res.json();
                 if (data.success && data.data.length > 0) {
-                    setUsers(data.data.map((u, i) => ({
+                    setUsers(data.data.map((u) => ({
                         id: u.user_id,
                         username: `@${u.username}`,
                         email: u.email,
@@ -126,7 +132,7 @@ function ManageUsers() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((user, idx) => (
+                            {filteredUsers.map((user, idx) => (
                                 <tr key={user.id} className="border-b border-gray-200 dark:border-gray-800/60 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                                     <td className="py-4 px-2 font-bold text-[15px] text-gray-700 dark:text-gray-300">{idx + 1}</td>
                                     <td className="py-4 px-4 font-semibold text-[15px]">{user.username}</td>
