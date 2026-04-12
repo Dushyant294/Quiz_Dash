@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QuizCard from '../components/QuizCard';
 import { apiFetch, authFetch } from '../config/api';
+import { useSearch } from '../context/SearchContext';
 
 const howItWorksSteps = [
   {
@@ -26,6 +27,7 @@ const howItWorksSteps = [
 
 function Home() {
   const navigate = useNavigate();
+  const { debouncedQuery } = useSearch();
   const [quizzes, setQuizzes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -100,7 +102,7 @@ function Home() {
       } else {
          alert("Failed to start quiz: " + data.message);
       }
-    } catch (e) {
+    } catch {
       alert("Failed to create session");
     }
   };
@@ -142,7 +144,7 @@ function Home() {
          <div className="text-white mb-16">Loading quizzes...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {quizzes.length > 0 ? quizzes.map((item) => (
+          {quizzes.length > 0 ? quizzes.filter(item => !debouncedQuery || item.title?.toLowerCase().includes(debouncedQuery) || item.category?.toLowerCase().includes(debouncedQuery)).map((item) => (
             <QuizCard
               key={item.id}
               title={item.title}
@@ -165,7 +167,7 @@ function Home() {
         <div className="text-white mb-16">Loading categories...</div>
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-5 mb-16">
-          {categories.length > 0 ? categories.map((cat) => (
+          {categories.length > 0 ? categories.filter(cat => !debouncedQuery || cat.name?.toLowerCase().includes(debouncedQuery)).map((cat) => (
             <div
               key={cat.id || cat.name}
               onClick={() => navigate(`/explore?category=${cat.id}`)}

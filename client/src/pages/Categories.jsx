@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_BASE } from '../config/api';
+import { useSearch } from '../context/SearchContext';
 
 function Categories() {
     const [apiCategories, setApiCategories] = useState([]);
     const navigate = useNavigate();
+    const { debouncedQuery } = useSearch();
+
+    const filteredCategories = debouncedQuery
+        ? apiCategories.filter(c => c.name?.toLowerCase().includes(debouncedQuery))
+        : apiCategories;
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -82,7 +88,7 @@ function Categories() {
 
             {/* Grid of Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {apiCategories.length > 0 ? apiCategories.map((cat, idx) => {
+                {filteredCategories.length > 0 ? filteredCategories.map((cat, idx) => {
                     const style = refinedStyles[idx % refinedStyles.length];
                     return (
                         <div
