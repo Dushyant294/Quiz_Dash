@@ -1,12 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE, authFetch } from '../../config/api';
+import { useSearch } from '../../context/SearchContext';
 
 function ManageContent() {
     const navigate = useNavigate();
+    const { debouncedQuery } = useSearch();
     const [editingQuiz, setEditingQuiz] = useState(null);
     const [quizzes, setQuizzes] = useState([]);
     const [questions, setQuestions] = useState([]);
+
+    // Edit question state
+    const [editingQuestion, setEditingQuestion] = useState(null);
+    const [editForm, setEditForm] = useState({
+        full_question_text: '', option_a: '', option_b: '', option_c: '', option_d: '',
+        correct_answer: '', hint: ''
+    });
+    const [saving, setSaving] = useState(false);
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -89,9 +99,75 @@ function ManageContent() {
         }
     };
 
+    // ─── EDIT QUESTION HANDLERS ──────────────────────────────────
+    const startEditQuestion = (q) => {
+        setEditingQuestion(q.id);
+        setEditForm({
+            full_question_text: q.text || '',
+            option_a: q.options?.A || '',
+            option_b: q.options?.B || '',
+            option_c: q.options?.C || '',
+            option_d: q.options?.D || '',
+            correct_answer: q.correctValue || '',
+            hint: q.hint || ''
+        });
+    };
+
+    const cancelEditQuestion = () => {
+        setEditingQuestion(null);
+        setEditForm({ full_question_text: '', option_a: '', option_b: '', option_c: '', option_d: '', correct_answer: '', hint: '' });
+    };
+
+    const saveEditQuestion = async (questionId) => {
+        if (!editForm.full_question_text.trim() || !editForm.option_a.trim() || !editForm.option_b.trim() || !editForm.correct_answer.trim()) {
+            alert('Question text, options A & B, and correct answer are required.');
+            return;
+        }
+        setSaving(true);
+        try {
+            const res = await authFetch(`${API_BASE}/admin/questions/${questionId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(editForm)
+            });
+            const data = await res.json();
+            if (data.success) {
+                // Update local state immediately
+                setQuestions(questions.map(q => q.id === questionId ? {
+                    ...q,
+                    text: editForm.full_question_text,
+                    options: { A: editForm.option_a, B: editForm.option_b, C: editForm.option_c, D: editForm.option_d },
+                    correctValue: editForm.correct_answer,
+                    correctKey: editForm.correct_answer.charAt(0) || 'A',
+                    hint: editForm.hint
+                } : q));
+                setEditingQuestion(null);
+            } else {
+                alert(data.message || 'Failed to update question');
+            }
+        } catch (err) {
+            console.error('Failed to update question:', err);
+            alert('Failed to update question');
+        } finally {
+            setSaving(false);
+        }
+    };
+
     const toggleReveal = (id) => {
         setQuestions(questions.map(q => q.id === id ? { ...q, isRevealed: !q.isRevealed } : q));
     };
+
+    // ─── SEARCH FILTERING ────────────────────────────────────────
+    const filteredQuizzes = debouncedQuery
+        ? quizzes.filter(q =>
+            q.title.toLowerCase().includes(debouncedQuery) ||
+            q.category.toLowerCase().includes(debouncedQuery)
+          )
+        : quizzes;
+
+    const filteredQuestions = debouncedQuery
+        ? questions.filter(q => q.text.toLowerCase().includes(debouncedQuery))
+        : questions;
 
     return (
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
@@ -123,7 +199,7 @@ function ManageContent() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {quizzes.map((quiz) => (
+                                {filteredQuizzes.map((quiz) => (
                                     <tr key={quiz.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-[#252e3f] transition-colors">
                                         <td className="py-4 px-6 font-semibold">{quiz.title}</td>
                                         <td className="py-4 px-6">
@@ -141,6 +217,9 @@ function ManageContent() {
                                         </td>
                                     </tr>
                                 ))}
+                                {filteredQuizzes.length === 0 && (
+                                    <tr><td colSpan={5} className="py-8 text-center text-gray-400">No quizzes match your search.</td></tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -149,44 +228,118 @@ function ManageContent() {
                 <div>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-[17px] font-bold tracking-wider uppercase text-gray-800 dark:text-white">USER QUESTIONS</h2>
-                        <button onClick={() => setEditingQuiz(null)} className="text-sm font-semibold border-2 border-gray-500 rounded-full px-4 py-1.5 text-gray-400 hover:bg-white/10 transition">&larr; Back</button>
+                        <button onClick={() => { setEditingQuiz(null); setEditingQuestion(null); }} className="text-sm font-semibold border-2 border-gray-500 rounded-full px-4 py-1.5 text-gray-400 hover:bg-white/10 transition">&larr; Back</button>
                     </div>
                     <div className="w-full flex flex-col">
                         <div className="border-t border-gray-300 dark:border-gray-600"></div>
-                        {questions.map((q, index) => (
-                            <div key={q.id} className="py-10 border-b border-gray-300 dark:border-gray-600 flex flex-col xl:flex-row gap-8 justify-between items-start">
-                                <div className="flex-1 w-full xl:max-w-[600px]">
-                                    <h3 className="font-bold text-[14px] md:text-[15px] mb-8 leading-tight">{index + 1}. {q.text}</h3>
-                                    <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-8 w-full max-w-[450px]">
-                                        {Object.entries(q.options).map(([key, val]) => (
-                                            <div key={key} className="flex flex-row items-center text-[12px] md:text-[13px] font-bold border-b border-gray-400 dark:border-gray-500 pb-1.5">
-                                                <span className="w-5 md:w-6 flex-shrink-0">{key})</span>
-                                                <span className="truncate">{val}</span>
+                        {filteredQuestions.map((q, index) => (
+                            <div key={q.id} className="py-10 border-b border-gray-300 dark:border-gray-600">
+                                {editingQuestion === q.id ? (
+                                    /* ─── EDIT MODE ─── */
+                                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-xl p-6">
+                                        <h3 className="text-sm font-bold text-[#818cf8] mb-4 uppercase tracking-wider">Editing Question #{index + 1}</h3>
+                                        
+                                        <label className="block text-xs font-semibold text-gray-400 mb-1">Question Text</label>
+                                        <textarea
+                                            value={editForm.full_question_text}
+                                            onChange={e => setEditForm({...editForm, full_question_text: e.target.value})}
+                                            className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-3 text-white text-sm mb-4 min-h-[80px] outline-none focus:border-[#5b5bff] transition"
+                                        />
+
+                                        <div className="grid grid-cols-2 gap-4 mb-4">
+                                            {['A', 'B', 'C', 'D'].map(key => (
+                                                <div key={key}>
+                                                    <label className="block text-xs font-semibold text-gray-400 mb-1">Option {key}</label>
+                                                    <input
+                                                        value={editForm[`option_${key.toLowerCase()}`]}
+                                                        onChange={e => setEditForm({...editForm, [`option_${key.toLowerCase()}`]: e.target.value})}
+                                                        className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 mb-6">
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-400 mb-1">Correct Answer</label>
+                                                <input
+                                                    value={editForm.correct_answer}
+                                                    onChange={e => setEditForm({...editForm, correct_answer: e.target.value})}
+                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                    placeholder="e.g. Species interaction"
+                                                />
                                             </div>
-                                        ))}
-                                    </div>
-                                    <div>
-                                        {q.isRevealed ? (
-                                            <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-[#818cf8] bg-[#5b5bff]/20 text-[#818cf8] font-semibold text-[12px] shadow-sm transition tracking-wide">
-                                                {q.correctKey}) {q.correctValue}
+                                            <div>
+                                                <label className="block text-xs font-semibold text-gray-400 mb-1">Hint</label>
+                                                <input
+                                                    value={editForm.hint}
+                                                    onChange={e => setEditForm({...editForm, hint: e.target.value})}
+                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-3">
+                                            <button
+                                                onClick={() => saveEditQuestion(q.id)}
+                                                disabled={saving}
+                                                className="px-6 py-2 rounded-lg bg-[#5b5bff] hover:bg-[#4f46e5] text-white font-bold text-sm transition disabled:opacity-50"
+                                            >
+                                                {saving ? 'Saving...' : 'Save Changes'}
                                             </button>
-                                        ) : (
-                                            <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-semibold text-[12px] hover:bg-gray-100 dark:hover:bg-white/5 transition tracking-wide">
-                                                Reveal Answer
+                                            <button
+                                                onClick={cancelEditQuestion}
+                                                className="px-6 py-2 rounded-lg border border-gray-500 text-gray-300 font-bold text-sm hover:bg-white/5 transition"
+                                            >
+                                                Cancel
                                             </button>
-                                        )}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="w-full xl:w-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 xl:gap-8 xl:border-l border-gray-300 dark:border-gray-600 xl:pl-8 pt-4 xl:pt-0">
-                                    <div className="text-[11px] text-gray-500 dark:text-[#d4d4d8] font-medium leading-relaxed max-w-[300px] xl:max-w-[260px]">
-                                        Hint : {q.hint}
+                                ) : (
+                                    /* ─── VIEW MODE ─── */
+                                    <div className="flex flex-col xl:flex-row gap-8 justify-between items-start">
+                                        <div className="flex-1 w-full xl:max-w-[600px]">
+                                            <h3 className="font-bold text-[14px] md:text-[15px] mb-8 leading-tight">{index + 1}. {q.text}</h3>
+                                            <div className="grid grid-cols-2 gap-x-12 gap-y-6 mb-8 w-full max-w-[450px]">
+                                                {Object.entries(q.options).map(([key, val]) => (
+                                                    <div key={key} className="flex flex-row items-center text-[12px] md:text-[13px] font-bold border-b border-gray-400 dark:border-gray-500 pb-1.5">
+                                                        <span className="w-5 md:w-6 flex-shrink-0">{key})</span>
+                                                        <span className="truncate">{val}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div>
+                                                {q.isRevealed ? (
+                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-[#818cf8] bg-[#5b5bff]/20 text-[#818cf8] font-semibold text-[12px] shadow-sm transition tracking-wide">
+                                                        {q.correctValue}
+                                                    </button>
+                                                ) : (
+                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 font-semibold text-[12px] hover:bg-gray-100 dark:hover:bg-white/5 transition tracking-wide">
+                                                        Reveal Answer
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="w-full xl:w-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 xl:gap-8 xl:border-l border-gray-300 dark:border-gray-600 xl:pl-8 pt-4 xl:pt-0">
+                                            <div className="text-[11px] text-gray-500 dark:text-[#d4d4d8] font-medium leading-relaxed max-w-[300px] xl:max-w-[260px]">
+                                                Hint : {q.hint}
+                                            </div>
+                                            <div className="flex flex-col gap-2 flex-shrink-0">
+                                                <button onClick={() => startEditQuestion(q)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-[#5b5bff] bg-[#5b5bff]/20 hover:bg-[#5b5bff] text-[#818cf8] hover:text-white font-bold text-[13px] transition whitespace-nowrap tracking-wide">
+                                                    ✏️ Edit Question
+                                                </button>
+                                                <button onClick={() => handleDeleteQuestion(q.id)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-white bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold text-[13px] transition whitespace-nowrap shadow-md tracking-wide">
+                                                    Remove Question
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button onClick={() => handleDeleteQuestion(q.id)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-white bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold text-[13px] transition whitespace-nowrap shadow-md tracking-wide flex-shrink-0">
-                                        Remove Question
-                                    </button>
-                                </div>
+                                )}
                             </div>
                         ))}
+                        {filteredQuestions.length === 0 && (
+                            <div className="py-10 text-center text-gray-400">No questions match your search.</div>
+                        )}
                     </div>
                 </div>
             )}

@@ -89,7 +89,7 @@ exports.uploadQuiz = async (req, res) => {
       return error(res, 'Please upload a CSV file', 400);
     }
 
-    const { subject, topic, micro_topic } = req.body;
+    const { subject, topic, micro_topic, categoryId } = req.body;
 
     // 1. Parse CSV
     const { questions, errors: parseErrors } = await parseCSV(req.file.path);
@@ -105,6 +105,7 @@ exports.uploadQuiz = async (req, res) => {
       questions,
       fileName: req.file.originalname,
       fileUrl: req.file.path,
+      categoryId,
       subject,
       topic,
       microTopic: micro_topic,
