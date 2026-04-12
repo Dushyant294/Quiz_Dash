@@ -27,6 +27,12 @@ class NewsModel {
     return result.rows;
   }
 
+  // Get latest
+  static async getLatest() {
+    const result = await db.query('SELECT * FROM news_updates ORDER BY published_at DESC LIMIT 1');
+    return result.rows[0];
+  }
+
   // Get by id
   static async getById(id) {
     const result = await db.query('SELECT * FROM news_updates WHERE news_id = $1', [id]);

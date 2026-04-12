@@ -5,7 +5,7 @@ import { API_BASE, authFetch, authUpload } from '../../config/api';
 function CreateTournament() {
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
-    const [formData, setFormData] = useState({ subject: '', micro_topic: '', topic: '', question_count: '' });
+    const [formData, setFormData] = useState({ category: '', subject: '', topic: '', difficulty: 'Medium', question_count: '' });
     const [selectedFile, setSelectedFile] = useState(null);
     const [creating, setCreating] = useState(false);
     const [message, setMessage] = useState('');
@@ -25,6 +25,8 @@ function CreateTournament() {
                     name: `${formData.subject || 'Quiz'}-HUNT`,
                     description: `Tournament for ${formData.topic || formData.subject || 'General'}`,
                     subject: formData.subject,
+                    category_id: parseInt(formData.category) || null,
+                    difficulty: formData.difficulty,
                     total_questions: parseInt(formData.question_count) || 50,
                     start_date: new Date().toISOString(),
                     end_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
@@ -37,6 +39,7 @@ function CreateTournament() {
                 const fd = new FormData();
                 fd.append('csvFile', selectedFile);
                 fd.append('subject', formData.subject);
+                if (formData.category) fd.append('categoryId', formData.category);
                 fd.append('topic', formData.topic);
                 fd.append('micro_topic', formData.micro_topic);
                 await authUpload(`${API_BASE}/quizzes/upload`, fd);
@@ -49,7 +52,7 @@ function CreateTournament() {
             } else {
                 setMessage(data.error || 'Failed to create tournament');
             }
-        } catch (err) {
+        } catch {
             setMessage('Cannot connect to server');
         } finally {
             setCreating(false);
@@ -78,20 +81,28 @@ function CreateTournament() {
                     <h2 className="text-lg md:text-[17px] font-bold mb-6 text-gray-800 dark:text-white uppercase tracking-wider">CREATE TOURNAMENT</h2>
                     <div className="grid grid-cols-2 gap-x-6 gap-y-6">
                         <div className="flex flex-col">
-                            <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Subject</label>
-                            <input type="text" name="subject" value={formData.subject} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Category ID</label>
+                            <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="e.g. 1" className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Micro-Topic</label>
-                            <input type="text" name="micro_topic" value={formData.micro_topic} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Subject</label>
+                            <input type="text" name="subject" value={formData.subject} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Topic</label>
                             <input type="text" name="topic" value={formData.topic} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
                         </div>
                         <div className="flex flex-col">
+                            <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Difficulty</label>
+                            <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]">
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                        <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Question Count</label>
-                            <input type="text" name="question_count" value={formData.question_count} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <input type="number" name="question_count" value={formData.question_count} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
                         </div>
                     </div>
                 </div>
