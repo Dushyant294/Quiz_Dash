@@ -51,7 +51,7 @@ function Login() {
             } else {
                 setError(data.error || "Login failed");
             }
-        } catch (err) {
+        } catch {
             setError("Cannot connect to server. Please try again later.");
         } finally {
             setLoading(false);
@@ -93,6 +93,10 @@ function Login() {
                         className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
                         placeholder="••••••••"
                     />
+                </div>
+
+                <div className="flex justify-end mt-2">
+                    <Link to="/forgot-password" className="text-sm text-[#5b5bff] hover:underline">Forgot Password?</Link>
                 </div>
 
                 <button 
