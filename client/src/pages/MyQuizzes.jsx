@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { API_BASE, authFetch } from '../config/api';
 
+const mockQuizzes = [
+    { id: 1, title: 'NEET - Human Anatomy & Physiology', category: 'NEET', image: 'https://placehold.co/400x220/991b1b/fca5a5?text=Anatomy', questions: 25, score: '85%', date: 'Mar 10, 2026', status: 'Completed' },
+    { id: 2, title: 'JEE - Formulae Notebooks & Patterns', category: 'JEE', image: 'https://placehold.co/400x220/1e40af/93c5fd?text=JEE', questions: 30, score: '72%', date: 'Mar 08, 2026', status: 'Completed' },
+    { id: 3, title: 'NDA - Current Affairs & General Knowledge', category: 'NDA', image: 'https://placehold.co/400x220/6b21a8/d8b4fe?text=NDA+GK', questions: 20, score: '90%', date: 'Mar 05, 2026', status: 'Completed' },
+    { id: 4, title: 'Data Structures & Algorithms', category: 'GATE', image: 'https://placehold.co/400x220/065f46/6ee7b7?text=DSA', questions: 15, score: '88%', date: 'Mar 03, 2026', status: 'Active' },
+    { id: 5, title: 'SSC - Quantitative Aptitude Essentials', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+QA', questions: 40, score: '65%', date: 'Feb 28, 2026', status: 'Completed' },
+    { id: 6, title: 'SSC - Advanced General Awareness', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+GA', questions: 35, score: '78%', date: 'Feb 25, 2026', status: 'Completed' },
+];
+
 function MyQuizzes() {
     const [activeTab, setActiveTab] = useState('All Quizzes');
     const [viewMode, setViewMode] = useState('grid');
@@ -9,16 +18,6 @@ function MyQuizzes() {
     const [loading, setLoading] = useState(true);
 
     const tabs = ['All Quizzes', 'Active', 'Completed'];
-
-    // Fallback mock data
-    const mockQuizzes = [
-        { id: 1, title: 'NEET - Human Anatomy & Physiology', category: 'NEET', image: 'https://placehold.co/400x220/991b1b/fca5a5?text=Anatomy', questions: 25, score: '85%', date: 'Mar 10, 2026', status: 'Completed' },
-        { id: 2, title: 'JEE - Formulae Notebooks & Patterns', category: 'JEE', image: 'https://placehold.co/400x220/1e40af/93c5fd?text=JEE', questions: 30, score: '72%', date: 'Mar 08, 2026', status: 'Completed' },
-        { id: 3, title: 'NDA - Current Affairs & General Knowledge', category: 'NDA', image: 'https://placehold.co/400x220/6b21a8/d8b4fe?text=NDA+GK', questions: 20, score: '90%', date: 'Mar 05, 2026', status: 'Completed' },
-        { id: 4, title: 'Data Structures & Algorithms', category: 'GATE', image: 'https://placehold.co/400x220/065f46/6ee7b7?text=DSA', questions: 15, score: '88%', date: 'Mar 03, 2026', status: 'Active' },
-        { id: 5, title: 'SSC - Quantitative Aptitude Essentials', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+QA', questions: 40, score: '65%', date: 'Feb 28, 2026', status: 'Completed' },
-        { id: 6, title: 'SSC - Advanced General Awareness', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+GA', questions: 35, score: '78%', date: 'Feb 25, 2026', status: 'Completed' },
-    ];
 
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -56,7 +55,7 @@ function MyQuizzes() {
     });
 
     return (
-        <div className="max-w-[1200px] mx-auto text-white pt-6 pb-20 px-4 lg:px-0">
+        <div className="max-w-[1200px] mx-auto text-black dark:text-white pt-6 pb-20 px-4 lg:px-0">
 
             <div className="mb-6">
                 <h1 className="text-3xl font-bold mb-1">My Quizzes</h1>

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { API_BASE, authFetch, authHeaders } from '../config/api';
+import { useState } from 'react';
+import { API_BASE, authFetch } from '../config/api';
 
 function ReportBug() {
     const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ function ReportBug() {
             } else {
                 setMessage(data.error || 'Failed to submit report');
             }
-        } catch (err) {
+        } catch {
             setMessage('Cannot connect to server. Please try again later.');
         } finally {
             setSubmitting(false);
@@ -47,7 +47,7 @@ function ReportBug() {
     };
 
     return (
-        <div className="max-w-[1200px] mx-auto text-white pb-12 pt-8">
+        <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-8">
             {/* Banner */}
             <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-black rounded-xl py-12 px-10 mb-10 shadow-2xl">
                 <h1 className="font-bold text-3xl md:text-4xl text-white mb-2 tracking-wide">
