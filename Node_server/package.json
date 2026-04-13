@@ -69,6 +69,7 @@
     "ms": "^2.1.3",
     "multer": "^2.1.1",
     "negotiator": "^1.0.0",
+    "nodemailer": "^8.0.5",
     "object-assign": "^4.1.1",
     "object-inspect": "^1.13.4",
     "on-finished": "^2.4.1",
@@ -122,7 +123,7 @@
     "xtend": "^4.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No active backend tests.\" && exit 0",
     "start": "node server.js"
   },
   "keywords": [],
