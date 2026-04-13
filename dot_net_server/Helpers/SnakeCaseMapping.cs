@@ -59,7 +59,28 @@ public static class SnakeCaseMapping
 {
     public static void Apply()
     {
-        // Register for the User model
-        SqlMapper.SetTypeMap(typeof(Models.User), new SnakeCaseTypeMapper(typeof(Models.User)));
+        // Register all models for snake_case → PascalCase mapping
+        var modelTypes = new[]
+        {
+            typeof(Models.User),
+            typeof(Models.QuestionFile),
+            typeof(Models.Question),
+            typeof(Models.Category),
+            typeof(Models.Subject),
+            typeof(Models.Topic),
+            typeof(Models.MicroTopic),
+            typeof(Models.Tournament),
+            typeof(Models.TournamentParticipant),
+            typeof(Models.QuizSession),
+            typeof(Models.QuizSessionQuestion),
+            typeof(Models.NewsUpdate),
+            typeof(Models.BugReport),
+            typeof(Models.UserActivity),
+        };
+
+        foreach (var type in modelTypes)
+        {
+            SqlMapper.SetTypeMap(type, new SnakeCaseTypeMapper(type));
+        }
     }
 }
