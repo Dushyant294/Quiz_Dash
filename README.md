@@ -27,6 +27,8 @@ Quiz Dash is designed as a full-stack web application. We assume a MERN-like arc
 
 **Assumptions:** We assume the backend uses Node.js and Express (per common practice【52†L333-L342】) and a MongoDB database. Environment variables are prefixed as required by React (e.g. `REACT_APP_`)【47†L67-L75】. The repository likely contains both frontend and backend folders or files.  
 
+
+```mermaid
 graph LR
     U[User] -- logs in / interacts --> UI[React Frontend]
     UI --> API[Express Backend API]
@@ -34,10 +36,11 @@ graph LR
     API --> AI[AI/Quiz Service]
     style AI fill:#fdebd0,stroke:#f8c471,stroke-width:1px
     style DB fill:#d4e6f1,stroke:#5dade2,stroke-width:1px
-
+```  
 
 ## Application Flow
 
+```mermaid
 graph TD
     Start([Start]) --> Login
     Login --> Home{Home / Quiz List}
@@ -46,6 +49,7 @@ graph TD
     AnswerQues --> Submit[Submit Quiz]
     Submit --> ShowResult[Show Results]
     ShowResult --> Finish([Finish])
+``` 
  
 
 ## Prerequisites
