@@ -229,11 +229,11 @@ function QuizPlayView() {
         const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
         const myUserId = currentUser.user_id;
         const is1v1 = result.quizType === '1v1' && result.user2_id;
-        const isUser1 = myUserId === result.user1_id;
-        const myScore = isUser1 ? result.user1Score : result.user2Score;
-        const oppScore = isUser1 ? result.user2Score : result.user1Score;
-        const myTime = isUser1 ? result.user1TotalTime : result.user2TotalTime;
-        const oppTime = isUser1 ? result.user2TotalTime : result.user1TotalTime;
+        const isUser1 = String(myUserId) === String(result.user1_id);
+        const myScore = isUser1 ? Number(result.user1Score || 0) : Number(result.user2Score || 0);
+        const oppScore = isUser1 ? Number(result.user2Score || 0) : Number(result.user1Score || 0);
+        const myTime = isUser1 ? Number(result.user1TotalTime || 0) : Number(result.user2TotalTime || 0);
+        const oppTime = isUser1 ? Number(result.user2TotalTime || 0) : Number(result.user1TotalTime || 0);
         const oppName = isUser1 ? (result.user2Name || 'Opponent') : (result.user1Name || 'Opponent');
         
         let resultStatus = 'completed'; // solo
@@ -243,7 +243,8 @@ function QuizPlayView() {
             else resultStatus = 'tie';
         }
 
-        const scorePercent = result.totalQuestions > 0 ? Math.round((myScore / result.totalQuestions) * 100) : 0;
+        const actualTotalQuestions = Number(result.totalQuestions || questions.length || 1);
+        const scorePercent = actualTotalQuestions > 0 ? Math.round((myScore / actualTotalQuestions) * 100) : 0;
 
         return (
             <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-start pt-12">

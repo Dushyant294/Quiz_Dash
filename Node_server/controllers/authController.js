@@ -220,3 +220,58 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ success: false, error: 'Server error during password reset' });
   }
 };
+
+exports.googleLogin = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) return res.status(400).json({ success: false, error: 'Google token is required' });
+
+    // Validate token with Google
+    const googleRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+    const payload = await googleRes.json();
+
+    if (payload.error) {
+      return res.status(401).json({ success: false, error: 'Invalid Google token' });
+    }
+
+    const { email, name, sub } = payload;
+    if (!email) {
+      return res.status(400).json({ success: false, error: 'Could not fetch email from Google' });
+    }
+
+    // Check if user exists
+    let user = await UserModel.findByEmail(email);
+    
+    if (!user) {
+      // Create user
+      const baseUsername = email.split('@')[0];
+      
+      user = await UserModel.create({
+        full_name: name || 'Google User',
+        email,
+        username: baseUsername,
+        password_hash: 'google_auth_controlled', // Placeholder
+        role: 'student'
+      });
+    } else if (!user.is_active) {
+      return res.status(403).json({ success: false, error: 'Account is deactivated. Please contact support.' });
+    }
+
+    // Generate token
+    const token = generateToken({ userId: user.user_id, role: user.role });
+    delete user.password_hash;
+
+    res.status(200).json({
+      success: true,
+      message: 'Google login successful',
+      data: {
+        user,
+        token
+      }
+    });
+
+  } catch (err) {
+    console.error('Google Login Error:', err);
+    res.status(500).json({ success: false, error: 'Server error during Google login' });
+  }
+};
