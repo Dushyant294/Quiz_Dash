@@ -23,10 +23,20 @@ function Dashboard() {
 
             const fetchDashboardData = async () => {
                 try {
-                    const response = await fetch(`${API_BASE}/users/dashboard/${parsedUser.user_id}`);
-                    const data = await response.json();
+                    const [dashboardRes, rankRes] = await Promise.all([
+                        fetch(`${API_BASE}/users/dashboard/${parsedUser.user_id}`),
+                        fetch(`${API_BASE}/leaderboard/rank/${parsedUser.user_id}`)
+                    ]);
+                    
+                    const data = await dashboardRes.json();
+                    const rankData = await rankRes.json();
+                    
                     if (data.success) {
-                        setStats(data.data);
+                        const newStats = { ...data.data };
+                        if (rankData.success && rankData.data) {
+                            newStats.global_rank = rankData.data.rank;
+                        }
+                        setStats(newStats);
                     }
                 } catch (err) {
                     console.error("Failed to fetch dashboard data", err);
