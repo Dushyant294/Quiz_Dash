@@ -9,7 +9,6 @@ export default function useGoogleAuth({ onSuccess, onError }) {
 
     // Debug (remove later)
     useEffect(() => {
-        console.log("CLIENT ID:", GOOGLE_CLIENT_ID);
     }, []);
 
     // Load Google script
