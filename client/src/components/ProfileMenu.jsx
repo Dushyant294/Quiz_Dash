@@ -25,7 +25,7 @@ function ProfileMenu() {
     <div className="relative">
       {/* Profile Avatar — Initial Letter */}
       <div
-        className="w-10 h-10 rounded-full cursor-pointer bg-gradient-to-br from-[#5b5bff] to-[#4338ca] flex items-center justify-center border border-white/20 shadow-md"
+        className="w-10 h-10 rounded-full cursor-pointer bg-gradient-to-br from-indigo-500 to-primary-dark flex items-center justify-center border border-white/20 shadow-md"
         onClick={() => setOpen(!open)}
       >
         <span className="text-white text-lg font-bold select-none">{getInitial(user?.full_name)}</span>
@@ -33,11 +33,11 @@ function ProfileMenu() {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-[#0b1220] rounded-xl shadow-xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-3 w-72 bg-white dark:bg-brand-dark rounded-xl shadow-xl z-50 overflow-hidden">
 
           {/* User Info */}
           <div className="flex items-center gap-4 p-4 border-b border-gray-300 dark:border-white/10">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#5b5bff] to-[#4338ca] flex items-center justify-center border border-white/20 shadow-md shrink-0">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-primary-dark flex items-center justify-center border border-white/20 shadow-md shrink-0">
               <span className="text-white text-xl font-bold select-none">{getInitial(user?.full_name)}</span>
             </div>
             <div>

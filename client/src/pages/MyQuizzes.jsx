@@ -69,7 +69,7 @@ function MyQuizzes() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <input type="text" placeholder="Search your quizzes..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-[#1a1d2e] border border-gray-600/50 rounded-lg h-10 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition" />
+                        className="w-full bg-[#1a1d2e] border border-gray-600/50 rounded-lg h-10 pl-10 pr-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
                 </div>
                 <div className="flex items-center border border-gray-600/50 rounded-lg overflow-hidden">
                     <button onClick={() => setViewMode('grid')} className={`p-2.5 transition-colors ${viewMode === 'grid' ? 'bg-[#475569] text-white' : 'bg-[#1a1d2e] text-gray-400 hover:text-white'}`} title="Grid view">
@@ -86,7 +86,7 @@ function MyQuizzes() {
                 <div className="bg-[#1a1d2e] border border-gray-600/50 rounded-full p-1 flex">
                     {tabs.map((tab) => (
                         <button key={tab} onClick={() => setActiveTab(tab)}
-                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === tab ? 'bg-[#4f46e5] text-white shadow-md' : 'text-gray-400 hover:text-white'}`}>
+                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === tab ? 'bg-primary text-white shadow-md' : 'text-gray-400 hover:text-white'}`}>
                             {tab}
                         </button>
                     ))}

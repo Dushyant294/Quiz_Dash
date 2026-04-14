@@ -87,7 +87,7 @@ function Explore() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6 px-4">
 
             {/* Top Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-[#040914] rounded-2xl py-12 px-10 mb-10 shadow-2xl relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-[#040914] rounded-2xl py-12 px-10 mb-10 shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[40%] h-[150%] bg-[#9333ea]/20 blur-[100px] rounded-full pointer-events-none"></div>
                 <h1 className="font-bold text-3xl md:text-[32px] text-white mb-4 tracking-wide relative z-10">
                     Explore Every Topic : Find Your Passion, Master the Quiz!
@@ -99,7 +99,7 @@ function Explore() {
                 <div className="flex flex-wrap gap-4 items-center relative z-10">
                     <span 
                         onClick={() => navigate('/explore')}
-                        className={`border border-[#4f46e5] text-[#818cf8] rounded-full px-8 py-1.5 text-sm font-semibold cursor-pointer hover:bg-white/10 transition ${!categoryQuery ? 'bg-[#4f46e5]/20 text-white border-white/50' : ''}`}
+                        className={`border border-primary text-primary-light rounded-full px-8 py-1.5 text-sm font-semibold cursor-pointer hover:bg-white/10 transition ${!categoryQuery ? 'bg-primary/20 text-white border-white/50' : ''}`}
                     >
                         All Quizzes
                     </span>
@@ -133,7 +133,7 @@ function Explore() {
                                             </div>
                                             <div>
                                                 {q.isRevealed ? (
-                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-[#818cf8] bg-[#5b5bff]/20 text-[#818cf8] font-semibold text-[12px] shadow-sm transition tracking-wide">
+                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-primary-light bg-indigo-500/20 text-primary-light font-semibold text-[12px] shadow-sm transition tracking-wide">
                                                         {q.correctValue}
                                                     </button>
                                                 ) : (
@@ -163,7 +163,7 @@ function Explore() {
                 <div className="space-y-10">
                     {Object.entries(groupedQuizzes).map(([categoryName, catQuizzes], idx) => (
                         <div key={idx} className="bg-[#0b0e14]/50 border border-white/5 rounded-2xl p-6">
-                            <h2 className="text-2xl font-bold mb-6 text-[#818cf8]">{categoryName}</h2>
+                            <h2 className="text-2xl font-bold mb-6 text-primary-light">{categoryName}</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                                 {catQuizzes.map((quiz, qIdx) => (
                                     <QuizCard

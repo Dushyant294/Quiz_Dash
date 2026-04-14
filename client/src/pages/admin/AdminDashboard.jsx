@@ -73,12 +73,12 @@ function AdminDashboard() {
     return (
         <div className="max-w-[1400px]">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold mb-2 text-[#5b5bff]">Admin Dashboard</h1>
+                <h1 className="text-3xl font-bold mb-2 text-indigo-500">Admin Dashboard</h1>
                 <p className="text-gray-500 dark:text-gray-400">Overview of QuizHub platform metrics.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div className="bg-white dark:bg-[#1b2230] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="bg-white dark:bg-brand-surfaceAlt p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">Users</div>
                     </div>
@@ -86,7 +86,7 @@ function AdminDashboard() {
                     <div className="text-gray-500 text-sm">Total Registered Users</div>
                 </div>
 
-                <div className="bg-white dark:bg-[#1b2230] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="bg-white dark:bg-brand-surfaceAlt p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg">Quizzes</div>
                     </div>
@@ -94,7 +94,7 @@ function AdminDashboard() {
                     <div className="text-gray-500 text-sm">Total Quizzes Created</div>
                 </div>
 
-                <div className="bg-white dark:bg-[#1b2230] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="bg-white dark:bg-brand-surfaceAlt p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-lg">Tournaments</div>
                     </div>
@@ -102,7 +102,7 @@ function AdminDashboard() {
                     <div className="text-gray-500 text-sm">Active Tournaments</div>
                 </div>
 
-                <div className="bg-white dark:bg-[#1b2230] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="bg-white dark:bg-brand-surfaceAlt p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <div className="flex justify-between items-start mb-4">
                         <div className="p-3 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg">Reports</div>
                     </div>
@@ -112,7 +112,7 @@ function AdminDashboard() {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 bg-white dark:bg-[#1b2230] p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="lg:col-span-2 bg-white dark:bg-brand-surfaceAlt p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h2 className="text-xl font-bold mb-6">Quick Actions</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <button
@@ -135,7 +135,7 @@ function AdminDashboard() {
                         </button>
                         <button
                             onClick={() => navigate('/create')}
-                            className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-blue-50 dark:bg-[#5b5bff]/10 border-blue-200 dark:border-[#5b5bff]/30 hover:bg-blue-100 transition-colors flex flex-col items-center justify-center gap-2 text-center text-sm font-medium text-[#5b5bff]"
+                            className="p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-blue-50 dark:bg-indigo-500/10 border-blue-200 dark:border-indigo-500/30 hover:bg-blue-100 transition-colors flex flex-col items-center justify-center gap-2 text-center text-sm font-medium text-indigo-500"
                         >
                             <span className="text-2xl">📤</span>Bulk Upload CSV
                         </button>
@@ -171,7 +171,7 @@ function AdminDashboard() {
                                         type="text"
                                         value={newsData.title}
                                         onChange={(e) => setNewsData({ ...newsData, title: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         placeholder="e.g. New Feature: Dark Mode"
                                     />
                                 </div>
@@ -180,7 +180,7 @@ function AdminDashboard() {
                                     <textarea
                                         value={newsData.description}
                                         onChange={(e) => setNewsData({ ...newsData, description: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] min-h-[100px]"
+                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 min-h-[100px]"
                                         placeholder="Describe the update..."
                                     />
                                 </div>
@@ -189,7 +189,7 @@ function AdminDashboard() {
                                     <select
                                         value={newsData.tag}
                                         onChange={(e) => setNewsData({ ...newsData, tag: e.target.value })}
-                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                        className="w-full bg-white dark:bg-[#1a1d2e] border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     >
                                         <option value="NEW FEATURE">NEW FEATURE</option>
                                         <option value="UI IMPROVEMENT">UI IMPROVEMENT</option>
@@ -202,7 +202,7 @@ function AdminDashboard() {
                                     <button
                                         onClick={handleCreateNews}
                                         disabled={creatingNews}
-                                        className="bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:opacity-50 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-colors"
+                                        className="bg-indigo-500 hover:bg-primary disabled:opacity-50 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-colors"
                                     >
                                         {creatingNews ? 'Publishing...' : 'Publish News'}
                                     </button>
@@ -218,13 +218,13 @@ function AdminDashboard() {
                     )}
                 </div>
 
-                <div className="bg-white dark:bg-[#1b2230] p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+                <div className="bg-white dark:bg-brand-surfaceAlt p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
                     <h2 className="text-xl font-bold mb-6">Recent Activity</h2>
                     <div className="space-y-4">
                         {recentActivity.length > 0 ? (
                             recentActivity.map((item, i) => (
                                 <div key={i} className="flex gap-4 border-b border-gray-100 dark:border-gray-800 pb-4 last:border-0">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5b5bff] to-[#4338ca] shrink-0 flex items-center justify-center text-white font-bold text-sm">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-primary-dark shrink-0 flex items-center justify-center text-white font-bold text-sm">
                                         {(item.username || item.full_name || 'U').charAt(0).toUpperCase()}
                                     </div>
                                     <div>

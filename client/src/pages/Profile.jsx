@@ -58,10 +58,10 @@ function Profile() {
             {/* Top User Banner */}
             <div className="w-full bg-gradient-to-r from-[#0F0C29] via-[#1a1442] to-[#0A0710] rounded-2xl p-8 mb-10 shadow-2xl relative overflow-hidden border border-white/5 flex items-center md:items-start gap-6 flex-col md:flex-row">
                 {/* Decorative glows */}
-                <div className="absolute top-0 right-0 w-[60%] h-full bg-[#4F46E5]/10 blur-[120px] rounded-full pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-[60%] h-full bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
 
                 {/* Avatar — First Letter of Name */}
-                <div className="w-24 h-24 bg-gradient-to-br from-[#5b5bff] to-[#4338ca] rounded-full flex items-center justify-center shrink-0 border-2 border-white/20 shadow-lg relative z-10">
+                <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-primary-dark rounded-full flex items-center justify-center shrink-0 border-2 border-white/20 shadow-lg relative z-10">
                     <span className="text-white text-4xl font-bold select-none">
                         {getInitial(user.full_name)}
                     </span>
@@ -90,8 +90,8 @@ function Profile() {
                             <span className="text-gray-400 text-xs ml-1 font-medium">Total Points</span>
                         </div>
                         {user.global_rank && (
-                            <div className="inline-block border border-[#5b5bff]/40 rounded-full px-4 py-1 bg-[#5b5bff]/10">
-                                <span className="font-bold text-[#818cf8] text-sm">Rank #{user.global_rank}</span>
+                            <div className="inline-block border border-indigo-500/40 rounded-full px-4 py-1 bg-indigo-500/10">
+                                <span className="font-bold text-primary-light text-sm">Rank #{user.global_rank}</span>
                             </div>
                         )}
                     </div>

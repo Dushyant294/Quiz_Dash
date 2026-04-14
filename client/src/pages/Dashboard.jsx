@@ -86,8 +86,8 @@ function Dashboard() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-16 pt-4 px-4 lg:px-0">
 
             {/* Welcome Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-[#0a0e18] rounded-2xl p-8 md:p-10 mb-8 shadow-2xl relative overflow-hidden border border-white/5">
-                <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-[#4f46e5]/15 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-[#0a0e18] rounded-2xl p-8 md:p-10 mb-8 shadow-2xl relative overflow-hidden border border-white/5">
+                <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-primary/15 blur-[100px] rounded-full pointer-events-none"></div>
 
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-1 relative z-10">Welcome Back, {user.full_name}</h1>
                 <p className="text-gray-300 text-sm mb-6 relative z-10">Here is your report card</p>
@@ -127,7 +127,7 @@ function Dashboard() {
                                     className="w-[260px] h-[260px] rounded-full relative shadow-sm dark:shadow-none"
                                     style={{ background: conicGradient }}
                                 >
-                                    <div className="absolute inset-[50px] bg-white dark:bg-[#0b1220] rounded-full shadow-sm dark:shadow-none flex items-center justify-center">
+                                    <div className="absolute inset-[50px] bg-white dark:bg-brand-dark rounded-full shadow-sm dark:shadow-none flex items-center justify-center">
                                         <span className="text-gray-900 dark:text-white text-xl font-bold">{totalQuizzes}</span>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@ function Dashboard() {
                                     {highestScores.map((card, idx) => (
                                         <div
                                             key={idx}
-                                            className="bg-white dark:bg-[#1a1d30] border border-black/5 dark:border-white/10 shadow-sm dark:shadow-none rounded-lg p-3 flex items-center gap-3"
+                                            className="bg-white dark:bg-brand-surface border border-black/5 dark:border-white/10 shadow-sm dark:shadow-none rounded-lg p-3 flex items-center gap-3"
                                         >
                                             <span className="text-lg">🏆</span>
                                             <div>
@@ -194,7 +194,7 @@ function Dashboard() {
                                     {contestScores.map((card, idx) => (
                                         <div
                                             key={idx}
-                                            className="bg-white dark:bg-[#1a1d30] border border-black/5 dark:border-white/10 shadow-sm dark:shadow-none rounded-lg p-3"
+                                            className="bg-white dark:bg-brand-surface border border-black/5 dark:border-white/10 shadow-sm dark:shadow-none rounded-lg p-3"
                                         >
                                             <div className="flex items-center gap-1.5 mb-1">
                                                 <span className="text-gray-900 dark:text-white text-xs font-bold truncate">{card.name}</span>

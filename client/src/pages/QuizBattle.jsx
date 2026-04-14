@@ -356,7 +356,7 @@ function QuizBattle() {
                             <p className="text-gray-400 text-sm">📝 {matchData.question_count} Questions • ⏱ 60s each</p>
                         </div>
 
-                        <p className="text-[#818cf8] text-sm font-semibold">Starting quiz in a moment...</p>
+                        <p className="text-primary-light text-sm font-semibold">Starting quiz in a moment...</p>
 
                         {/* Loading bar animation */}
                         <div className="w-full bg-[#1a1d2e] rounded-full h-2 mt-6 overflow-hidden">
@@ -384,20 +384,20 @@ function QuizBattle() {
         return (
             <div className="max-w-[1100px] mx-auto text-black dark:text-white pt-6 pb-20 px-4">
                 <div className="flex flex-col items-center justify-center min-h-[60vh]">
-                    <div className="bg-[#111827] border border-[#5b5bff]/50 rounded-2xl p-12 max-w-lg w-full text-center shadow-2xl shadow-[#5b5bff]/20">
+                    <div className="bg-[#111827] border border-indigo-500/50 rounded-2xl p-12 max-w-lg w-full text-center shadow-2xl shadow-indigo-500/20">
                         {/* Animated spinner */}
-                        <div className="w-20 h-20 mx-auto mb-8 border-4 border-[#5b5bff]/30 border-t-[#5b5bff] rounded-full animate-spin"></div>
+                        <div className="w-20 h-20 mx-auto mb-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin"></div>
                         
                         <h2 className="text-2xl font-bold mb-3">Searching for Opponent...</h2>
                         <p className="text-gray-400 mb-6 text-sm">Matching you with a player in the same category & subject</p>
                         
-                        <div className="text-[#5b5bff] text-4xl font-black mb-8">
+                        <div className="text-indigo-500 text-4xl font-black mb-8">
                             {formatTime(searchTimeLeft)}
                         </div>
                         
                         <div className="w-full bg-[#1a1d2e] rounded-full h-2 mb-8">
                             <div
-                                className="bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] h-2 rounded-full transition-all duration-1000"
+                                className="bg-gradient-to-r from-primary to-[#7c3aed] h-2 rounded-full transition-all duration-1000"
                                 style={{ width: `${(searchTimeLeft / 300) * 100}%` }}
                             ></div>
                         </div>
@@ -444,7 +444,7 @@ function QuizBattle() {
                 </div>
             </div>
 
-            <div className="border border-gray-600/60 rounded-2xl p-8 md:p-12 bg-[#0b1220]/30 max-w-[800px] mx-auto">
+            <div className="border border-gray-600/60 rounded-2xl p-8 md:p-12 bg-brand-dark/30 max-w-[800px] mx-auto">
                 <div className="text-center mb-8">
                     <h2 className="text-xl font-bold mb-2">
                         {activeTab === '1v1' ? '1v1 Battle' : 'Play SOLO'}
@@ -455,7 +455,7 @@ function QuizBattle() {
                             : 'Sharpen your axe alone in your own battle ground.'}
                     </p>
                     {activeTab === '1v1' && (
-                        <p className="text-[#818cf8] text-xs mt-2 font-medium">⏱ Timer: 60 seconds per question (fixed for battles)</p>
+                        <p className="text-primary-light text-xs mt-2 font-medium">⏱ Timer: 60 seconds per question (fixed for battles)</p>
                     )}
                 </div>
 
@@ -467,7 +467,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Exam / Category</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedCategory}
                                     onChange={handleCategoryChange}
@@ -483,7 +483,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Subject</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedSubject}
                                     onChange={handleSubjectChange}
@@ -502,7 +502,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Number of Questions</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={questionCount}
                                     onChange={e => setQuestionCount(e.target.value)}
@@ -514,8 +514,8 @@ function QuizBattle() {
                             </div>
 
                             {/* Info box */}
-                            <div className="bg-[#1a1d2e]/80 border border-[#5b5bff]/20 rounded-lg p-4">
-                                <p className="text-[#818cf8] text-xs font-semibold mb-2">⚡ Battle Rules</p>
+                            <div className="bg-[#1a1d2e]/80 border border-indigo-500/20 rounded-lg p-4">
+                                <p className="text-primary-light text-xs font-semibold mb-2">⚡ Battle Rules</p>
                                 <ul className="text-gray-400 text-xs space-y-1">
                                     <li>• 60 seconds per question</li>
                                     <li>• Random questions from selected subject</li>
@@ -533,7 +533,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Exam / Category</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedCategory}
                                     onChange={handleCategoryChange}
@@ -549,7 +549,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Subject</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedSubject}
                                     onChange={handleSubjectChange}
@@ -566,7 +566,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Topic</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedTopic}
                                     onChange={handleTopicChange}
@@ -583,7 +583,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Micro-topic (Optional)</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={selectedMicroTopic}
                                     onChange={(e) => setSelectedMicroTopic(e.target.value)}
@@ -602,7 +602,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Number of Questions</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={questionCount}
                                     onChange={e => setQuestionCount(e.target.value)}
@@ -620,7 +620,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Time Per Question (seconds)</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={timePerQuestion}
                                     onChange={e => setTimePerQuestion(e.target.value)}
@@ -643,7 +643,7 @@ function QuizBattle() {
                             <div>
                                 <label className="text-gray-800 dark:text-white text-sm font-bold mb-2 block">Difficulty</label>
                                 <select
-                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/10 dark:bg-[#475569]/60 text-gray-800 dark:text-gray-200 border border-gray-400 dark:border-gray-500/50 rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={selectStyle}
                                     value={difficulty}
                                     onChange={e => setDifficulty(e.target.value)}
@@ -661,7 +661,7 @@ function QuizBattle() {
                     <button 
                         disabled={loading}
                         onClick={handleStart}
-                        className={`w-full bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] hover:from-[#4338ca] hover:to-[#6d28d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#4f46e5]/30 transition-all text-[15px] tracking-wide ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`w-full bg-gradient-to-r from-primary to-[#7c3aed] hover:from-primary-dark hover:to-[#6d28d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary/30 transition-all text-[15px] tracking-wide ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         {loading ? 'Setting up Battle Ground...' : (activeTab === '1v1' ? 'Find Opponent ⚔️' : 'Start SOLO')}
                     </button>

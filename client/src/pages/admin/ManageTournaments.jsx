@@ -72,22 +72,22 @@ function ManageTournaments() {
 
     return (
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-8 tracking-wide relative z-10">One Centralized Panel for Management</h1>
                 <div className="flex flex-wrap gap-4 relative z-10">
                     <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Manage Users</button>
                     <button onClick={() => navigate('/admin/content')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Manage Q's</button>
-                    <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-[#818cf8] bg-[#5b5bff] text-white font-semibold text-sm shadow-md">Manage Tournaments</button>
+                    <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-primary-light bg-indigo-500 text-white font-semibold text-sm shadow-md">Manage Tournaments</button>
                     <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Reports</button>
                 </div>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
             <div>
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-[17px] font-bold tracking-wider uppercase text-gray-800 dark:text-white">MANAGE TOURNAMENT</h2>
                     <button
                         onClick={() => navigate('/admin/create-tournament')}
-                        className="bg-[#5b5bff] hover:bg-[#4f4fe5] text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-md"
+                        className="bg-indigo-500 hover:bg-primary text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors shadow-md"
                     >
                         + Create New
                     </button>
@@ -122,7 +122,7 @@ function ManageTournaments() {
                                         <td className="py-5 px-4">
                                             <div className="flex items-center justify-center gap-4">
                                                 <button onClick={() => handleEnd(t.id)} disabled={t.status === 'completed'}
-                                                    className={`px-8 py-2 w-[140px] rounded-full border-[1.5px] border-white font-bold text-[13px] uppercase tracking-wide transition shadow-md ${t.status === 'completed' ? 'bg-gray-500 text-gray-300 cursor-not-allowed' : 'bg-[#5b5bff]/80 text-white hover:bg-[#5b5bff]'}`}>
+                                                    className={`px-8 py-2 w-[140px] rounded-full border-[1.5px] border-white font-bold text-[13px] uppercase tracking-wide transition shadow-md ${t.status === 'completed' ? 'bg-gray-500 text-gray-300 cursor-not-allowed' : 'bg-indigo-500/80 text-white hover:bg-indigo-500'}`}>
                                                     {t.status === 'completed' ? 'ENDED' : 'END'}
                                                 </button>
                                                 <button onClick={() => setEditingTournament(t)} className="px-6 py-2 w-[140px] rounded-full border-[1.5px] border-white bg-transparent text-gray-800 dark:text-white font-bold text-[13px] uppercase tracking-wide hover:bg-white/10 transition">UPDATE</button>
@@ -167,7 +167,7 @@ function ManageTournaments() {
                             </div>
                             <div className="flex gap-4 mt-6">
                                 <button type="button" onClick={() => setEditingTournament(null)} className="flex-1 py-2 border border-white/20 rounded-lg hover:bg-white/5 transition">Cancel</button>
-                                <button type="submit" className="flex-1 py-2 bg-[#5b5bff] hover:bg-[#4f4fe5] rounded-lg shadow-md transition font-bold">Save Changes</button>
+                                <button type="submit" className="flex-1 py-2 bg-indigo-500 hover:bg-primary rounded-lg shadow-md transition font-bold">Save Changes</button>
                             </div>
                         </form>
                     </div>

@@ -3,8 +3,8 @@ import { API_BASE } from '../config/api';
 import { useSearch } from '../context/SearchContext';
 
 const tagColors = {
-    'NEW FEATURE': 'bg-[#5b5bff]',
-    'UI IMPROVEMENT': 'bg-[#4f46e5]',
+    'NEW FEATURE': 'bg-indigo-500',
+    'UI IMPROVEMENT': 'bg-primary',
     'PERFORMANCE': 'bg-[#059669]',
     'BUG FIX': 'bg-[#dc2626]',
     'ANNOUNCEMENT': 'bg-[#ca8a04]'
@@ -28,7 +28,7 @@ function News() {
                         id: n.news_id,
                         date: new Date(n.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
                         tag: n.tag,
-                        bgColor: tagColors[n.tag] || 'bg-[#5b5bff]',
+                        bgColor: tagColors[n.tag] || 'bg-indigo-500',
                         title: n.title,
                         description: n.description
                     })));
@@ -48,14 +48,14 @@ function News() {
     const filters = ['All Updates', 'NEW FEATURE', 'PERFORMANCE', 'UI IMPROVEMENT', 'BUG FIX', 'ANNOUNCEMENT'];
 
     return (
-        <div className="max-w-[1000px] text-black dark:text-white pt-6 pb-20">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-0 text-black dark:text-white pt-6 pb-20">
 
             {/* Top Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-[#040914] rounded-[20px] p-10 mb-8 shadow-xl relative overflow-hidden flex flex-col justify-center min-h-[160px]">
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-[#040914] rounded-[20px] p-10 mb-8 shadow-xl relative overflow-hidden flex flex-col justify-center min-h-[160px]">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-3 tracking-wide drop-shadow-md">
                     What's New in Quiz Hub
                 </h1>
-                <p className="text-[#818cf8] text-sm font-medium tracking-wide">
+                <p className="text-primary-light text-sm font-medium tracking-wide">
                     Track the latest features, bug fixes, and improvements we've built for you
                 </p>
             </div>
@@ -90,7 +90,7 @@ function News() {
                     updates.filter(u => !debouncedQuery || u.title?.toLowerCase().includes(debouncedQuery)).map((update, idx) => (
                         <div
                             key={update.id || idx}
-                            className="bg-white dark:bg-[#1b2230]/60 border-[1.5px] border-gray-200 dark:border-gray-700/50 rounded-[14px] p-6 shadow-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-300 backdrop-blur-sm"
+                            className="bg-white dark:bg-brand-surfaceAlt/60 border-[1.5px] border-gray-200 dark:border-gray-700/50 rounded-[14px] p-6 shadow-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-300 backdrop-blur-sm"
                         >
                             <div className="flex justify-between items-start mb-2">
                                 <span className="text-[13px] font-bold text-gray-800 dark:text-white tracking-wide">

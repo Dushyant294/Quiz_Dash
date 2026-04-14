@@ -49,7 +49,7 @@ function ReportBug() {
     return (
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-8">
             {/* Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-black rounded-xl py-12 px-10 mb-10 shadow-2xl">
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-black rounded-xl py-12 px-10 mb-10 shadow-2xl">
                 <h1 className="font-bold text-3xl md:text-4xl text-white mb-2 tracking-wide">
                     Reporting bugs : We are here to resolve them
                 </h1>
@@ -68,7 +68,7 @@ function ReportBug() {
             <div className="flex justify-center">
                 <form
                     onSubmit={handleSubmit}
-                    className="border border-gray-500/60 rounded-2xl p-8 md:p-12 w-full max-w-[700px] bg-[#0b1220]/40"
+                    className="border border-gray-500/60 rounded-2xl p-8 md:p-12 w-full max-w-[700px] bg-brand-dark/40"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                         {/* ---- Left Column ---- */}
@@ -84,7 +84,7 @@ function ReportBug() {
                                     value={formData.title}
                                     onChange={handleChange}
                                     placeholder="e.g. Wrong Correct Answer"
-                                    className="w-full bg-[#475569]/80 text-white border-none rounded-lg h-11 px-4 text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition"
+                                    className="w-full bg-[#475569]/80 text-white border-none rounded-lg h-11 px-4 text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                                 />
                             </div>
 
@@ -98,7 +98,7 @@ function ReportBug() {
                                     value={formData.description}
                                     onChange={handleChange}
                                     rows="5"
-                                    className="w-full bg-[#475569]/80 text-white border-none rounded-lg p-4 text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5b5bff] resize-none transition"
+                                    className="w-full bg-[#475569]/80 text-white border-none rounded-lg p-4 text-sm placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none transition"
                                 ></textarea>
                             </div>
                         </div>
@@ -114,7 +114,7 @@ function ReportBug() {
                                     name="specific_issue"
                                     value={formData.specific_issue}
                                     onChange={handleChange}
-                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={{
                                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
                                         backgroundRepeat: 'no-repeat',
@@ -139,7 +139,7 @@ function ReportBug() {
                                     name="type"
                                     value={formData.type}
                                     onChange={handleChange}
-                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={{
                                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
                                         backgroundRepeat: 'no-repeat',
@@ -163,7 +163,7 @@ function ReportBug() {
                                     name="priority"
                                     value={formData.priority}
                                     onChange={handleChange}
-                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#5b5bff] transition appearance-none cursor-pointer"
+                                    className="w-full bg-[#475569]/80 text-gray-200 border-none rounded-lg h-11 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition appearance-none cursor-pointer"
                                     style={{
                                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`,
                                         backgroundRepeat: 'no-repeat',
@@ -192,7 +192,7 @@ function ReportBug() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:bg-[#5b5bff]/50 text-white font-semibold py-2.5 px-10 rounded-lg transition-colors shadow-lg shadow-[#5b5bff]/20 text-sm tracking-wide"
+                            className="bg-indigo-500 hover:bg-primary disabled:bg-indigo-500/50 text-white font-semibold py-2.5 px-10 rounded-lg transition-colors shadow-lg shadow-indigo-500/20 text-sm tracking-wide"
                         >
                             {submitting ? 'Submitting...' : 'Submit report'}
                         </button>

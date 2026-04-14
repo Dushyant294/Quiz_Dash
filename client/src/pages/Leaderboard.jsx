@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API_BASE } from '../config/api';
 import { useSearch } from '../context/SearchContext';
 
@@ -49,42 +49,67 @@ function Leaderboard() {
         fetchLeaderboard();
     }, []);
 
+    const totalQuizzes = useMemo(() => {
+        return leaderboardData.reduce((acc, user) => acc + (parseInt(user.quizzes) || 0), 0);
+    }, [leaderboardData]);
+
+    const activeLearnerCount = leaderboardData.length;
+
+    const topScore = useMemo(() => {
+        return leaderboardData[0]?.points || "0";
+    }, [leaderboardData]);
+
+    const topCategory = useMemo(() => {
+        if (leaderboardData.length === 0) return 'N/A';
+        const counts = {};
+        leaderboardData.forEach(u => {
+            if (u.category && u.category !== 'General') {
+                counts[u.category] = (counts[u.category] || 0) + 1;
+            }
+        });
+        const categories = Object.keys(counts);
+        if (categories.length === 0) return 'General';
+        return categories.reduce((a, b) => counts[a] > counts[b] ? a : b);
+    }, [leaderboardData]);
+
     return (
-        <div className="max-w-[1000px] text-black dark:text-white pt-6 pb-20">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-0 text-black dark:text-white pt-6 pb-20">
 
             {/* Top Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#2f277a] to-[#040914] rounded-2xl p-8 mb-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div>
-                    <h1 className="font-bold text-[34px] text-white mb-2 tracking-wide">
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-[#040914] rounded-[20px] p-10 mb-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8 min-h-[160px]">
+                <div className="relative z-10 flex flex-col justify-center">
+                    <h1 className="font-bold text-3xl md:text-[34px] text-white mb-3 tracking-wide drop-shadow-md">
                         This Week's Hall of Fame
                     </h1>
-                    <p className="text-[#a5b4fc] text-[13px] font-medium tracking-wide mb-6">
+                    <p className="text-primary-light text-sm font-medium tracking-wide mb-6">
                         See where you stand against the best students in the community
                     </p>
-                    <div className="inline-block border border-[#818cf8]/80 text-[#c7d2fe] rounded-full px-6 py-1.5 text-xs font-semibold">
-                        Your Rank : #{userRank}
+                    <div>
+                        <div className="inline-block border border-primary-light/80 text-[#c7d2fe] rounded-full px-6 py-1.5 text-xs font-semibold">
+                            Your Rank : #{userRank}
+                        </div>
                     </div>
                 </div>
 
                 {/* Stats Box inside Banner */}
-                <div className="flex flex-col gap-3">
-                    <div className="self-end border border-[#818cf8]/80 text-[#c7d2fe] rounded-full px-5 py-1 text-[11px] font-semibold mb-1">
+                <div className="relative z-10 flex flex-col gap-3 md:items-end">
+                    <div className="border border-primary-light/80 text-[#c7d2fe] rounded-full px-5 py-1 text-[11px] font-semibold mb-1 w-max">
                         This Week's Report :
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="border border-[#818cf8]/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
-                            1,240 Quizzes Played
+                    <div className="flex flex-wrap md:flex-nowrap items-center gap-3 justify-end">
+                        <div className="border border-primary-light/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
+                            {totalQuizzes.toLocaleString()} Quizzes Played
                         </div>
-                        <div className="border border-[#818cf8]/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
-                            Top Category : NEET
+                        <div className="border border-primary-light/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
+                            Top Category : {topCategory}
                         </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="border border-[#818cf8]/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
-                            856 Active Learners
+                    <div className="flex flex-wrap md:flex-nowrap items-center gap-3 justify-end">
+                        <div className="border border-primary-light/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap">
+                            {activeLearnerCount}+ Active Learners
                         </div>
-                        <div className="border border-[#818cf8]/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap flex-grow text-center">
-                            Highest Score : 4,850
+                        <div className="border border-primary-light/80 text-white rounded-full px-5 py-1 text-[11px] font-medium whitespace-nowrap text-center">
+                            Highest Score : {topScore}
                         </div>
                     </div>
                 </div>

@@ -61,7 +61,7 @@ function CreateTournament() {
 
     return (
         <div className="max-w-[1100px] mx-auto text-black dark:text-white pb-12 pt-6 px-4 md:px-0">
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-12 shadow-lg relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-12 shadow-lg relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-8 tracking-wide relative z-10">One Centralized Panel for Management</h1>
                 <div className="flex flex-wrap gap-4 relative z-10">
                     <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">mange users</button>
@@ -69,7 +69,7 @@ function CreateTournament() {
                     <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage tournaments</button>
                     <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Reports</button>
                 </div>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
 
             {message && (
@@ -82,19 +82,19 @@ function CreateTournament() {
                     <div className="grid grid-cols-2 gap-x-6 gap-y-6">
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Category ID</label>
-                            <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="e.g. 1" className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="e.g. 1" className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Subject</label>
-                            <input type="text" name="subject" value={formData.subject} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <input type="text" name="subject" value={formData.subject} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Topic</label>
-                            <input type="text" name="topic" value={formData.topic} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <input type="text" name="topic" value={formData.topic} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Difficulty</label>
-                            <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]">
+                            <select name="difficulty" value={formData.difficulty} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="Easy">Easy</option>
                                 <option value="Medium">Medium</option>
                                 <option value="Hard">Hard</option>
@@ -102,12 +102,12 @@ function CreateTournament() {
                         </div>
                         <div className="flex flex-col">
                             <label className="text-gray-900 dark:text-white font-semibold mb-2 text-[15px]">Question Count</label>
-                            <input type="number" name="question_count" value={formData.question_count} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]" />
+                            <input type="number" name="question_count" value={formData.question_count} onChange={handleChange} className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col items-center w-full lg:w-[50%] mt-4 lg:mt-0">
-                    <button className="bg-[#5b5bff] hover:bg-[#4f4fe5] text-white font-semibold text-[15px] py-3.5 px-10 rounded-[14px] shadow-md transition-all mb-10 w-[350px]">Download Sample Q File here</button>
+                    <button className="bg-indigo-500 hover:bg-primary text-white font-semibold text-[15px] py-3.5 px-10 rounded-[14px] shadow-md transition-all mb-10 w-[350px]">Download Sample Q File here</button>
                     <h2 className="text-2xl font-bold mb-8 text-center text-gray-800 dark:text-white tracking-wide">Add your questions below !</h2>
                     <div onClick={handleUploadClick} className="w-full h-[220px] bg-[#4b5563]/30 border-2 border-dashed border-gray-400 dark:border-gray-500 rounded-3xl flex items-center justify-center p-8 cursor-pointer hover:bg-[#4b5563]/50 transition-colors mb-8 shadow-sm">
                         {selectedFile ? (

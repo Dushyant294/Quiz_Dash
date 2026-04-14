@@ -84,7 +84,7 @@ function Register() {
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={googleLoading}
-                className="w-full flex items-center justify-center gap-3 bg-white dark:bg-[#1b2230] border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#252e3f] disabled:opacity-50 text-gray-700 dark:text-gray-200 py-3 rounded-lg font-medium transition-colors mb-4"
+                className="w-full flex items-center justify-center gap-3 bg-white dark:bg-brand-surfaceAlt border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#252e3f] disabled:opacity-50 text-gray-700 dark:text-gray-200 py-3 rounded-lg font-medium transition-colors mb-4"
             >
                 <svg width="20" height="20" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -111,7 +111,7 @@ function Register() {
                         value={formData.full_name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="John Doe"
                     />
                 </div>
@@ -124,7 +124,7 @@ function Register() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="example@email.com"
                     />
                 </div>
@@ -137,7 +137,7 @@ function Register() {
                         value={formData.username}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="johndoe123"
                     />
                 </div>
@@ -151,7 +151,7 @@ function Register() {
                         onChange={handleChange}
                         required
                         minLength="6"
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="••••••••"
                     />
                 </div>
@@ -166,7 +166,7 @@ function Register() {
                                 value="student" 
                                 checked={formData.role === "student"}
                                 onChange={handleChange}
-                                className="mr-2 accent-[#5b5bff]" 
+                                className="mr-2 accent-indigo-500" 
                             />
                             Student
                         </label>
@@ -177,7 +177,7 @@ function Register() {
                                 value="instructor"
                                 checked={formData.role === "instructor"}
                                 onChange={handleChange}
-                                className="mr-2 accent-[#5b5bff]" 
+                                className="mr-2 accent-indigo-500" 
                             />
                             Instructor
                         </label>
@@ -187,14 +187,14 @@ function Register() {
                 <button 
                     type="submit" 
                     disabled={loading}
-                    className="w-full bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:bg-[#5b5bff]/50 text-white py-3 rounded-lg font-semibold transition-colors mt-6"
+                    className="w-full bg-indigo-500 hover:bg-primary disabled:bg-indigo-500/50 text-white py-3 rounded-lg font-semibold transition-colors mt-6"
                 >
                     {loading ? "Registering..." : "Register"}
                 </button>
             </form>
 
             <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                Already have an account? <Link to="/login" className="text-[#5b5bff] hover:underline font-medium">Log in</Link>
+                Already have an account? <Link to="/login" className="text-indigo-500 hover:underline font-medium">Log in</Link>
             </div>
         </div>
     );

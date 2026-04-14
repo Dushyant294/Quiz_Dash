@@ -53,7 +53,7 @@ function NotificationsPanel({ onClose }) {
   };
 
   return (
-    <div className="fixed right-4 top-20 w-96 bg-white dark:bg-[#0b1220] rounded-xl shadow-2xl z-50 border border-gray-200 dark:border-white/10 max-h-[500px] flex flex-col">
+    <div className="fixed right-4 top-20 w-96 bg-white dark:bg-brand-dark rounded-xl shadow-2xl z-50 border border-gray-200 dark:border-white/10 max-h-[500px] flex flex-col">
       <div className="flex justify-between items-center p-4 border-b border-gray-300 dark:border-white/10">
         <h3 className="font-semibold text-sm">Notifications</h3>
         <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">✕</button>
@@ -77,7 +77,7 @@ function NotificationsPanel({ onClose }) {
                       <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
                         item.activity_type === 'battle_won' ? 'bg-green-500/20 text-green-400' :
                         item.activity_type === 'battle_lost' ? 'bg-red-500/20 text-red-400' :
-                        'bg-[#5b5bff]/20 text-[#818cf8]'
+                        'bg-indigo-500/20 text-primary-light'
                       }`}>
                         {getLabel(item.activity_type)}
                       </span>

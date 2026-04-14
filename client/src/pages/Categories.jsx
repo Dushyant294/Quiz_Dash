@@ -30,8 +30,8 @@ function Categories() {
             border: "border-[#4ade80]/40 text-white",
         },
         {
-            gradient: "bg-gradient-to-b from-[#312e81] via-[#1e1b4b] to-black",
-            border: "border-[#818cf8]/40 text-white",
+            gradient: "bg-gradient-to-b from-primary-darker via-brand-indigoDark to-black",
+            border: "border-primary-light/40 text-white",
         },
         {
             gradient: "bg-gradient-to-b from-[#b45309] via-[#713f12] to-black",
@@ -55,7 +55,7 @@ function Categories() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
 
             {/* Top Banner */}
-            <div className="w-full bg-gradient-to-r from-[#4f46e5] via-[#1e1b4b] to-[#040914] rounded-2xl py-12 px-10 mb-10 shadow-2xl overflow-hidden relative">
+            <div className="w-full bg-gradient-to-r from-primary via-brand-indigoDark to-[#040914] rounded-2xl py-12 px-10 mb-10 shadow-2xl overflow-hidden relative">
                 <h1 className="font-bold text-3xl md:text-[32px] text-white mb-3 tracking-wide z-10 relative">
                     Select Your Path to Success : &nbsp;Mock Quizzes for Your Career Goals
                 </h1>

@@ -68,7 +68,7 @@ function ForgotPassword() {
       <div className="bg-[#1e293b] p-8 rounded-2xl shadow-xl w-full max-w-md border border-white/10">
         <div className="text-center mb-8">
           <Link to="/" className="text-2xl font-black text-white italic tracking-widest inline-block mb-6">
-            Quiz<span className="text-[#5b5bff]">Hub.</span>
+            Quiz<span className="text-indigo-500">Hub.</span>
           </Link>
           <h2 className="text-2xl font-bold text-white mb-2">Reset Password</h2>
           <p className="text-sm text-gray-400">
@@ -93,7 +93,7 @@ function ForgotPassword() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#5b5bff] transition-colors"
+                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 placeholder="name@example.com"
               />
             </div>
@@ -101,7 +101,7 @@ function ForgotPassword() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#5b5bff] hover:bg-[#4f46e5] text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-[#5b5bff]/20 disabled:opacity-70"
+              className="w-full bg-indigo-500 hover:bg-primary text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-indigo-500/20 disabled:opacity-70"
             >
               {loading ? 'Sending...' : 'Send OTP'}
             </button>
@@ -115,7 +115,7 @@ function ForgotPassword() {
                 required
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#5b5bff] transition-colors tracking-widest text-center text-lg font-mono"
+                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors tracking-widest text-center text-lg font-mono"
                 placeholder="000000"
               />
             </div>
@@ -128,7 +128,7 @@ function ForgotPassword() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 minLength={6}
-                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-[#5b5bff] transition-colors"
+                className="w-full bg-[#0f172a] border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -136,7 +136,7 @@ function ForgotPassword() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#5b5bff] hover:bg-[#4f46e5] text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-[#5b5bff]/20 disabled:opacity-70"
+              className="w-full bg-indigo-500 hover:bg-primary text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-indigo-500/20 disabled:opacity-70"
             >
               {loading ? 'Resetting...' : 'Reset Password'}
             </button>
@@ -155,7 +155,7 @@ function ForgotPassword() {
         )}
 
         <div className="mt-8 text-center text-sm text-gray-400">
-          Remember your password? <Link to="/login" className="text-[#5b5bff] hover:underline font-semibold">Sign in</Link>
+          Remember your password? <Link to="/login" className="text-indigo-500 hover:underline font-semibold">Sign in</Link>
         </div>
       </div>
     </div>

@@ -110,9 +110,9 @@ function Home() {
   return (
     <div className="max-w-[1400px]">
       {/* Hero */}
-      <div className="bg-[#110e1b] bg-gradient-to-r from-[#1E1B4B]/80 to-[#0B0E14] text-white rounded-[2rem] p-12 lg:p-16 mb-16 shadow-2xl relative overflow-hidden border border-white/5">
+      <div className="bg-[#110e1b] bg-gradient-to-r from-brand-indigoDark/80 to-[#0B0E14] text-white rounded-[2rem] p-12 lg:p-16 mb-16 shadow-2xl relative overflow-hidden border border-white/5">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[150%] bg-[#4F46E5]/20 blur-[120px] rounded-full"></div>
+          <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[150%] bg-primary/20 blur-[120px] rounded-full"></div>
           <div className="absolute top-[20%] -right-[10%] w-[40%] h-[100%] bg-[#9333EA]/10 blur-[100px] rounded-full"></div>
         </div>
 
@@ -185,8 +185,8 @@ function Home() {
       )}
 
       {/* How it Works Section */}
-      <div className="border border-[#4F46E5]/30 bg-[#0d0f14]/50 rounded-[2rem] p-10 lg:p-16 mb-16 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-[#4F46E5] to-transparent opacity-50"></div>
+      <div className="border border-primary/30 bg-[#0d0f14]/50 rounded-[2rem] p-10 lg:p-16 mb-16 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
 
         <div className="flex flex-col items-center mb-16 relative z-10">
           <div className="border border-white/20 text-gray-300 px-5 py-1.5 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
@@ -221,8 +221,8 @@ function Home() {
       </div>
 
       {/* Footer Section */}
-      <div className="border border-[#4F46E5]/30 bg-[#0d0f14]/50 rounded-[2rem] p-10 lg:p-16 relative overflow-hidden flex flex-col items-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-[#4F46E5] to-transparent opacity-50"></div>
+      <div className="border border-primary/30 bg-[#0d0f14]/50 rounded-[2rem] p-10 lg:p-16 relative overflow-hidden flex flex-col items-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
 
         <h2 className="text-3xl font-bold text-white mb-4 tracking-wide relative z-10">QuizDash</h2>
         <p className="text-gray-400 text-sm text-center max-w-xl mb-16 relative z-10">

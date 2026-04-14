@@ -104,17 +104,17 @@ function ManageUsers() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
 
             {/* Banner */}
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-8 tracking-wide relative z-10">
                     One Centralized Panel for Management
                 </h1>
                 <div className="flex flex-wrap gap-4 relative z-10">
-                    <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-[#818cf8] bg-[#5b5bff] text-white font-semibold text-sm shadow-md">mange users</button>
+                    <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-primary-light bg-indigo-500 text-white font-semibold text-sm shadow-md">mange users</button>
                     <button onClick={() => navigate('/admin/content')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage Q's</button>
                     <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage tournaments</button>
                     <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Reports</button>
                 </div>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
 
             {/* Table */}
@@ -141,7 +141,7 @@ function ManageUsers() {
                                     <td className="py-4 px-4">
                                         <div className="flex items-center gap-3 relative">
                                             <button onClick={() => handleRoleChange(user.id, 'instructor')}
-                                                className="px-4 py-1.5 rounded-full border-2 border-[#5b5bff] bg-[#5b5bff]/20 dark:bg-[#4f46e5] text-[#5b5bff] dark:text-white font-bold text-[12px] hover:bg-[#5b5bff] hover:text-white transition-colors tracking-wide">
+                                                className="px-4 py-1.5 rounded-full border-2 border-indigo-500 bg-indigo-500/20 dark:bg-primary text-indigo-500 dark:text-white font-bold text-[12px] hover:bg-indigo-500 hover:text-white transition-colors tracking-wide">
                                                 upgrade to instructor
                                             </button>
                                             <button onClick={() => handleRoleChange(user.id, 'student')}
@@ -150,21 +150,21 @@ function ManageUsers() {
                                             </button>
                                             <div className="relative" ref={openDropdownId === user.id ? dropdownRef : null}>
                                                 <button onClick={() => setOpenDropdownId(openDropdownId === user.id ? null : user.id)}
-                                                    className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-[#5b5bff] bg-[#5b5bff]/20 dark:bg-[#4f46e5] text-[#5b5bff] dark:text-white font-bold hover:bg-[#5b5bff] hover:text-white transition-colors">
+                                                    className="w-8 h-8 flex items-center justify-center rounded-full border-2 border-indigo-500 bg-indigo-500/20 dark:bg-primary text-indigo-500 dark:text-white font-bold hover:bg-indigo-500 hover:text-white transition-colors">
                                                     +
                                                 </button>
                                                 {openDropdownId === user.id && (
                                                     <div className="absolute right-0 top-full mt-2 w-48 bg-[#1e2333] border-2 border-white rounded-xl shadow-2xl z-50 overflow-hidden flex flex-col p-2 gap-2">
                                                         <button onClick={() => handleToggleActive(user.id, !user.is_active)}
-                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-[#312e81] hover:bg-[#4338ca] transition-colors rounded-[4px]">
+                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-primary-darker hover:bg-primary-dark transition-colors rounded-[4px]">
                                                             {user.is_active ? 'Inactive user' : 'Activate user'}
                                                         </button>
                                                         <button onClick={() => handleDeleteUser(user.id)}
-                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-[#312e81] hover:bg-[#4338ca] transition-colors rounded-[4px]">
+                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-primary-darker hover:bg-primary-dark transition-colors rounded-[4px]">
                                                             Remove user
                                                         </button>
                                                         <button onClick={() => setOpenDropdownId(null)}
-                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-[#312e81] hover:bg-[#4338ca] transition-colors rounded-[4px]">
+                                                            className="w-full text-center px-4 py-2 border border-white text-white font-bold text-[13px] bg-primary-darker hover:bg-primary-dark transition-colors rounded-[4px]">
                                                             Change password
                                                         </button>
                                                     </div>

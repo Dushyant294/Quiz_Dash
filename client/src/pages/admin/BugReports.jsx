@@ -93,15 +93,15 @@ function BugReports() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
 
             {/* Banner */}
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-8 tracking-wide relative z-10">One Centralized Panel for Management</h1>
                 <div className="flex flex-wrap gap-4 relative z-10">
                     <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">mange users</button>
                     <button onClick={() => navigate('/admin/content')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage Q's</button>
                     <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage tournaments</button>
-                    <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-[#818cf8] bg-[#5b5bff] text-white font-semibold text-sm shadow-md">Reports</button>
+                    <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-primary-light bg-indigo-500 text-white font-semibold text-sm shadow-md">Reports</button>
                 </div>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
 
             {/* Table */}
@@ -149,7 +149,7 @@ function BugReports() {
                                             </button>
                                             <button
                                                 onClick={() => handleStatusChange(report.id, 'resolved')}
-                                                className={`px-6 py-1.5 rounded-full border-2 font-bold text-[12px] transition-colors tracking-wide ${report.status === 'resolved' ? 'border-green-400 bg-green-500/20 text-green-400' : 'border-[#5b5bff] bg-[#5b5bff]/20 dark:bg-[#4f46e5] text-[#5b5bff] dark:text-white hover:bg-[#5b5bff] hover:text-white'}`}>
+                                                className={`px-6 py-1.5 rounded-full border-2 font-bold text-[12px] transition-colors tracking-wide ${report.status === 'resolved' ? 'border-green-400 bg-green-500/20 text-green-400' : 'border-indigo-500 bg-indigo-500/20 dark:bg-primary text-indigo-500 dark:text-white hover:bg-indigo-500 hover:text-white'}`}>
                                                 resolved
                                             </button>
                                         </div>

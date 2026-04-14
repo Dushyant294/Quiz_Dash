@@ -31,12 +31,12 @@ function Topbar() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-64 right-0 h-20 bg-white dark:bg-[#0b1220] border-b border-gray-300 dark:border-white/10 px-8 flex items-center justify-between z-40">
+    <div className="fixed top-0 left-64 right-0 h-20 bg-white dark:bg-brand-dark border-b border-gray-300 dark:border-white/10 px-8 flex items-center justify-between z-40">
 
       <div className="flex-1 max-w-md flex flex-col justify-center">
         <input
           placeholder="Search quizzes, categories, creators..."
-          className="bg-gray-100 dark:bg-[#1b2230] px-4 py-2 rounded-lg w-full outline-none"
+          className="bg-gray-100 dark:bg-brand-surfaceAlt px-4 py-2 rounded-lg w-full outline-none"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -48,7 +48,7 @@ function Topbar() {
         {/* Report Bug Button */}
         <Link
           to="/report-bug"
-          className="bg-[#5b5bff] hover:bg-[#4f4fe5] text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors mr-2 shadow-md shadow-[#5b5bff]/20"
+          className="bg-indigo-500 hover:bg-primary text-white px-4 py-1.5 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors mr-2 shadow-md shadow-indigo-500/20"
         >
           report bug 🐞
         </Link>

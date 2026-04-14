@@ -57,14 +57,14 @@ function CreateQuiz() {
         <div className="max-w-[1100px] mx-auto text-black dark:text-white pb-12 pt-6 px-4 md:px-0">
 
             {/* Banner */}
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-black rounded-2xl py-14 px-10 mb-12 shadow-2xl relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-black rounded-2xl py-14 px-10 mb-12 shadow-2xl relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-4 tracking-wide relative z-10">
                     Share Your Knowledge: Create a Custom<br />Quiz and Challenge the Community
                 </h1>
                 <p className="text-[#a5b4fc] text-[15px] font-medium tracking-wide relative z-10">
                     Build specialized mock tests for any category in just a few minutes.
                 </p>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
 
             {message && (
@@ -89,7 +89,7 @@ function CreateQuiz() {
                                 name="subject"
                                 value={formData.subject}
                                 onChange={handleChange}
-                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <div className="flex flex-col">
@@ -99,7 +99,7 @@ function CreateQuiz() {
                                 name="micro_topic"
                                 value={formData.micro_topic}
                                 onChange={handleChange}
-                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <div className="flex flex-col">
@@ -109,7 +109,7 @@ function CreateQuiz() {
                                 name="topic"
                                 value={formData.topic}
                                 onChange={handleChange}
-                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <div className="flex flex-col">
@@ -119,7 +119,7 @@ function CreateQuiz() {
                                 name="question_count"
                                 value={formData.question_count}
                                 onChange={handleChange}
-                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#5b5bff]"
+                                className="bg-gray-300 dark:bg-[#475569] border-none rounded-lg h-12 px-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                     </div>
@@ -128,7 +128,7 @@ function CreateQuiz() {
                 {/* Right Column: Upload Box and Buttons */}
                 <div className="flex flex-col items-center w-full lg:w-[50%] mt-4 lg:mt-0">
                     {/* Download Button */}
-                    <button className="bg-[#5b5bff] hover:bg-[#4f4fe5] text-white font-semibold py-3 px-10 rounded-full shadow-lg shadow-[#5b5bff]/20 transition-all mb-10 w-fit">
+                    <button className="bg-indigo-500 hover:bg-primary text-white font-semibold py-3 px-10 rounded-full shadow-lg shadow-indigo-500/20 transition-all mb-10 w-fit">
                         Download Sample Q File here
                     </button>
 

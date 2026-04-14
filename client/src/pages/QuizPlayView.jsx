@@ -189,32 +189,32 @@ function QuizPlayView() {
     }, [loading, completed, waitingForOpponent, questions.length, currentQuestionIdx, handleSubmitAndAdvance, timePerQuestion]);
 
     if (loading) {
-        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">Loading quiz...</div>;
+        return <div className="bg-brand-dark text-white min-h-screen p-8 flex justify-center items-center">Loading quiz...</div>;
     }
 
     if (questions.length === 0) {
-        return <div className="bg-[#0b1220] text-white min-h-screen p-8 flex justify-center items-center">No questions found.</div>;
+        return <div className="bg-brand-dark text-white min-h-screen p-8 flex justify-center items-center">No questions found.</div>;
     }
 
     // ─── WAITING FOR OPPONENT ────────────────────────────────────
     if (waitingForOpponent) {
         return (
-            <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-center">
+            <div className="bg-brand-dark text-white min-h-screen p-6 md:p-12 flex justify-center items-center">
                 <div className="max-w-md w-full text-center">
-                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-2xl p-10 shadow-2xl shadow-[#5b5bff]/10">
+                    <div className="bg-[#111827] border border-indigo-500/30 rounded-2xl p-10 shadow-2xl shadow-indigo-500/10">
                         {/* Animated hourglass */}
                         <div className="text-6xl mb-6 animate-bounce">⏳</div>
                         
                         <h2 className="text-2xl font-bold mb-3 text-white">Waiting for Opponent...</h2>
                         <p className="text-gray-400 mb-6 text-sm leading-relaxed">
-                            You've finished the quiz! Waiting for <span className="text-[#818cf8] font-semibold">{opponentName || 'your opponent'}</span> to complete their questions.
+                            You've finished the quiz! Waiting for <span className="text-primary-light font-semibold">{opponentName || 'your opponent'}</span> to complete their questions.
                         </p>
 
                         {/* Pulsing dots animation */}
                         <div className="flex justify-center gap-2 mb-6">
-                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
-                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
-                            <div className="w-3 h-3 bg-[#5b5bff] rounded-full animate-pulse" style={{ animationDelay: '600ms' }}></div>
+                            <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
+                            <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
+                            <div className="w-3 h-3 bg-indigo-500 rounded-full animate-pulse" style={{ animationDelay: '600ms' }}></div>
                         </div>
                         
                         <p className="text-gray-500 text-xs">Results will appear automatically once both players finish.</p>
@@ -247,10 +247,10 @@ function QuizPlayView() {
         const scorePercent = actualTotalQuestions > 0 ? Math.round((myScore / actualTotalQuestions) * 100) : 0;
 
         return (
-            <div className="bg-[#0b1220] text-white min-h-screen p-6 md:p-12 flex justify-center items-start pt-12">
+            <div className="bg-brand-dark text-white min-h-screen p-6 md:p-12 flex justify-center items-start pt-12">
                 <div className="max-w-xl w-full">
                     {/* Result Header */}
-                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-2xl p-8 md:p-10 text-center shadow-2xl shadow-[#5b5bff]/10 mb-6">
+                    <div className="bg-[#111827] border border-indigo-500/30 rounded-2xl p-8 md:p-10 text-center shadow-2xl shadow-indigo-500/10 mb-6">
                         {/* Status Icon & Text */}
                         {is1v1 ? (
                             <>
@@ -279,7 +279,7 @@ function QuizPlayView() {
                         ) : (
                             <div className="mb-6">
                                 <div className="text-6xl mb-3">✅</div>
-                                <h2 className="text-3xl font-black text-[#5b5bff]">Quiz Completed!</h2>
+                                <h2 className="text-3xl font-black text-indigo-500">Quiz Completed!</h2>
                                 <p className="text-gray-400 text-sm mt-1">Your results are ready</p>
                             </div>
                         )}
@@ -326,7 +326,7 @@ function QuizPlayView() {
                         ) : (
                             /* Solo score */
                             <div className="mb-6">
-                                <div className="text-[#5b5bff] text-6xl font-black mb-2 drop-shadow-md">
+                                <div className="text-indigo-500 text-6xl font-black mb-2 drop-shadow-md">
                                     {myScore} <span className="text-3xl text-gray-500">/ {result.totalQuestions}</span>
                                 </div>
                                 <div className="text-gray-400 text-sm">
@@ -357,7 +357,7 @@ function QuizPlayView() {
                     <div className="flex flex-col gap-3">
                         <button
                             onClick={() => navigate('/battle')}
-                            className="w-full bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] hover:from-[#4338ca] hover:to-[#6d28d9] text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-[#4f46e5]/30"
+                            className="w-full bg-gradient-to-r from-primary to-[#7c3aed] hover:from-primary-dark hover:to-[#6d28d9] text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-lg shadow-primary/30"
                         >
                             {is1v1 ? 'Play Another Battle ⚔️' : 'Play Again'}
                         </button>
@@ -402,7 +402,7 @@ function QuizPlayView() {
     };
 
     return (
-        <div className="bg-[#0b1220] text-white min-h-screen p-4 md:p-8">
+        <div className="bg-brand-dark text-white min-h-screen p-4 md:p-8">
             <div className="max-w-[1000px] w-full mx-auto">
                 {/* Top bar: badges + opponent + timer */}
                 <div className="flex items-center justify-between mb-5">
@@ -414,7 +414,7 @@ function QuizPlayView() {
                             {current.difficulty_label || 'Medium'}
                         </span>
                         {quizType === '1v1' && opponentName && (
-                            <span className="bg-[#5b5bff]/20 text-[#818cf8] text-xs font-semibold px-3 py-1 rounded border border-[#5b5bff]/30">
+                            <span className="bg-indigo-500/20 text-primary-light text-xs font-semibold px-3 py-1 rounded border border-indigo-500/30">
                                 ⚔️ vs {opponentName}
                             </span>
                         )}
@@ -438,7 +438,7 @@ function QuizPlayView() {
                     </p>
                     <div className="w-full bg-[#1a1d2e] rounded-full h-2 overflow-hidden">
                         <div
-                            className="bg-[#4f46e5] h-2 rounded-full transition-all duration-500"
+                            className="bg-primary h-2 rounded-full transition-all duration-500"
                             style={{ width: `${progress}%` }}
                         ></div>
                     </div>
@@ -472,14 +472,14 @@ function QuizPlayView() {
                                         onClick={() => setSelectedOption(idx)}
                                         className={`flex items-center gap-4 p-3.5 rounded-lg border transition-all text-left
                                             ${selectedOption === idx
-                                                ? 'border-[#4f46e5] bg-[#4f46e5]/15 text-white'
+                                                ? 'border-primary bg-primary/15 text-white'
                                                 : 'border-gray-700 bg-[#1a1d2e]/50 text-gray-300 hover:border-gray-500 hover:bg-[#1a1d2e]'
                                             }`}
                                     >
                                         <span
                                             className={`w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm shrink-0 transition-colors
                                                 ${selectedOption === idx
-                                                    ? 'bg-[#4f46e5] text-white'
+                                                    ? 'bg-primary text-white'
                                                     : 'bg-[#2a2d3e] text-gray-400'
                                                 }`}
                                         >
@@ -500,7 +500,7 @@ function QuizPlayView() {
                         disabled={selectedOption === null}
                         className={`px-8 py-3 rounded-lg font-bold transition-all
                             ${selectedOption !== null
-                                ? 'bg-[#4f46e5] hover:bg-[#4338ca] text-white shadow-lg shadow-[#4f46e5]/30'
+                                ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/30'
                                 : 'bg-gray-700 text-gray-400 cursor-not-allowed'
                             }`}
                     >

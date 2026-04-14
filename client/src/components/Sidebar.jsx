@@ -48,7 +48,7 @@ function Sidebar() {
 
   return (
     <aside className="w-64 bg-gray-200 dark:bg-[#0e1628] p-5 text-black dark:text-white fixed left-0 top-0 h-screen overflow-y-auto">
-      <h2 className="text-2xl font-semibold mb-8 text-[#5b5bff]">QuizDash</h2>
+      <h2 className="text-2xl font-semibold mb-8 text-indigo-500">QuizDash</h2>
 
       <nav className="flex flex-col justify-between h-[calc(100%-80px)]">
         <ul className="space-y-1 text-[13px] font-medium px-2">
@@ -58,7 +58,7 @@ function Sidebar() {
                 to={item.path}
                 className={({ isActive }) =>
                   `block px-4 py-2.5 rounded-lg transition-colors text-center ${isActive
-                    ? "bg-[#5b5bff] text-white shadow-md shadow-[#5b5bff]/20"
+                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/20"
                     : "hover:bg-gray-300 dark:hover:bg-white/10 text-gray-700 dark:text-[#a1a1aa]"
                   }`
                 }

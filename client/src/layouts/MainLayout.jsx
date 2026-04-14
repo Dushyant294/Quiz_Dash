@@ -6,7 +6,7 @@ import { SearchProvider } from "../context/SearchContext";
 function MainLayout() {
     return (
         <SearchProvider>
-            <div className="bg-white dark:bg-[#0b1220] text-black dark:text-white min-h-screen">
+            <div className="bg-white dark:bg-brand-dark text-black dark:text-white min-h-screen">
                 <Sidebar />
 
                 {/* Right side */}

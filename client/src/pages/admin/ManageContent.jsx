@@ -173,21 +173,21 @@ function ManageContent() {
         <div className="max-w-[1200px] mx-auto text-black dark:text-white pb-12 pt-6">
 
             {/* Banner */}
-            <div className="w-full bg-gradient-to-r from-[#5b5bff]/90 via-[#312e81] to-[#0b1220]/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
+            <div className="w-full bg-gradient-to-r from-indigo-500/90 via-primary-darker to-brand-dark/50 dark:to-[#090e17] rounded-2xl py-12 px-10 mb-10 shadow-lg relative overflow-hidden">
                 <h1 className="font-bold text-3xl md:text-[34px] text-white mb-8 tracking-wide relative z-10">One Centralized Panel for Management</h1>
                 <div className="flex flex-wrap gap-4 relative z-10">
                     <button onClick={() => navigate('/admin/users')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">mange users</button>
-                    <button onClick={() => navigate('/admin/content')} className="px-6 py-1.5 rounded-full border-2 border-[#818cf8] bg-[#5b5bff] text-white font-semibold text-sm shadow-md">manage Q's</button>
+                    <button onClick={() => navigate('/admin/content')} className="px-6 py-1.5 rounded-full border-2 border-primary-light bg-indigo-500 text-white font-semibold text-sm shadow-md">manage Q's</button>
                     <button onClick={() => navigate('/admin/tournaments')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">manage tournaments</button>
                     <button onClick={() => navigate('/admin/reports')} className="px-6 py-1.5 rounded-full border-2 border-white text-white font-semibold text-sm hover:bg-white/10 transition">Reports</button>
                 </div>
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#5b5bff]/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3"></div>
             </div>
 
             {editingQuiz === null ? (
                 <div>
                     <h2 className="text-xl font-bold uppercase tracking-wider text-gray-800 dark:text-white mb-4">Existing Quizzes</h2>
-                    <div className="bg-white dark:bg-[#1b2230] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
+                    <div className="bg-white dark:bg-brand-surfaceAlt rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-gray-50 dark:bg-[#111823] text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
@@ -212,7 +212,7 @@ function ManageContent() {
                                             </span>
                                         </td>
                                         <td className="py-4 px-6 text-right">
-                                            <button onClick={() => handleEditQuiz(quiz.id)} className="text-[#5b5bff] font-semibold hover:underline mr-4 transition-colors">Edit</button>
+                                            <button onClick={() => handleEditQuiz(quiz.id)} className="text-indigo-500 font-semibold hover:underline mr-4 transition-colors">Edit</button>
                                             <button onClick={() => handleDeleteFile(quiz.id)} className="text-red-400 hover:text-red-600 font-semibold transition-colors">Delete</button>
                                         </td>
                                     </tr>
@@ -236,14 +236,14 @@ function ManageContent() {
                             <div key={q.id} className="py-10 border-b border-gray-300 dark:border-gray-600">
                                 {editingQuestion === q.id ? (
                                     /* ─── EDIT MODE ─── */
-                                    <div className="bg-[#111827] border border-[#5b5bff]/30 rounded-xl p-6">
-                                        <h3 className="text-sm font-bold text-[#818cf8] mb-4 uppercase tracking-wider">Editing Question #{index + 1}</h3>
+                                    <div className="bg-[#111827] border border-indigo-500/30 rounded-xl p-6">
+                                        <h3 className="text-sm font-bold text-primary-light mb-4 uppercase tracking-wider">Editing Question #{index + 1}</h3>
                                         
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Question Text</label>
                                         <textarea
                                             value={editForm.full_question_text}
                                             onChange={e => setEditForm({...editForm, full_question_text: e.target.value})}
-                                            className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-3 text-white text-sm mb-4 min-h-[80px] outline-none focus:border-[#5b5bff] transition"
+                                            className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-3 text-white text-sm mb-4 min-h-[80px] outline-none focus:border-indigo-500 transition"
                                         />
 
                                         <div className="grid grid-cols-2 gap-4 mb-4">
@@ -253,7 +253,7 @@ function ManageContent() {
                                                     <input
                                                         value={editForm[`option_${key.toLowerCase()}`]}
                                                         onChange={e => setEditForm({...editForm, [`option_${key.toLowerCase()}`]: e.target.value})}
-                                                        className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                        className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-indigo-500 transition"
                                                     />
                                                 </div>
                                             ))}
@@ -265,7 +265,7 @@ function ManageContent() {
                                                 <input
                                                     value={editForm.correct_answer}
                                                     onChange={e => setEditForm({...editForm, correct_answer: e.target.value})}
-                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-indigo-500 transition"
                                                     placeholder="e.g. Species interaction"
                                                 />
                                             </div>
@@ -274,7 +274,7 @@ function ManageContent() {
                                                 <input
                                                     value={editForm.hint}
                                                     onChange={e => setEditForm({...editForm, hint: e.target.value})}
-                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-[#5b5bff] transition"
+                                                    className="w-full bg-[#1a1d2e] border border-gray-600 rounded-lg px-4 py-2.5 text-white text-sm outline-none focus:border-indigo-500 transition"
                                                 />
                                             </div>
                                         </div>
@@ -283,7 +283,7 @@ function ManageContent() {
                                             <button
                                                 onClick={() => saveEditQuestion(q.id)}
                                                 disabled={saving}
-                                                className="px-6 py-2 rounded-lg bg-[#5b5bff] hover:bg-[#4f46e5] text-white font-bold text-sm transition disabled:opacity-50"
+                                                className="px-6 py-2 rounded-lg bg-indigo-500 hover:bg-primary text-white font-bold text-sm transition disabled:opacity-50"
                                             >
                                                 {saving ? 'Saving...' : 'Save Changes'}
                                             </button>
@@ -310,7 +310,7 @@ function ManageContent() {
                                             </div>
                                             <div>
                                                 {q.isRevealed ? (
-                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-[#818cf8] bg-[#5b5bff]/20 text-[#818cf8] font-semibold text-[12px] shadow-sm transition tracking-wide">
+                                                    <button onClick={() => toggleReveal(q.id)} className="px-5 py-2.5 rounded-[6px] border border-primary-light bg-indigo-500/20 text-primary-light font-semibold text-[12px] shadow-sm transition tracking-wide">
                                                         {q.correctValue}
                                                     </button>
                                                 ) : (
@@ -325,7 +325,7 @@ function ManageContent() {
                                                 Hint : {q.hint}
                                             </div>
                                             <div className="flex flex-col gap-2 flex-shrink-0">
-                                                <button onClick={() => startEditQuestion(q)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-[#5b5bff] bg-[#5b5bff]/20 hover:bg-[#5b5bff] text-[#818cf8] hover:text-white font-bold text-[13px] transition whitespace-nowrap tracking-wide">
+                                                <button onClick={() => startEditQuestion(q)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-indigo-500 bg-indigo-500/20 hover:bg-indigo-500 text-primary-light hover:text-white font-bold text-[13px] transition whitespace-nowrap tracking-wide">
                                                     ✏️ Edit Question
                                                 </button>
                                                 <button onClick={() => handleDeleteQuestion(q.id)} className="px-6 py-2 rounded-[6px] border-[1.5px] border-white bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold text-[13px] transition whitespace-nowrap shadow-md tracking-wide">

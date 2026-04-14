@@ -125,8 +125,8 @@ function Tournaments() {
 
             {/* Featured Tournament Banner */}
             {featured ? (
-                <div className="w-full bg-gradient-to-r from-[#1e1b4b] via-[#1a1640] to-[#0b0e18] rounded-2xl p-8 md:p-10 mb-6 shadow-2xl relative overflow-hidden border border-white/5">
-                    <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-[#4f46e5]/15 blur-[100px] rounded-full pointer-events-none"></div>
+                <div className="w-full bg-gradient-to-r from-brand-indigoDark via-[#1a1640] to-[#0b0e18] rounded-2xl p-8 md:p-10 mb-6 shadow-2xl relative overflow-hidden border border-white/5">
+                    <div className="absolute top-0 right-0 w-[400px] h-[300px] bg-primary/15 blur-[100px] rounded-full pointer-events-none"></div>
 
                     <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 relative z-10 tracking-wide">
                         {featured.title}
@@ -153,7 +153,7 @@ function Tournaments() {
                     </button>
                 </div>
             ) : !loading && (
-                <div className="w-full bg-gradient-to-r from-[#1e1b4b] via-[#1a1640] to-[#0b0e18] rounded-2xl p-8 md:p-10 mb-6 shadow-2xl border border-white/5 text-center">
+                <div className="w-full bg-gradient-to-r from-brand-indigoDark via-[#1a1640] to-[#0b0e18] rounded-2xl p-8 md:p-10 mb-6 shadow-2xl border border-white/5 text-center">
                     <h1 className="text-3xl font-bold text-white mb-3">Tournaments</h1>
                     <p className="text-gray-400">No tournaments available yet. Check back soon!</p>
                 </div>
@@ -169,19 +169,19 @@ function Tournaments() {
                         </span>
                     </div>
                     <div className="w-full bg-[#2a2d3e] rounded-full h-2 mb-8 overflow-hidden">
-                        <div className="bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] h-2 rounded-full transition-all" 
+                        <div className="bg-gradient-to-r from-primary to-[#7c3aed] h-2 rounded-full transition-all" 
                              style={{ width: `${getDeadlineInfo(featured.registrationDeadline || featured.endDate).percent}%` }}></div>
                     </div>
                     <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-[#1a1d30] border border-[#4f46e5]/30 rounded-xl p-5 text-center">
+                        <div className="bg-brand-surface border border-primary/30 rounded-xl p-5 text-center">
                             <div className="text-3xl md:text-4xl font-bold text-white mb-1">{featured.rounds}</div>
                             <div className="text-gray-400 text-sm font-medium">Rounds</div>
                         </div>
-                        <div className="bg-[#1a1d30] border border-[#4f46e5]/30 rounded-xl p-5 text-center">
+                        <div className="bg-brand-surface border border-primary/30 rounded-xl p-5 text-center">
                             <div className="text-3xl md:text-4xl font-bold text-white mb-1">{featured.participantCount}</div>
                             <div className="text-gray-400 text-sm font-medium">Participants</div>
                         </div>
-                        <div className="bg-[#1a1d30] border border-[#4f46e5]/30 rounded-xl p-5 text-center">
+                        <div className="bg-brand-surface border border-primary/30 rounded-xl p-5 text-center">
                             <div className="text-3xl md:text-4xl font-bold text-white mb-1">{featured.totalQuestions}</div>
                             <div className="text-gray-400 text-sm font-medium">Questions</div>
                         </div>
@@ -200,7 +200,7 @@ function Tournaments() {
                         onClick={() => setActiveFilter(filter)}
                         className={`px-6 py-2 rounded-full text-sm font-semibold transition-all border ${
                             activeFilter === filter
-                                ? 'bg-[#4f46e5] text-white border-[#4f46e5] shadow-md shadow-[#4f46e5]/20'
+                                ? 'bg-primary text-white border-primary shadow-md shadow-primary/20'
                                 : 'bg-transparent text-gray-300 border-gray-500/60 hover:border-gray-300 hover:text-white'
                         }`}
                     >
@@ -259,7 +259,7 @@ function Tournaments() {
                                     ) : (
                                         <button
                                             onClick={() => t.id && handleJoin(t.id)}
-                                            className="flex-1 bg-[#4f46e5] text-white text-[11px] font-bold py-1.5 rounded-md hover:bg-[#4338ca] transition-colors shadow-sm"
+                                            className="flex-1 bg-primary text-white text-[11px] font-bold py-1.5 rounded-md hover:bg-primary-dark transition-colors shadow-sm"
                                         >
                                             Join Now
                                         </button>

@@ -100,7 +100,7 @@ function Login() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="example@email.com"
                     />
                 </div>
@@ -113,19 +113,19 @@ function Login() {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#0b1220] focus:outline-none focus:border-[#5b5bff] transition-colors"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-brand-dark focus:outline-none focus:border-indigo-500 transition-colors"
                         placeholder="••••••••"
                     />
                 </div>
 
                 <div className="flex justify-end mt-2">
-                    <Link to="/forgot-password" className="text-sm text-[#5b5bff] hover:underline">Forgot Password?</Link>
+                    <Link to="/forgot-password" className="text-sm text-indigo-500 hover:underline">Forgot Password?</Link>
                 </div>
 
                 <button 
                     type="submit" 
                     disabled={loading}
-                    className="w-full bg-[#5b5bff] hover:bg-[#4f4fe5] disabled:bg-[#5b5bff]/50 text-white py-3 rounded-lg font-semibold transition-colors mt-6"
+                    className="w-full bg-indigo-500 hover:bg-primary disabled:bg-indigo-500/50 text-white py-3 rounded-lg font-semibold transition-colors mt-6"
                 >
                     {loading ? "Logging in..." : "Log In"}
                 </button>
@@ -143,7 +143,7 @@ function Login() {
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={googleLoading}
-                className="w-full flex items-center justify-center gap-3 bg-white dark:bg-[#1b2230] border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#252e3f] disabled:opacity-50 text-gray-700 dark:text-gray-200 py-3 rounded-lg font-medium transition-colors"
+                className="w-full flex items-center justify-center gap-3 bg-white dark:bg-brand-surfaceAlt border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#252e3f] disabled:opacity-50 text-gray-700 dark:text-gray-200 py-3 rounded-lg font-medium transition-colors"
             >
                 <svg width="20" height="20" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -155,7 +155,7 @@ function Login() {
             </button>
 
             <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-                Don't have an account? <Link to="/register" className="text-[#5b5bff] hover:underline font-medium">Register</Link>
+                Don't have an account? <Link to="/register" className="text-indigo-500 hover:underline font-medium">Register</Link>
             </div>
         </div>
     );
