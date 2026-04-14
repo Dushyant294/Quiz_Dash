@@ -44,6 +44,7 @@ dotnet add package MailKit --version 4.12.1
 dotnet add package CsvHelper --version 33.0.1
 dotnet add package DotNetEnv --version 3.1.1
 dotnet add package Microsoft.AspNetCore.OpenApi --version 10.0.3
+dotnet add package Google.Apis.Auth
 ```
 
 ### Individual Install Commands
