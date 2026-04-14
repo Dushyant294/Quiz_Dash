@@ -1,8 +1,8 @@
-# QuizDash Client Documentation
+# Medhashree Client Documentation
 
 ## Overview
 
-The QuizDash client is a modern, responsive Single Page Application (SPA) built with React and Vite. It serves as the user interface for both regular students/players and administrators. The frontend handles user authentication, quiz browsing, solo/1v1 quiz playing, leaderboards, profile management, and comprehensive admin dashboard functionalities.
+The Medhashree client is a modern, responsive Single Page Application (SPA) built with React and Vite. It serves as the user interface for both regular students/players and administrators. The frontend handles user authentication, quiz browsing, solo/1v1 quiz playing, leaderboards, profile management, and comprehensive admin dashboard functionalities.
 
 ---
 

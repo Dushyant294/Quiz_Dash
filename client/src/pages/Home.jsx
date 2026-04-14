@@ -224,7 +224,7 @@ function Home() {
       <div className="border border-primary/30 bg-[#0d0f14]/50 rounded-[2rem] p-10 lg:p-16 relative overflow-hidden flex flex-col items-center">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
 
-        <h2 className="text-3xl font-bold text-white mb-4 tracking-wide relative z-10">QuizDash</h2>
+        <h2 className="text-3xl font-bold text-white mb-4 tracking-wide relative z-10">Medhashree</h2>
         <p className="text-gray-400 text-sm text-center max-w-xl mb-16 relative z-10">
           Create engaging quizzes, challenge others, and earn rewards for your knowledge. Join our community of quiz creators and players today.
         </p>
