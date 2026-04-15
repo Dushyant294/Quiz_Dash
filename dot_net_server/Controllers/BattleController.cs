@@ -234,6 +234,16 @@ public class BattleController : ControllerBase
                 if (!request.QuestionCount.HasValue)
                     return BadRequest(new ApiResponse<object> { Success = false, Error = "question_count is required when no file_id is provided" });
 
+                // Resolve subject_name → subject_id (case-insensitive), mirrors Node server
+                if (!finalSubjectId.HasValue && !string.IsNullOrEmpty(request.SubjectName))
+                {
+                    var subjectRow = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                        "SELECT subject_id FROM subjects WHERE LOWER(name) = LOWER(@Name) LIMIT 1",
+                        new { Name = request.SubjectName });
+                    if (subjectRow != null)
+                        finalSubjectId = (int)subjectRow.subject_id;
+                }
+
                 // Build dynamic filter query
                 var sql = "SELECT * FROM questions WHERE is_active = true";
                 var parameters = new DynamicParameters();

@@ -205,7 +205,42 @@ public class TournamentController : ControllerBase
             foreach (var kvp in body)
             {
                 setClauses.Add($"{kvp.Key} = @{kvp.Key}");
-                parameters.Add(kvp.Key, kvp.Value);
+                if (kvp.Value is System.Text.Json.JsonElement element)
+                {
+                    switch (element.ValueKind)
+                    {
+                        case System.Text.Json.JsonValueKind.String:
+                            if (element.TryGetDateTime(out var dateValue))
+                                parameters.Add(kvp.Key, dateValue);
+                            else
+                                parameters.Add(kvp.Key, element.GetString());
+                            break;
+                        case System.Text.Json.JsonValueKind.Number:
+                            if (element.TryGetInt32(out var intValue))
+                                parameters.Add(kvp.Key, intValue);
+                            else if (element.TryGetDecimal(out var decValue))
+                                parameters.Add(kvp.Key, decValue);
+                            else
+                                parameters.Add(kvp.Key, element.GetDouble());
+                            break;
+                        case System.Text.Json.JsonValueKind.True:
+                            parameters.Add(kvp.Key, true);
+                            break;
+                        case System.Text.Json.JsonValueKind.False:
+                            parameters.Add(kvp.Key, false);
+                            break;
+                        case System.Text.Json.JsonValueKind.Null:
+                            parameters.Add(kvp.Key, null);
+                            break;
+                        default:
+                            parameters.Add(kvp.Key, element.ToString());
+                            break;
+                    }
+                }
+                else
+                {
+                    parameters.Add(kvp.Key, kvp.Value);
+                }
             }
             setClauses.Add("updated_at = CURRENT_TIMESTAMP");
             parameters.Add("Id", id);

@@ -32,6 +32,9 @@ public class CreateSessionRequest
 
     [JsonPropertyName("file_id")]
     public int? FileId { get; set; }
+
+    [JsonPropertyName("subject_name")]
+    public string? SubjectName { get; set; }
 }
 
 public class SubmitAnswerRequest
