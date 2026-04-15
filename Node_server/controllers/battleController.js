@@ -144,9 +144,12 @@ exports.createSession = async (req, res) => {
         questions = questions.slice(0, parseInt(question_count));
       }
     } else {
+      // Resolve subject_name → subject_id (case-insensitive)
       if (!final_subject_id && subject_name) {
-        const db = require('../config/db');
-        const resSub = await db.query('SELECT subject_id FROM subjects WHERE name = $1 LIMIT 1', [subject_name]);
+        const resSub = await db.query(
+          'SELECT subject_id FROM subjects WHERE LOWER(name) = LOWER($1) LIMIT 1',
+          [subject_name]
+        );
         if (resSub.rows.length > 0) final_subject_id = resSub.rows[0].subject_id;
       }
 
@@ -154,6 +157,7 @@ exports.createSession = async (req, res) => {
       questions = await QuestionModel.getRandomByFilters({
         category_id,
         subject_id: final_subject_id,
+        subject_name: !final_subject_id ? subject_name : undefined,
         topic_id,
         micro_topic_id,
         difficulty_label: difficulty,

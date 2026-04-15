@@ -78,6 +78,16 @@ class QuestionModel {
 
   // Get random questions by filters (for battles)
   static async getRandomByFilters(filters) {
+    // Resolve subject_name to subject_id if needed
+    let resolvedSubjectId = filters.subject_id;
+    if (!resolvedSubjectId && filters.subject_name) {
+      const subRes = await db.query(
+        'SELECT subject_id FROM subjects WHERE LOWER(name) = LOWER($1) LIMIT 1',
+        [filters.subject_name]
+      );
+      if (subRes.rows.length > 0) resolvedSubjectId = subRes.rows[0].subject_id;
+    }
+
     let query = 'SELECT * FROM questions WHERE is_active = true';
     const params = [];
     let idx = 1;
@@ -86,9 +96,9 @@ class QuestionModel {
       query += ` AND category_id = $${idx++}`;
       params.push(filters.category_id);
     }
-    if (filters.subject_id) {
+    if (resolvedSubjectId) {
       query += ` AND subject_id = $${idx++}`;
-      params.push(filters.subject_id);
+      params.push(resolvedSubjectId);
     }
     if (filters.topic_id) {
       query += ` AND topic_id = $${idx++}`;
