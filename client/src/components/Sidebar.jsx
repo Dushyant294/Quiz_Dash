@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const getMenuItems = (role) => {
   // Base items for all users (students, instructors, admins)
   const items = [
-    { name: "Home", path: "/home" },
+    { name: "Home", path: "/" },
     { name: "Categories", path: "/categories" },
     { name: "Explore Q's", path: "/explore" },
     { name: "Quiz Tournament", path: "/tournaments" },

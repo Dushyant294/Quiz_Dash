@@ -19,7 +19,7 @@ function Login() {
         if (role === 'admin') {
             navigate("/admin");
         } else {
-            navigate("/home");
+            navigate("/");
         }
     }, [navigate]);
 
@@ -67,9 +67,9 @@ function Login() {
                 if (role === 'admin') {
                     navigate("/admin");
                 } else if (role === 'instructor') {
-                    navigate("/home");
+                    navigate("/");
                 } else {
-                    navigate("/home");
+                    navigate("/");
                 }
             } else {
                 setError(data.error || "Login failed");
