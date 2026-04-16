@@ -95,9 +95,10 @@ class SessionModel {
     const correctCol = isUser1 ? 'user1_correct' : 'user2_correct';
     const timeCol = isUser1 ? 'user1_time_sec' : 'user2_time_sec';
 
-    // Get the correct answer
+    // Get the correct answer AND all options for robust matching
     const qResult = await db.query(
-      `SELECT q.correct_answer FROM quiz_session_questions qsq
+      `SELECT q.correct_answer, q.option_a, q.option_b, q.option_c, q.option_d
+       FROM quiz_session_questions qsq
        JOIN questions q ON qsq.question_id = q.question_id
        WHERE qsq.id = $1`,
       [sessionQuestionId]
@@ -105,15 +106,62 @@ class SessionModel {
 
     if (!qResult.rows[0]) return false;
 
-    const correctAnswer = qResult.rows[0].correct_answer;
-    // Robust answer matching: compare trimmed, case-insensitive
-    const isCorrect = correctAnswer && answer &&
-      correctAnswer.trim().toLowerCase() === answer.trim().toLowerCase();
+    const { correct_answer, option_a, option_b, option_c, option_d } = qResult.rows[0];
+    const userAnswer = (answer || '').trim().toLowerCase();
+    const correctRaw = (correct_answer || '').trim().toLowerCase();
 
-    await db.query(
-      `UPDATE quiz_session_questions SET ${col} = $1, ${correctCol} = $2, ${timeCol} = $3, answered_at = CURRENT_TIMESTAMP WHERE id = $4`,
-      [answer, isCorrect, timeSec || 0, sessionQuestionId]
-    );
+    // Build option map for letter ↔ text matching
+    const optionMap = {
+      'a': (option_a || '').trim().toLowerCase(),
+      'b': (option_b || '').trim().toLowerCase(),
+      'c': (option_c || '').trim().toLowerCase(),
+      'd': (option_d || '').trim().toLowerCase(),
+      'option a': (option_a || '').trim().toLowerCase(),
+      'option b': (option_b || '').trim().toLowerCase(),
+      'option c': (option_c || '').trim().toLowerCase(),
+      'option d': (option_d || '').trim().toLowerCase(),
+    };
+
+    // Reverse map: option text → letter
+    const textToLetter = {};
+    if (option_a) textToLetter[(option_a).trim().toLowerCase()] = 'a';
+    if (option_b) textToLetter[(option_b).trim().toLowerCase()] = 'b';
+    if (option_c) textToLetter[(option_c).trim().toLowerCase()] = 'c';
+    if (option_d) textToLetter[(option_d).trim().toLowerCase()] = 'd';
+
+    let isCorrect = false;
+
+    // Strategy 1: Direct match (both are same format)
+    if (correctRaw === userAnswer) {
+      isCorrect = true;
+    }
+    // Strategy 2: correct_answer is a letter/label, user sent full text
+    else if (optionMap[correctRaw] && optionMap[correctRaw] === userAnswer) {
+      isCorrect = true;
+    }
+    // Strategy 3: correct_answer is full text, user sent full text — compare via letter mapping
+    else if (textToLetter[correctRaw] && textToLetter[userAnswer] && textToLetter[correctRaw] === textToLetter[userAnswer]) {
+      isCorrect = true;
+    }
+    // Strategy 4: user sent a letter, correct_answer is full text
+    else if (optionMap[userAnswer] && optionMap[userAnswer] === correctRaw) {
+      isCorrect = true;
+    }
+
+    // Try with time column first, fallback to without it if column doesn't exist
+    try {
+      await db.query(
+        `UPDATE quiz_session_questions SET ${col} = $1, ${correctCol} = $2, ${timeCol} = $3, answered_at = CURRENT_TIMESTAMP WHERE id = $4`,
+        [answer, isCorrect, timeSec || 0, sessionQuestionId]
+      );
+    } catch (updateErr) {
+      // Fallback: time column may not exist in older schemas
+      console.warn('submitAnswer: time column update failed, retrying without time:', updateErr.message);
+      await db.query(
+        `UPDATE quiz_session_questions SET ${col} = $1, ${correctCol} = $2, answered_at = CURRENT_TIMESTAMP WHERE id = $3`,
+        [answer, isCorrect, sessionQuestionId]
+      );
+    }
 
     return isCorrect;
   }

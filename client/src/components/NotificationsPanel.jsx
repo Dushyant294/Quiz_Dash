@@ -83,9 +83,22 @@ function NotificationsPanel({ onClose }) {
                       </span>
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-300 truncate">{item.title}</p>
-                    {item.score && (
-                      <span className="text-xs text-gray-500">Score: {item.score}</span>
-                    )}
+                    {item.score && (() => {
+                      const parts = item.score.split('/');
+                      const correct = parseInt(parts[0], 10);
+                      const total = parseInt(parts[1], 10);
+                      const pct = total > 0 ? Math.round((correct / total) * 100) : null;
+                      return (
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-xs text-gray-500">Score: {item.score}</span>
+                          {pct !== null && (
+                            <span className={`text-xs font-semibold ${pct >= 70 ? 'text-green-400' : pct >= 40 ? 'text-yellow-400' : 'text-red-400'}`}>
+                              ({pct}%)
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
                     <p className="text-xs text-gray-400 mt-1">
                       {item.created_at ? new Date(item.created_at).toLocaleString() : ''}
                     </p>

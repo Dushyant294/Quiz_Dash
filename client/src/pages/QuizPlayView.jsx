@@ -230,20 +230,23 @@ function QuizPlayView() {
         const myUserId = currentUser.user_id;
         const is1v1 = result.quizType === '1v1' && result.user2_id;
         const isUser1 = String(myUserId) === String(result.user1_id);
-        const myScore = isUser1 ? Number(result.user1Score || 0) : Number(result.user2Score || 0);
-        const oppScore = isUser1 ? Number(result.user2Score || 0) : Number(result.user1Score || 0);
-        const myTime = isUser1 ? Number(result.user1TotalTime || 0) : Number(result.user2TotalTime || 0);
-        const oppTime = isUser1 ? Number(result.user2TotalTime || 0) : Number(result.user1TotalTime || 0);
+        const myScore = isUser1 ? parseInt(result.user1Score, 10) || 0 : parseInt(result.user2Score, 10) || 0;
+        const oppScore = isUser1 ? parseInt(result.user2Score, 10) || 0 : parseInt(result.user1Score, 10) || 0;
+        const myTime = isUser1 ? parseInt(result.user1TotalTime, 10) || 0 : parseInt(result.user2TotalTime, 10) || 0;
+        const oppTime = isUser1 ? parseInt(result.user2TotalTime, 10) || 0 : parseInt(result.user1TotalTime, 10) || 0;
         const oppName = isUser1 ? (result.user2Name || 'Opponent') : (result.user1Name || 'Opponent');
         
         let resultStatus = 'completed'; // solo
         if (is1v1) {
-            if (result.winnerId === myUserId) resultStatus = 'won';
-            else if (result.winnerId && result.winnerId !== myUserId) resultStatus = 'lost';
+            if (String(result.winnerId) === String(myUserId)) resultStatus = 'won';
+            else if (result.winnerId && String(result.winnerId) !== String(myUserId)) resultStatus = 'lost';
             else resultStatus = 'tie';
         }
 
-        const actualTotalQuestions = Number(result.totalQuestions || questions.length || 1);
+        // Use explicit fallback — don't let JS || treat 0 as falsy
+        const actualTotalQuestions = (result.totalQuestions != null && result.totalQuestions > 0)
+            ? parseInt(result.totalQuestions, 10)
+            : (questions.length > 0 ? questions.length : 1);
         const scorePercent = actualTotalQuestions > 0 ? Math.round((myScore / actualTotalQuestions) * 100) : 0;
 
         return (
@@ -296,7 +299,7 @@ function QuizPlayView() {
                                 }`}>
                                     <p className="text-gray-400 text-xs font-semibold mb-1 uppercase tracking-wider">You</p>
                                     <p className="text-4xl font-black text-white">{myScore}</p>
-                                    <p className="text-gray-500 text-xs mt-1">/ {result.totalQuestions}</p>
+                                    <p className="text-gray-500 text-xs mt-1">/ {actualTotalQuestions}</p>
                                     {myTime > 0 && (
                                         <p className="text-gray-500 text-xs mt-2">
                                             ⏱ {Math.floor(myTime / 60)}m {myTime % 60}s
@@ -315,7 +318,7 @@ function QuizPlayView() {
                                 }`}>
                                     <p className="text-gray-400 text-xs font-semibold mb-1 uppercase tracking-wider">{oppName}</p>
                                     <p className="text-4xl font-black text-white">{oppScore}</p>
-                                    <p className="text-gray-500 text-xs mt-1">/ {result.totalQuestions}</p>
+                                    <p className="text-gray-500 text-xs mt-1">/ {actualTotalQuestions}</p>
                                     {oppTime > 0 && (
                                         <p className="text-gray-500 text-xs mt-2">
                                             ⏱ {Math.floor(oppTime / 60)}m {oppTime % 60}s
@@ -327,7 +330,7 @@ function QuizPlayView() {
                             /* Solo score */
                             <div className="mb-6">
                                 <div className="text-indigo-500 text-6xl font-black mb-2 drop-shadow-md">
-                                    {myScore} <span className="text-3xl text-gray-500">/ {result.totalQuestions}</span>
+                                    {myScore} <span className="text-3xl text-gray-500">/ {actualTotalQuestions}</span>
                                 </div>
                                 <div className="text-gray-400 text-sm">
                                     Accuracy: {scorePercent}%

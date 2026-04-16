@@ -48,15 +48,21 @@ exports.getDashboardData = async (req, res) => {
       [userId]
     );
 
-    // Get quiz session stats
+    // Get quiz session stats — use CASE WHEN to select the user's own score
     let sessionStats = { total_quizzes_taken: 0, completed_quizzes: 0, total_score_earned: 0, highest_score: 0 };
     try {
       const statsResult = await db.query(`
         SELECT 
           COUNT(*) as total_quizzes_taken,
           COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_quizzes,
-          COALESCE(SUM(GREATEST(user1_score, COALESCE(user2_score, 0))), 0) as total_score_earned,
-          COALESCE(MAX(GREATEST(user1_score, COALESCE(user2_score, 0))), 0) as highest_score
+          COALESCE(SUM(
+            CASE WHEN user1_id = $1 THEN COALESCE(user1_score, 0)
+                 ELSE COALESCE(user2_score, 0) END
+          ), 0) as total_score_earned,
+          COALESCE(MAX(
+            CASE WHEN user1_id = $1 THEN COALESCE(user1_score, 0)
+                 ELSE COALESCE(user2_score, 0) END
+          ), 0) as highest_score
         FROM quiz_sessions
         WHERE user1_id = $1 OR user2_id = $1
       `, [userId]);
