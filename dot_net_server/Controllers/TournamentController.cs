@@ -120,30 +120,14 @@ public class TournamentController : ControllerBase
                   ORDER BY tp.score DESC",
                 new { Id = id });
 
+            var dataDict = new Dictionary<string, object?>((IDictionary<string, object>)tournament);
+            dataDict["participants"] = participants;
+
             return Ok(new ApiResponse<object>
             {
                 Success = true,
                 Message = "Tournament fetched successfully",
-                Data = new
-                {
-                    tournament_id = (int)tournament.tournament_id,
-                    name = (string)tournament.name,
-                    description = (string?)tournament.description,
-                    category_id = tournament.category_id,
-                    subject = (string?)tournament.subject,
-                    thumbnail_url = (string?)tournament.thumbnail_url,
-                    start_date = (DateTime)tournament.start_date,
-                    end_date = (DateTime)tournament.end_date,
-                    registration_deadline = tournament.registration_deadline,
-                    rounds = (int)tournament.rounds,
-                    total_questions = (int)tournament.total_questions,
-                    status = (string)tournament.status,
-                    created_by = (int)tournament.created_by,
-                    created_at = (DateTime)tournament.created_at,
-                    category_name = (string?)tournament.category_name,
-                    participant_count = (long)tournament.participant_count,
-                    participants
-                }
+                Data = dataDict
             });
         }
         catch (Exception ex)
