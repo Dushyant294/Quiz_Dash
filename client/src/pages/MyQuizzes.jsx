@@ -1,15 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_BASE, authFetch } from '../config/api';
 
-const mockQuizzes = [
-    { id: 1, title: 'NEET - Human Anatomy & Physiology', category: 'NEET', image: 'https://placehold.co/400x220/991b1b/fca5a5?text=Anatomy', questions: 25, score: '85%', date: 'Mar 10, 2026', status: 'Completed' },
-    { id: 2, title: 'JEE - Formulae Notebooks & Patterns', category: 'JEE', image: 'https://placehold.co/400x220/1e40af/93c5fd?text=JEE', questions: 30, score: '72%', date: 'Mar 08, 2026', status: 'Completed' },
-    { id: 3, title: 'NDA - Current Affairs & General Knowledge', category: 'NDA', image: 'https://placehold.co/400x220/6b21a8/d8b4fe?text=NDA+GK', questions: 20, score: '90%', date: 'Mar 05, 2026', status: 'Completed' },
-    { id: 4, title: 'Data Structures & Algorithms', category: 'GATE', image: 'https://placehold.co/400x220/065f46/6ee7b7?text=DSA', questions: 15, score: '88%', date: 'Mar 03, 2026', status: 'Active' },
-    { id: 5, title: 'SSC - Quantitative Aptitude Essentials', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+QA', questions: 40, score: '65%', date: 'Feb 28, 2026', status: 'Completed' },
-    { id: 6, title: 'SSC - Advanced General Awareness', category: 'SSC', image: 'https://placehold.co/400x220/b45309/fcd34d?text=SSC+GA', questions: 35, score: '78%', date: 'Feb 25, 2026', status: 'Completed' },
-];
-
 function MyQuizzes() {
     const [activeTab, setActiveTab] = useState('All Quizzes');
     const [viewMode, setViewMode] = useState('grid');
@@ -29,18 +20,15 @@ function MyQuizzes() {
                         id: q.file_id,
                         title: q.file_name || `${q.subject || 'Quiz'} - ${q.topic || 'General'}`,
                         category: q.subject || 'General',
-                        image: `https://placehold.co/400x220/1e1b4b/818cf8?text=${encodeURIComponent(q.subject || 'Quiz')}`,
+                        image: null,
                         questions: q.question_count,
                         score: '-',
                         date: new Date(q.uploaded_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
                         status: q.status === 'Published' ? 'Active' : q.status === 'Draft' ? 'Active' : 'Completed',
                     })));
-                } else {
-                    setQuizzes(mockQuizzes);
                 }
             } catch (err) {
                 console.error('Failed to fetch quizzes:', err);
-                setQuizzes(mockQuizzes);
             } finally {
                 setLoading(false);
             }
@@ -103,7 +91,13 @@ function MyQuizzes() {
                             {filteredQuizzes.map((quiz) => (
                                 <div key={quiz.id} className="bg-[#12152a] border border-white/10 rounded-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 shadow-lg flex flex-col">
                                     <div className="relative h-[150px] overflow-hidden">
-                                        <img src={quiz.image} alt={quiz.title} className="w-full h-full object-cover" />
+                                        {quiz.image ? (
+                                            <img src={quiz.image} alt={quiz.title} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-800 flex items-center justify-center">
+                                                <span className="text-white/40 text-4xl font-bold">{(quiz.category || 'Q').charAt(0)}</span>
+                                            </div>
+                                        )}
                                         <span className={`absolute top-3 right-3 ${quiz.status === 'Completed' ? 'bg-green-500' : 'bg-blue-500'} text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full`}>
                                             {quiz.status}
                                         </span>
@@ -128,7 +122,13 @@ function MyQuizzes() {
                             {filteredQuizzes.map((quiz) => (
                                 <div key={quiz.id} className="bg-[#12152a] border border-white/10 rounded-xl overflow-hidden hover:bg-[#181c34] transition-colors shadow-lg flex flex-col md:flex-row">
                                     <div className="w-full md:w-[200px] h-[140px] md:h-auto overflow-hidden shrink-0 relative">
-                                        <img src={quiz.image} alt={quiz.title} className="w-full h-full object-cover" />
+                                        {quiz.image ? (
+                                            <img src={quiz.image} alt={quiz.title} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="w-full h-full min-h-[100px] bg-gradient-to-br from-indigo-600 to-purple-800 flex items-center justify-center">
+                                                <span className="text-white/40 text-4xl font-bold">{(quiz.category || 'Q').charAt(0)}</span>
+                                            </div>
+                                        )}
                                         <span className={`absolute top-3 right-3 ${quiz.status === 'Completed' ? 'bg-green-500' : 'bg-blue-500'} text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full`}>
                                             {quiz.status}
                                         </span>

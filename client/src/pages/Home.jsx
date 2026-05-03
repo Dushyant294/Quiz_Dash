@@ -9,19 +9,22 @@ const howItWorksSteps = [
     step: 1,
     title: 'Browse Categories',
     description: 'Explore our wide range of quiz categories to find topics that interest you.',
-    image: 'https://placehold.co/400x250/3B82F6/FFFFFF?text=Books'
+    emoji: '📚',
+    gradient: 'from-blue-600 to-cyan-500'
   },
   {
     step: 2,
     title: 'Take Quizzes',
     description: 'Challenge yourself with quizzes of varying difficulty levels and formats.',
-    image: 'https://placehold.co/400x250/8B5CF6/FFFFFF?text=Quiz+UI'
+    emoji: '🎯',
+    gradient: 'from-purple-600 to-pink-500'
   },
   {
     step: 3,
     title: 'Earn Rewards',
     description: 'Collect points, badges, and climb the leaderboard as you complete quizzes.',
-    image: 'https://placehold.co/400x250/F59E0B/FFFFFF?text=Trophy'
+    emoji: '🏆',
+    gradient: 'from-amber-500 to-orange-600'
   }
 ];
 
@@ -202,7 +205,9 @@ function Home() {
           {howItWorksSteps.map((step) => (
             <div key={step.step} className="flex flex-col relative group">
               <div className="bg-[#1a1d24] rounded-2xl p-4 border border-white/5 mb-8 relative z-10 transition-transform duration-300 group-hover:-translate-y-2">
-                <img src={step.image} alt={step.title} className="w-full h-auto rounded-xl" />
+                <div className={`w-full h-[180px] rounded-xl bg-gradient-to-br ${step.gradient} flex items-center justify-center`}>
+                  <span className="text-6xl drop-shadow-lg">{step.emoji}</span>
+                </div>
               </div>
 
               <div className="absolute top-[50%] -translate-y-[50%] -left-4 w-10 h-10 bg-[#2d2459] border border-[#5B4DFF] rounded-full flex items-center justify-center text-white font-bold z-20 shadow-lg shadow-[#5B4DFF]/20">
@@ -243,11 +248,11 @@ function Home() {
           <div className="flex flex-col items-center md:items-start">
             <h3 className="text-white font-semibold mb-6 text-lg">Categories</h3>
             <ul className="space-y-4 text-gray-400 text-sm flex flex-col items-center md:items-start">
-              <li><a href="#" className="hover:text-[#5B4DFF] transition-colors">• NEET</a></li>
-              <li><a href="#" className="hover:text-[#5B4DFF] transition-colors">• JEE</a></li>
-              <li><a href="#" className="hover:text-[#5B4DFF] transition-colors">• SSC-CGL</a></li>
-              <li><a href="#" className="hover:text-[#5B4DFF] transition-colors">• NDA</a></li>
-              <li><a href="#" className="hover:text-[#5B4DFF] transition-colors">• Technology</a></li>
+              {categories.length > 0 ? categories.slice(0, 5).map(cat => (
+                <li key={cat.id || cat.name}><a href={`#/explore?category=${cat.id}`} className="hover:text-[#5B4DFF] transition-colors">• {cat.name}</a></li>
+              )) : (
+                <li className="text-gray-500">Loading...</li>
+              )}
             </ul>
           </div>
 

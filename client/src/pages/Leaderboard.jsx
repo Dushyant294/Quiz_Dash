@@ -3,16 +3,9 @@ import { API_BASE } from '../config/api';
 import { useSearch } from '../context/SearchContext';
 
 function Leaderboard() {
-    const [leaderboardData, setLeaderboardData] = useState([
-        { rank: 1, user: "@Siddharth_V", category: "JEE", quizzes: 89, points: "15,840" },
-        { rank: 2, user: "@Anjali_Nair", category: "NEET", quizzes: 86, points: "15,760" },
-        { rank: 3, user: "@Rahul_K", category: "NDA-NA", quizzes: 78, points: "15,000" },
-        { rank: 4, user: "@Priya_S", category: "JEE", quizzes: 60, points: "14,840" },
-        { rank: 5, user: "@Ishaan_89", category: "SSC", quizzes: 56, points: "14,760" },
-        { rank: 6, user: "@abc_89", category: "SSC", quizzes: 50, points: "14,000" },
-        { rank: 7, user: "@Priyanka_D", category: "NEET", quizzes: 49, points: "13,999" },
-    ]);
-    const [userRank, setUserRank] = useState(47);
+    const [leaderboardData, setLeaderboardData] = useState([]);
+    const [userRank, setUserRank] = useState(null);
+    const [loading, setLoading] = useState(true);
     const { debouncedQuery } = useSearch();
 
     const filteredData = debouncedQuery
@@ -24,7 +17,7 @@ function Leaderboard() {
             try {
                 const res = await fetch(`${API_BASE}/leaderboard`);
                 const data = await res.json();
-                if (data.success && data.data.length > 0) {
+                if (data.success) {
                     setLeaderboardData(data.data.map(u => ({
                         rank: u.rank,
                         user: `@${u.username}`,
@@ -44,6 +37,8 @@ function Leaderboard() {
                 }
             } catch (err) {
                 console.error('Failed to fetch leaderboard:', err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchLeaderboard();
@@ -86,7 +81,7 @@ function Leaderboard() {
                     </p>
                     <div>
                         <div className="inline-block border border-primary-light/80 text-[#c7d2fe] rounded-full px-6 py-1.5 text-xs font-semibold">
-                            Your Rank : #{userRank}
+                            Your Rank : {userRank ? `#${userRank}` : 'N/A'}
                         </div>
                     </div>
                 </div>
@@ -119,6 +114,15 @@ function Leaderboard() {
             <div className="w-full mt-6">
                 <h2 className="text-[17px] font-bold mb-6 tracking-wide text-gray-800 dark:text-white">This Week's Leaderboard</h2>
 
+                {loading ? (
+                    <div className="text-center text-gray-400 py-12">Loading leaderboard...</div>
+                ) : filteredData.length === 0 ? (
+                    <div className="text-center text-gray-400 py-12 border border-white/10 rounded-xl bg-white/5">
+                        <p className="text-lg mb-2">🏆</p>
+                        <p className="font-semibold text-white mb-1">No leaderboard data yet</p>
+                        <p className="text-sm">Take some quizzes to appear on the leaderboard!</p>
+                    </div>
+                ) : (
                 <div className="w-full overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -156,6 +160,7 @@ function Leaderboard() {
                         </tbody>
                     </table>
                 </div>
+                )}
             </div>
 
         </div>

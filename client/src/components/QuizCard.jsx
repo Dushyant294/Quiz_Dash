@@ -17,11 +17,17 @@ const QuizCard = ({
 
             {/* Top Image Section */}
             <div className="h-40 w-full overflow-hidden shrink-0 relative">
-                <img
-                    src={image || `https://placehold.co/400x200/4F46E5/FFFFFF?text=${encodeURIComponent(category || 'Quiz')}`}
-                    alt={title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+                {image ? (
+                    <img
+                        src={image}
+                        alt={title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-800 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                        <span className="text-white/30 text-5xl font-bold select-none">{(category || title || 'Q').charAt(0).toUpperCase()}</span>
+                    </div>
+                )}
                 {/* Optional Difficulty Badge overlapping image */}
                 {difficulty && (
                     <div className="absolute top-3 left-3">

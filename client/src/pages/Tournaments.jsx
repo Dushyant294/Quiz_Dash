@@ -43,7 +43,7 @@ function Tournaments() {
                         dateRange: `${new Date(t.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(t.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
                         participants: `${(parseInt(t.participant_count) || 0).toLocaleString()} Participants`,
                         participantCount: parseInt(t.participant_count) || 0,
-                        image: t.thumbnail_url || `https://placehold.co/400x200/1a1a2e/818cf8?text=${encodeURIComponent(t.name)}`,
+                        image: t.thumbnail_url || null,
                         category: t.category_name || t.subject || 'General',
                         badge: t.status === 'upcoming' ? 'Registration open' : t.status === 'active' ? 'Active' : t.status,
                         badgeColor: t.status === 'upcoming' ? 'bg-green-500' : t.status === 'active' ? 'bg-blue-500' : 'bg-gray-500',
@@ -225,7 +225,13 @@ function Tournaments() {
                             className="bg-[#12152a] border border-white/10 rounded-xl overflow-hidden hover:-translate-y-1 transition-transform duration-300 shadow-lg flex flex-col"
                         >
                             <div className="relative h-[140px] overflow-hidden">
-                                <img src={t.image} alt={t.title} className="w-full h-full object-cover" />
+                                {t.image ? (
+                                    <img src={t.image} alt={t.title} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full bg-gradient-to-br from-indigo-700 to-purple-900 flex items-center justify-center">
+                                        <span className="text-white/20 text-3xl font-bold">{(t.category || t.title || 'T').charAt(0)}</span>
+                                    </div>
+                                )}
                                 <span className={`absolute top-3 right-3 ${t.badgeColor} text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full`}>
                                     {t.badge}
                                 </span>
