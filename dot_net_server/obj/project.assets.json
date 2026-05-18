@@ -1131,24 +1131,31 @@
     ]
   },
   "packageFolders": {
-    "/home/coco/.nuget/packages/": {}
+    "C:\\Users\\soham\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/coco/collage/medhashree/Quiz_Dash/dot_net_server/dot_net_server.csproj",
+      "projectUniqueName": "E:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
       "projectName": "dot_net_server",
-      "projectPath": "/home/coco/collage/medhashree/Quiz_Dash/dot_net_server/dot_net_server.csproj",
-      "packagesPath": "/home/coco/.nuget/packages/",
-      "outputPath": "/home/coco/collage/medhashree/Quiz_Dash/dot_net_server/obj/",
+      "projectPath": "E:\\Quiz_Dash\\dot_net_server\\dot_net_server.csproj",
+      "packagesPath": "C:\\Users\\soham\\.nuget\\packages\\",
+      "outputPath": "E:\\Quiz_Dash\\dot_net_server\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/coco/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\soham\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1167,7 +1174,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
@@ -1233,7 +1240,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -1650,5 +1657,17 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'MailKit' 4.15.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-9j88-vvj5-vhgr",
+      "libraryId": "MailKit",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }
